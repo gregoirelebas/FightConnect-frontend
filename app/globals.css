@@ -32,3 +32,22 @@ body {
 
   font-family: var(--font-montserrat);
 }
+
+@layer components {
+  .input {
+    @apply bg-background
+    text-base
+    border
+    border-grey
+    mt-1
+    px-4 
+    py-3 
+    rounded-md 
+    focus:outline-none 
+    focus:border-accent 
+    focus:ring-1 
+    focus:ring-accent 
+    transition-all 
+    placeholder:text-grey;
+  }
+}
