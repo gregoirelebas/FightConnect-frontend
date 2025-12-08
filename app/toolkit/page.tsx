@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Button, { ButtonVariant } from '../...components/Button';
 import Input from '../...components/Input';
 import TextArea from '../...components/TextArea';
+import Dropdown, { DropdownOptionProps } from '../...components/Dropdown';
 
 export default function Toolkit() {
   const [inputValue, setInputValue] = useState<string>('');
@@ -12,6 +13,25 @@ export default function Toolkit() {
   const handleValidate = () => {
     console.log('Enter!');
   };
+
+  const dropdownOptions: DropdownOptionProps[] = [
+    {
+      value: 'value 1',
+      label: 'Label 1',
+    },
+    {
+      value: 'value 2',
+      label: 'Label 2',
+    },
+    {
+      value: 'value 3',
+      label: 'Label 3',
+    },
+    {
+      value: 'value 4',
+      label: 'Label 4',
+    },
+  ];
 
   return (
     <div className="flex-col mt-10 gap-y-2">
@@ -35,6 +55,16 @@ export default function Toolkit() {
           value={textAreaValue}
           onChange={setTextAreaValue}
         />
+      </div>
+      <div className="flex-col w-lg text-center mt-5">
+        <h1>This is a *H1* text</h1>
+        <h2>This is a *H2* text</h2>
+        <h3>This is a *H3* text</h3>
+        <p>This is a *P* text</p>
+        <span>This is a *SPAN* text</span>
+      </div>
+      <div className="mt-5">
+        <Dropdown className="w-lg" options={dropdownOptions} />
       </div>
     </div>
   );

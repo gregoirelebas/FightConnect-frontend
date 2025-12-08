@@ -30,7 +30,7 @@ body {
   background: var(--color-background);
   color: var(--color-white);
 
-  font-family: var(--font-montserrat);
+  font-family: var(--font-inter);
 }
 
 @layer base {
@@ -57,6 +57,13 @@ body {
   span {
     font-family: var(--font-inter);
     font-size: 14px;
+  }
+
+  select {
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white"%20stroke-width="2"%20stroke-linecap="round"%20stroke-linejoin="round"><path%20d="M6%209l6%206%206-6"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 18px;
   }
 }
 
