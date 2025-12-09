@@ -69,7 +69,7 @@ export default function Toolkit() {
           label="Input field"
           placeholder="Placeholder value"
           value={inputValue}
-          onChange={setInputValue}
+          onChange={(value) => setInputValue(String(value))}
           onValidate={handleValidate}
         />
         <TextArea

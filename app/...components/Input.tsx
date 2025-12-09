@@ -3,8 +3,8 @@ interface InputProps {
   placeholder: string;
   className?: string;
   type?: string;
-  value: string | undefined;
-  onChange: (value: string) => void;
+  value: string | number;
+  onChange: (value: string | number) => void;
   onValidate?: () => void;
 }
 

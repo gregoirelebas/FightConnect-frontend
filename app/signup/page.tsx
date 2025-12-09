@@ -31,35 +31,35 @@ export default function SignupPage() {
               placeholder="Username"
               type="text"
               value={username}
-              onChange={setUsername}
+              onChange={(value) => setUsername(String(value))}
             />
             <Input
               label="Email"
               placeholder="example@email.com"
               type="email"
               value={email}
-              onChange={setEmail}
+              onChange={(value) => setEmail(String(value))}
             />
             <Input
               label="Password"
               placeholder="Password"
               type="password"
               value={password}
-              onChange={setPassword}
+              onChange={(value) => setPassword(String(value))}
             />
             <Input
               label="Confirm password"
               placeholder="Confirm password"
               type="password"
               value={confirmPassword}
-              onChange={setConfirmPassword}
+              onChange={(value) => setConfirmPassword(String(value))}
             />
             <Input
               label="Phone number"
               placeholder="+33612345678"
               type="tel"
               value={phoneNumber}
-              onChange={setPhoneNumber}
+              onChange={(value) => setPhoneNumber(String(value))}
             />
           </div>
           <div className="flex flex-col items-center gap-5 px-5 ">
