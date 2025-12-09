@@ -42,9 +42,9 @@ export default function Checkbox(props: CheckboxProps) {
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
-          stroke-width="4"
-          stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeWidth="4"
+          strokeLinecap="round"
+          strokeLinejoin="round"
           className="absolute text-white scale-0 peer-checked:scale-100 transition-transform duration-200"
           aria-hidden="true">
           <path d="M20 6 9 17l-5-5"></path>
