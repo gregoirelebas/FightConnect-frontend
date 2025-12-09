@@ -5,6 +5,7 @@ import Button, { ButtonVariant } from '../...components/Button';
 import Input from '../...components/Input';
 import TextArea from '../...components/TextArea';
 import Dropdown, { DropdownOptionProps } from '../...components/Dropdown';
+import RadioButton from '../...components/RadioButton';
 
 export default function Toolkit() {
   const [inputValue, setInputValue] = useState<string>('');
@@ -12,6 +13,10 @@ export default function Toolkit() {
 
   const handleValidate = () => {
     console.log('Enter!');
+  };
+
+  const handleCheckboxChange = (value: string) => {
+    console.log('Checked => ' + value);
   };
 
   const dropdownOptions: DropdownOptionProps[] = [
@@ -65,6 +70,28 @@ export default function Toolkit() {
       </div>
       <div className="mt-5">
         <Dropdown className="w-lg" options={dropdownOptions} />
+      </div>
+      <div className="flex mt-5 gap-5">
+        <RadioButton
+          name="radio"
+          value="option1"
+          label="Option 1"
+          isChecked={true}
+          description="Description"
+          onChange={handleCheckboxChange}
+        />
+        <RadioButton
+          name="radio"
+          value="option2"
+          label="Option 2"
+          onChange={handleCheckboxChange}
+        />
+        <RadioButton
+          name="radio"
+          value="option3"
+          label="Option 3"
+          onChange={handleCheckboxChange}
+        />
       </div>
     </div>
   );
