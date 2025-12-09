@@ -10,9 +10,7 @@ interface TextAreaProps {
 export default function TextArea(props: TextAreaProps) {
   return (
     <div className="flex-col items-center">
-      <div>
-        <span className="text-sm">{props.label}</span>
-      </div>
+      <div className="text-sm">{props.label}</div>
       <div>
         <textarea
           className={`${props.className ? props.className : ''} input w-lg h-40 resize-none`}
@@ -21,9 +19,7 @@ export default function TextArea(props: TextAreaProps) {
           maxLength={2000}
           onChange={(e) => props.onChange(e.target.value)}
         />
-        <div className="flex justify-end">
-          <span className="text-grey text-sm">{props.value?.length}/2000</span>
-        </div>
+        <div className="text-right text-grey text-sm">{props.value?.length}/2000</div>
       </div>
     </div>
   );

@@ -17,9 +17,7 @@ export default function Input(props: InputProps) {
 
   return (
     <div className="flex-col items-center">
-      <div>
-        <span className="text-sm">{props.label}</span>
-      </div>
+      <div className="text-sm">{props.label}</div>
       <input
         className={`${props.className ? props.className : ''} input`}
         placeholder={props.placeholder}
