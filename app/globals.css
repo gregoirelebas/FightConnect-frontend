@@ -8,16 +8,9 @@
   --color-foreground: #1c1c1c;
 
   --color-primary: #d7263d;
-  --color-primary-hover: #de4559;
-
   --color-accent: #00e0b8;
-  --color-accent-hover: #0cffd4;
-
   --color-success: #27d77a;
-  --color-success-hover: #47de8e;
-
   --color-error: #ff3b30;
-  --color-error-hover: #ff584f;
 
   --color-white: #f5f5f5;
   --color-grey: #a0a0a0;
@@ -69,7 +62,7 @@ body {
 
 @layer components {
   .input {
-    @apply bg-background
+    @apply bg-foreground
     text-base
     border
     border-grey

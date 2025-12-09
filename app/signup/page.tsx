@@ -23,7 +23,7 @@ export default function SignupPage() {
   return (
     <div className="h-screen flex flex-col justify-between items-center pb-5">
       <h1 className="underline underline-offset-8">Sign up</h1>
-      <form className="w-5xl flex flex-col gap-5 p-5 bg-foreground rounded-2xl">
+      <form className="w-5xl flex flex-col gap-5 p-5 rounded-2xl">
         <div className="w-full flex justify-between">
           <div className="flex flex-col gap-5">
             <Input
