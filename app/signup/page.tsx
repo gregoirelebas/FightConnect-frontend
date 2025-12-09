@@ -4,7 +4,7 @@ import { useState } from 'react';
 import Input from '../...components/Input';
 import TextArea from '../...components/TextArea';
 import Image from 'next/image';
-import Button from '../...components/Button';
+import Button, { ButtonVariant } from '../...components/Button';
 
 import profile from '../../public/profile.jpg';
 
@@ -70,7 +70,10 @@ export default function SignupPage() {
               height={200}
               className="rounded-full"
             />
-            <Button className="w-full" onClick={uploadProfilePicture}>
+            <Button
+              variant={ButtonVariant.Ternary}
+              className="w-full"
+              onClick={uploadProfilePicture}>
               Upload
             </Button>
           </div>
@@ -85,7 +88,7 @@ export default function SignupPage() {
           />
         </div>
       </form>
-      <Button className="w-3xs" onClick={loadNextPage}>
+      <Button variant={ButtonVariant.Primary} className="w-3xs" onClick={loadNextPage}>
         Continue
       </Button>
     </div>
