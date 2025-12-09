@@ -14,6 +14,24 @@ interface ButtonProps {
   onClick?: () => void;
 }
 
+/**
+ * A customizable button component with multiple variant styles.
+ *
+ * @component
+ * @example
+ * ```tsx
+ * <Button variant={ButtonVariant.Primary} onClick={() => console.log('clicked')}>
+ *   Click me
+ * </Button>
+ * ```
+ *
+ * @param {ButtonProps} props - The button component props
+ * @param {ButtonVariant} [props.variant=ButtonVariant.Primary] - The visual variant of the button (Primary, Secondary, Accept, or Refuse)
+ * @param {string} [props.className=''] - Additional CSS classes to apply to the button
+ * @param {React.ReactNode} props.children - The content to display inside the button
+ * @param {React.MouseEventHandler<HTMLButtonElement>} props.onClick - Callback function triggered when the button is clicked
+ * @returns {JSX.Element} A styled button element with variant-specific colors and hover/active states
+ */
 export default function Button({
   variant = ButtonVariant.Primary,
   className = '',
