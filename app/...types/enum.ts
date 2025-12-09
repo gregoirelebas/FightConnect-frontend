@@ -24,4 +24,27 @@ enum Experience {
   TwentyFivePlus = '25+',
 }
 
-export { Sport, Level, Experience };
+enum MinWeight {
+  Fifty = '50',
+  FiftyFive = '55',
+  Sixty = '60',
+  SixtyFive = '65',
+  Seventy = '70',
+  SeventyFive = '75',
+  Eighty = '80',
+  EightyFive = '85'
+}
+
+enum MaxWeight {
+  Sixty = '60',
+  SixtyFive = '65',
+  Seventy = '70',
+  SeventyFive = '75',
+  Eighty = '80',
+  EightyFive = '85',
+  Ninety = '90',
+  NinetyFive = '95',
+  Hundred = '100'
+}
+
+export { Sport, Level, Experience, MinWeight, MaxWeight };
