@@ -6,17 +6,34 @@ import Input from '../...components/Input';
 import TextArea from '../...components/TextArea';
 import Dropdown, { DropdownOptionProps } from '../...components/Dropdown';
 import RadioButton from '../...components/RadioButton';
+import Checkbox from '../...components/Checkbox';
 
 export default function Toolkit() {
   const [inputValue, setInputValue] = useState<string>('');
   const [textAreaValue, setTextAreaValue] = useState<string>('');
+  const [radioValue, setRadioValue] = useState<string>('');
+  const [checkboxValues, setCheckboxValues] = useState<string[]>([]);
 
   const handleValidate = () => {
     console.log('Enter!');
   };
 
-  const handleCheckboxChange = (value: string) => {
-    console.log('Checked => ' + value);
+  const handleRadioChange = (value: string) => {
+    console.log('Selected => ' + radioValue);
+
+    setRadioValue(value);
+  };
+
+  const handleCheckboxChange = (isChecked: boolean, value: string) => {
+    if (isChecked) {
+      setCheckboxValues([...checkboxValues, value]);
+      const newValues = [...checkboxValues, value];
+      console.log(newValues);
+    } else {
+      setCheckboxValues(checkboxValues.filter((v) => v !== value));
+      const newValues = checkboxValues.filter((v) => v !== value);
+      console.log(newValues);
+    }
   };
 
   const dropdownOptions: DropdownOptionProps[] = [
@@ -78,21 +95,33 @@ export default function Toolkit() {
           label="Option 1"
           isChecked={true}
           description="Description"
+          onChange={handleRadioChange}
+        />
+        <RadioButton name="radio" value="option2" label="Option 2" onChange={handleRadioChange} />
+        <RadioButton name="radio" value="option3" label="Option 3" onChange={handleRadioChange} />
+      </div>
+      <fieldset className="flex mt-5 gap-5">
+        <Checkbox
+          name="checkbox"
+          value="option1"
+          label="Option 1"
+          description="Description"
+          isChecked={true}
           onChange={handleCheckboxChange}
         />
-        <RadioButton
-          name="radio"
+        <Checkbox
+          name="checkbox"
           value="option2"
           label="Option 2"
           onChange={handleCheckboxChange}
         />
-        <RadioButton
-          name="radio"
+        <Checkbox
+          name="checkbox"
           value="option3"
           label="Option 3"
           onChange={handleCheckboxChange}
         />
-      </div>
+      </fieldset>
     </div>
   );
 }
