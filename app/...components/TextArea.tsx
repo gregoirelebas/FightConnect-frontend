@@ -19,18 +19,16 @@ interface TextAreaProps {
  */
 export default function TextArea(props: TextAreaProps) {
   return (
-    <div className="flex-col items-center">
+    <div>
       <div className="text-sm">{props.label}</div>
-      <div>
-        <textarea
-          className={`${props.className ? props.className : ''} input w-lg h-40 resize-none`}
-          placeholder={props.placeholder}
-          value={props.value}
-          maxLength={2000}
-          onChange={(e) => props.onChange(e.target.value)}
-        />
-        <div className="text-right text-grey text-sm">{props.value?.length}/2000</div>
-      </div>
+      <textarea
+        className={`${props.className ? props.className : ''} input w-full h-40 resize-none`}
+        placeholder={props.placeholder}
+        value={props.value}
+        maxLength={2000}
+        onChange={(e) => props.onChange(e.target.value)}
+      />
+      <div className="text-right text-grey text-sm">{props.value?.length}/2000</div>
     </div>
   );
 }
