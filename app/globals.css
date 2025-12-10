@@ -77,4 +77,12 @@ body {
     transition-all 
     placeholder:text-grey;
   }
+
+  .card {
+    @apply flex flex-col gap-5 rounded-2xl py-5 px-10 bg-foreground;
+  }
+
+  .cardElement {
+    @apply flex justify-center items-center gap-15;
+  }
 }

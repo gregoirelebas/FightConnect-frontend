@@ -34,7 +34,7 @@ export default function SignupFighterPage() {
   };
 
   return (
-    <div className="flex flex-col h-screen justify-start">
+    <div className="flex flex-col gap-10 my-10 mx-20">
       <div className="flex justify-center gap-20">
         <Button variant={ButtonVariant.Primary} className="w-3xs" onClick={setFighter}>
           Fighter
@@ -44,104 +44,120 @@ export default function SignupFighterPage() {
         </Button>
       </div>
       <div className="flex gap-5">
-        <RadioButton name="level" label="Pro" value={Level.Pro} onChange={onLevelChange} />
-        <RadioButton
-          name="level"
-          label="Amateur"
-          value={Level.Amateur}
-          isChecked={true}
-          onChange={onLevelChange}
-        />
+        <div className="card">
+          <h3>Experience</h3>
+          <div className="cardElement">
+            <RadioButton name="level" label="Pro" value={Level.Pro} onChange={onLevelChange} />
+            <RadioButton
+              name="level"
+              label="Amateur"
+              value={Level.Amateur}
+              isChecked={true}
+              onChange={onLevelChange}
+            />
+          </div>
+        </div>
+        <div className="card">
+          <h3>Practiced sports</h3>
+          <div className="cardElement">
+            <Checkbox name="sport" label="MMA" value={Sport.MMA} onChange={onSportChange} />
+            <Checkbox
+              name="sport"
+              label="English boxing"
+              value={Sport.EnglishBoxing}
+              onChange={onSportChange}
+            />
+            <Checkbox
+              name="sport"
+              label="Brasilian Jiu-jitsu"
+              value={Sport.Jiujitsu}
+              onChange={onSportChange}
+            />
+            <Checkbox
+              name="sport"
+              label="Kick boxing"
+              value={Sport.KickBoxing}
+              onChange={onSportChange}
+            />
+            <Checkbox
+              name="sport"
+              label="Muay Thai"
+              value={Sport.MuayThai}
+              onChange={onSportChange}
+            />
+          </div>
+        </div>
       </div>
-      <div className="flex gap-5">
-        <Checkbox name="sport" label="MMA" value={Sport.MMA} onChange={onSportChange} />
-        <Checkbox
-          name="sport"
-          label="English boxing"
-          value={Sport.EnglishBoxing}
-          onChange={onSportChange}
-        />
-        <Checkbox
-          name="sport"
-          label="Brasilian Jiu-jitsu"
-          value={Sport.Jiujitsu}
-          onChange={onSportChange}
-        />
-        <Checkbox
-          name="sport"
-          label="Kick boxing"
-          value={Sport.KickBoxing}
-          onChange={onSportChange}
-        />
-        <Checkbox name="sport" label="Muay Thai" value={Sport.MuayThai} onChange={onSportChange} />
+      <div className="card w-fit">
+        <h3>Infos</h3>
+        <div className="flex gap-20">
+          <Input
+            label="Weight"
+            placeholder="Weight"
+            value={weight}
+            type="number"
+            onChange={(value) => setWeight(Number(value))}
+          />
+          <Input
+            label="Height"
+            placeholder="Height"
+            value={height}
+            type="number"
+            onChange={(value) => setHeight(Number(value))}
+          />
+          <Input
+            label="Licence number"
+            placeholder="0123-4567-789"
+            value={licence}
+            onChange={(value) => setLicence(String(value))}
+          />
+        </div>
       </div>
-      <div className="flex gap-5">
-        <Input
-          label="Weight"
-          placeholder="Weight"
-          value={weight}
-          type="number"
-          onChange={(value) => setWeight(Number(value))}
-        />
-        <Input
-          label="Height"
-          placeholder="Height"
-          value={height}
-          type="number"
-          onChange={(value) => setHeight(Number(value))}
-        />
-      </div>
-      <div>
-        <Input
-          label="Licence number"
-          placeholder="0123-4567-789"
-          value={licence}
-          onChange={(value) => setLicence(String(value))}
-        />
-      </div>
-      <div>
+      <div className=" card w-fit">
         <Checkbox
           name="experience"
           label="I have fighting experience"
           value="hasExperience"
           onChange={onExperienceChange}
         />
+        {hasExperience && (
+          <div className="card px-0">
+            <h3>Fight Records</h3>
+            <div className="cardElement justify-start">
+              <Input
+                label="Victories"
+                placeholder="0"
+                value={victories}
+                onChange={(value) => setVictories(Number(value))}
+              />
+              <Input
+                label="Defeats"
+                placeholder="0"
+                value={defeats}
+                className="w-fit"
+                onChange={(value) => setDefeats(Number(value))}
+              />
+              <Input
+                label="Draws"
+                placeholder="0"
+                value={draws}
+                onChange={(value) => setDraws(Number(value))}
+              />
+              <Input
+                label="Last fight date"
+                placeholder="YYYY-MM-DD"
+                value={lastFightDate}
+                type="date"
+                onChange={(value) => setLastFightDate(String(value))}
+              />
+            </div>
+          </div>
+        )}
       </div>
-      {hasExperience && (
-        <div>
-          <div className="flex gap-5">
-            <Input
-              label="Victories"
-              placeholder="0"
-              value={victories}
-              onChange={(value) => setVictories(Number(value))}
-            />
-            <Input
-              label="Defeats"
-              placeholder="0"
-              value={defeats}
-              onChange={(value) => setDefeats(Number(value))}
-            />
-            <Input
-              label="Draws"
-              placeholder="0"
-              value={draws}
-              onChange={(value) => setDraws(Number(value))}
-            />
-          </div>
-          <div>
-            <Input
-              label="Last fight date"
-              placeholder="YYYY-MM-DD"
-              value={lastFightDate}
-              type="date"
-              onChange={(value) => setLastFightDate(String(value))}
-            />
-          </div>
-        </div>
-      )}
-      <div>
-        <Button variant={ButtonVariant.Primary}>Validate</Button>
+      <div className="flex justify-center">
+        <Button variant={ButtonVariant.Primary} className="w-3xs">
+          Validate
+        </Button>
       </div>
     </div>
   );
