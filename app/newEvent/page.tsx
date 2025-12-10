@@ -8,7 +8,7 @@ import Dropdown from "../...components/Dropdown";
 import Button, { ButtonVariant } from "../...components/Button";
 import Link from "next/link";
 
-export default function Events() {
+export default function NewEvent() {
   const [eventName, setEventName] = useState("");
   const [level, setLevel] = useState("");
   const [date, setDate] = useState("");
