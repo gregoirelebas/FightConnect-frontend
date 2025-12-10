@@ -21,7 +21,7 @@ export default function NewEvent() {
       <div className="h-full mt-3 mb-3 w-250 bg-accent/30 rounded-4xl flex flex-col justify-around items-center">
         <div className="flex flex-row items-center">
           <h1 className="font-bold ml-60">Create a New Event</h1>
-         <Link href="/dashboard"> <Button className="w-25 h-10 text-sm ml-35"  variant={ButtonVariant.Refuse}>Go Back</Button></Link>
+         <Link href="/dashboard/promoter"> <Button className="w-25 h-10 text-sm ml-35"  variant={ButtonVariant.Refuse}>Go Back</Button></Link>
         </div>
         <div className="flex flex-col justify-around items-center h-2/5">
           <div className="h-15 flex flex-col justify-between">
@@ -52,7 +52,7 @@ export default function NewEvent() {
             <Input
               label="Date"
               placeholder="Enter Date Event"
-              type="text"
+              type="date"
               value={date}
               onChange={(value) => setDate(String(value))}
             />
