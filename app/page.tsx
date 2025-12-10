@@ -14,7 +14,7 @@ export default function Landing() {
     <div className="flex min-h-screen justify-center bg-[url(/LandingFond.jpg)] bg-cover font-sans ">
       <div className="h-225 w-250 pt-10 flex flex-col justify-around items-center">
         <div className="flex flex-row">
-          <h1 className="text-white ml-165 w-180 text-7xl font-bold">Fight Connect</h1>
+          <h1 className="text-white ml-155 w-180 text-7xl font-bold">Fight Connect</h1>
           <Link href={'/login'}>
             <Button
               variant={ButtonVariant.Primary}
