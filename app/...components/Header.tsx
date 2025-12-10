@@ -12,7 +12,7 @@ export default function Header() {
             <Link href={'/events'}>Events</Link>
           </li>
           <li>
-            <Link href={'/dashboard'}>Dashboard</Link>
+            <Link href={'/dashboard/promoter'}>Dashboard</Link>
           </li>
           <li>
             <Link href={'/profile'}>Profile</Link>
