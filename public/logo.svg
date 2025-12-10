@@ -1,0 +1,31 @@
+<svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Hexagon Background -->
+  <path
+    d="M100 10 L170 50 L170 130 L100 170 L30 130 L30 50 Z"
+    fill="#d7263d"
+  />
+  
+  <!-- Inner Hexagon -->
+  <path
+    d="M100 25 L160 57.5 L160 122.5 L100 155 L40 122.5 L40 57.5 Z"
+    fill="none"
+    stroke="#00e0b8"
+    stroke-width="4"
+  />
+
+  <!-- F Letter -->
+  <g transform="translate(60, 70)">
+    <rect x="0" y="0" width="8" height="50" fill="white" />
+    <rect x="0" y="0" width="28" height="8" fill="white" />
+    <rect x="0" y="21" width="22" height="7" fill="#00e0b8" />
+  </g>
+
+  <!-- C Letter -->
+  <g transform="translate(105, 70)">
+    <path
+      d="M30 0 Q0 0 0 25 Q0 50 30 50 L30 42 Q8 42 8 25 Q8 8 30 8 Z"
+      fill="white"
+    />
+    <rect x="26" y="18" width="6" height="14" fill="#00e0b8" />
+  </g>
+</svg>
