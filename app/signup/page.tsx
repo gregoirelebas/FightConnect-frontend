@@ -7,9 +7,12 @@ import Image from 'next/image';
 import Button, { ButtonVariant } from '../...components/Button';
 
 import profile from '../../public/profile.jpg';
+import { useRouter } from 'next/navigation';
 import Logo from '../...components/Logo';
 
 export default function SignupPage() {
+  const router = useRouter();
+
   const [username, setUsername] = useState<string>('');
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
@@ -19,7 +22,9 @@ export default function SignupPage() {
 
   const uploadProfilePicture = () => {};
 
-  const loadNextPage = () => {};
+  const loadNextPage = () => {
+    router.push('signup/fighter');
+  };
 
   return (
     <div className="h-screen flex flex-col justify-between items-center pb-5">

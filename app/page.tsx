@@ -2,11 +2,18 @@
 
 import Link from 'next/link';
 import Button, { ButtonVariant } from './...components/Button';
+import { useRouter } from 'next/navigation';
 
 export default function Landing() {
-  const signUpFighter = () => {};
+  const router = useRouter();
 
-  const signUpPromoter = () => {};
+  const signUpFighter = () => {
+    router.push('/signup');
+  };
+
+  const signUpPromoter = () => {
+    router.push('/signup');
+  };
 
   const login = () => {};
 
