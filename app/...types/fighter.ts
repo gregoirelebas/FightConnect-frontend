@@ -18,13 +18,3 @@ export interface Fighter {
   drawCount: number;
   lastFightDate: string;
 }
-
-export interface Promoter {
-  username: string;
-  email: string;
-  password: string;
-  phoneNumber: string;
-  bio: string;
-  profilePicture: string;
-  role: Role;
-}

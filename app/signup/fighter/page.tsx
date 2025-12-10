@@ -9,7 +9,7 @@ import { bioCK, emailCK, passwordCK, phoneNumberCK, usernameCK } from '@/app/...
 import { setCookieState } from '@/app/...helpers/states';
 
 import { Level, Role, Sport } from '@/app/...types/enum';
-import { Fighter } from '@/app/...types/requests';
+import { Fighter } from '@/app/...types/fighter';
 import { useEffect, useState } from 'react';
 
 export default function SignupFighterPage() {
