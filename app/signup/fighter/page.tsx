@@ -5,11 +5,23 @@ import Checkbox from '@/app/...components/Checkbox';
 import Input from '@/app/...components/Input';
 import Logo from '@/app/...components/Logo';
 import RadioButton from '@/app/...components/RadioButton';
+import { bioCK, emailCK, passwordCK, phoneNumberCK, usernameCK } from '@/app/...constants/cookies';
+import { setCookieState } from '@/app/...helpers/states';
 
-import { Level, Sport } from '@/app/...types/enum';
-import { useState } from 'react';
+import { Level, Role, Sport } from '@/app/...types/enum';
+import { Fighter } from '@/app/...types/requests';
+import { useEffect, useState } from 'react';
 
 export default function SignupFighterPage() {
+  const [username, setUsername] = useState<string>('');
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [phoneNumber, setPhoneNumber] = useState<string>('');
+  const [bio, setBio] = useState<string>('');
+
+  const [sportList, setSportList] = useState<Sport[]>([]);
+  const [level, setLevel] = useState<Level>(Level.Amateur);
+
   const [weight, setWeight] = useState<number>(0);
   const [height, setHeight] = useState<number>(0);
 
@@ -23,15 +35,71 @@ export default function SignupFighterPage() {
 
   const [lastFightDate, setLastFightDate] = useState<string>('');
 
+  useEffect(() => {
+    setCookieState(usernameCK, setUsername);
+    setCookieState(emailCK, setEmail);
+    setCookieState(passwordCK, setPassword);
+    setCookieState(phoneNumberCK, setPhoneNumber);
+    setCookieState(bioCK, setBio);
+  }, []);
+
   const setFighter = () => {};
   const setPromoter = () => {};
 
-  const onSportChange = (isChecked: boolean, value: string) => {};
+  const onSportChange = (isChecked: boolean, value: string) => {
+    if (isChecked) {
+      setSportList([...sportList, value as Sport]);
+    } else {
+      setSportList(sportList.filter((sport) => sport !== value));
+    }
+  };
 
-  const onLevelChange = (value: string) => {};
+  const onLevelChange = (value: string) => {
+    setLevel(value as Level);
+  };
 
   const onExperienceChange = (isChecked: boolean) => {
     setHasExperience(isChecked);
+  };
+
+  const registerFighter = async () => {
+    const fighter: Fighter = {
+      name: username,
+      email: email,
+      password: password,
+      phoneNumber: phoneNumber,
+      bio: bio,
+      profilePicture: '',
+      role: Role.Fighter,
+      sports: sportList,
+      level: level,
+      weight: weight,
+      height: height,
+      licenceNumber: licence,
+      victoryCount: victories,
+      defeatCount: defeats,
+      drawCount: draws,
+      lastFightDate: lastFightDate,
+    };
+
+    console.log(fighter);
+
+    const options = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(fighter),
+    };
+
+    const result = await fetch(
+      process.env.NEXT_PUBLIC_API_URL + 'users/signup/fighter',
+      options
+    ).then((response) => response.json());
+
+    if (result.result) {
+      console.log('Fighter registered successfully');
+    } else {
+      console.error('Error registering fighter:', result.error);
+    }
   };
 
   return (
@@ -157,7 +225,7 @@ export default function SignupFighterPage() {
         )}
       </div>
       <div className="flex justify-center">
-        <Button variant={ButtonVariant.Primary} className="w-3xs">
+        <Button variant={ButtonVariant.Primary} className="w-3xs" onClick={registerFighter}>
           Validate
         </Button>
       </div>

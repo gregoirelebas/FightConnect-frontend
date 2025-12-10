@@ -10,6 +10,9 @@ import profile from '../../public/profile.jpg';
 import { useRouter } from 'next/navigation';
 import Logo from '../...components/Logo';
 
+import { bioCK, emailCK, passwordCK, phoneNumberCK, usernameCK } from '../...constants/cookies';
+import { setCookies } from '../...helpers/cookies';
+
 export default function SignupPage() {
   const router = useRouter();
 
@@ -23,6 +26,14 @@ export default function SignupPage() {
   const uploadProfilePicture = () => {};
 
   const loadNextPage = () => {
+    setCookies([
+      [usernameCK, username],
+      [emailCK, email],
+      [passwordCK, password],
+      [phoneNumberCK, phoneNumber],
+      [bioCK, bio],
+    ]);
+
     router.push('signup/fighter');
   };
 

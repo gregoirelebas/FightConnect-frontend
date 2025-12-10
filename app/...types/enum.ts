@@ -1,4 +1,9 @@
-enum Sport {
+export enum Role {
+  Fighter = 'fighter',
+  Promoter = 'promoter',
+}
+
+export enum Sport {
   MMA = 'mma',
   Jiujitsu = 'jjb',
   KickBoxing = 'kickBoxing',
@@ -6,12 +11,12 @@ enum Sport {
   EnglishBoxing = 'englishBoxing',
 }
 
-enum Level {
+export enum Level {
   Pro = 'pro',
   Amateur = 'amateur',
 }
 
-enum Experience {
+export enum Experience {
   Zero = '0',
   OneThree = '1-3',
   FourSix = '4-6',
@@ -24,7 +29,7 @@ enum Experience {
   TwentyFivePlus = '25+',
 }
 
-enum MinWeight {
+export enum MinWeight {
   Fifty = '50',
   FiftyFive = '55',
   Sixty = '60',
@@ -32,10 +37,10 @@ enum MinWeight {
   Seventy = '70',
   SeventyFive = '75',
   Eighty = '80',
-  EightyFive = '85'
+  EightyFive = '85',
 }
 
-enum MaxWeight {
+export enum MaxWeight {
   Sixty = '60',
   SixtyFive = '65',
   Seventy = '70',
@@ -44,7 +49,5 @@ enum MaxWeight {
   EightyFive = '85',
   Ninety = '90',
   NinetyFive = '95',
-  Hundred = '100'
+  Hundred = '100',
 }
-
-export { Sport, Level, Experience, MinWeight, MaxWeight };
