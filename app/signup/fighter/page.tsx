@@ -3,6 +3,7 @@
 import Button, { ButtonVariant } from '@/app/...components/Button';
 import Checkbox from '@/app/...components/Checkbox';
 import Input from '@/app/...components/Input';
+import Logo from '@/app/...components/Logo';
 import RadioButton from '@/app/...components/RadioButton';
 
 import { Level, Sport } from '@/app/...types/enum';
@@ -35,7 +36,8 @@ export default function SignupFighterPage() {
 
   return (
     <div className="flex flex-col gap-10 my-10 mx-20">
-      <div className="flex justify-center gap-20">
+      <div className="flex justify-center gap-20 mb-10">
+        <Logo className="logo" />
         <Button variant={ButtonVariant.Primary} className="w-3xs" onClick={setFighter}>
           Fighter
         </Button>

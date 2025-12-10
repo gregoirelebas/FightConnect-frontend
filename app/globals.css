@@ -78,6 +78,10 @@ body {
     placeholder:text-grey;
   }
 
+  .logo {
+    @apply absolute top-5 left-20;
+  }
+
   .card {
     @apply flex flex-col gap-5 rounded-2xl py-5 px-10 bg-foreground;
   }

@@ -1,14 +1,11 @@
 import Link from 'next/link';
-import Image from 'next/image';
 
-import logo from '../../public/logo.svg';
+import Logo from './Logo';
 
 export default function Header() {
   return (
     <div className="header text w-full h-20 pl-20 bg-background border-primary border-l-0 border-r-0 border-t-0 border flex flex-row justify-between items-center">
-      <Link href={'/'}>
-        <Image src={logo} alt="logo" width={75} height={75} className="cursor-pointer" />
-      </Link>
+      <Logo />
       <nav>
         <ul className="flex flex-row text-xl w-150 justify-around">
           <li>

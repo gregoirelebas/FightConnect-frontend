@@ -7,6 +7,7 @@ import Image from 'next/image';
 import Button, { ButtonVariant } from '../...components/Button';
 
 import profile from '../../public/profile.jpg';
+import Logo from '../...components/Logo';
 
 export default function SignupPage() {
   const [username, setUsername] = useState<string>('');
@@ -22,6 +23,7 @@ export default function SignupPage() {
 
   return (
     <div className="h-screen flex flex-col justify-between items-center pb-5">
+      <Logo className="logo" />
       <h1 className="underline underline-offset-8">Sign up</h1>
       <form className="w-5xl flex flex-col gap-5 p-5 rounded-2xl">
         <div className="w-full flex justify-between">
