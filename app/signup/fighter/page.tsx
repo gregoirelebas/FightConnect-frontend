@@ -6,7 +6,7 @@ import Input from '@/app/...components/Input';
 import Logo from '@/app/...components/Logo';
 import RadioButton from '@/app/...components/RadioButton';
 import { bioCK, emailCK, passwordCK, phoneNumberCK, usernameCK } from '@/app/...constants/cookies';
-import { setCookieState } from '@/app/...helpers/states';
+import { setCookieState, setNumericState } from '@/app/...helpers/states';
 
 import { Level, Role, Sport } from '@/app/...types/enum';
 import { Fighter } from '@/app/...types/fighter';
@@ -43,7 +43,6 @@ export default function SignupFighterPage() {
     setCookieState(bioCK, setBio);
   }, []);
 
-  const setFighter = () => {};
   const setPromoter = () => {};
 
   const onSportChange = (isChecked: boolean, value: string) => {
@@ -106,7 +105,7 @@ export default function SignupFighterPage() {
     <div className="flex flex-col gap-10 my-10 mx-20">
       <div className="flex justify-center gap-20 mb-10">
         <Logo className="logo" />
-        <Button variant={ButtonVariant.Primary} className="w-3xs" onClick={setFighter}>
+        <Button variant={ButtonVariant.Primary} className="w-3xs">
           Fighter
         </Button>
         <Button variant={ButtonVariant.Ternary} className="w-3xs" onClick={setPromoter}>
@@ -115,8 +114,8 @@ export default function SignupFighterPage() {
       </div>
       <div className="flex gap-5">
         <div className="card">
-          <h3>Experience</h3>
-          <div className="cardElement">
+          <h3>Level</h3>
+          <fieldset className="cardElement">
             <RadioButton name="level" label="Pro" value={Level.Pro} onChange={onLevelChange} />
             <RadioButton
               name="level"
@@ -125,11 +124,11 @@ export default function SignupFighterPage() {
               isChecked={true}
               onChange={onLevelChange}
             />
-          </div>
+          </fieldset>
         </div>
         <div className="card">
           <h3>Practiced sports</h3>
-          <div className="cardElement">
+          <fieldset className="cardElement">
             <Checkbox name="sport" label="MMA" value={Sport.MMA} onChange={onSportChange} />
             <Checkbox
               name="sport"
@@ -155,7 +154,7 @@ export default function SignupFighterPage() {
               value={Sport.MuayThai}
               onChange={onSportChange}
             />
-          </div>
+          </fieldset>
         </div>
       </div>
       <div className="card w-fit">
@@ -165,20 +164,23 @@ export default function SignupFighterPage() {
             label="Weight"
             placeholder="Weight"
             value={weight}
-            type="number"
-            onChange={(value) => setWeight(Number(value))}
+            pattern="/\d+/g"
+            required={true}
+            onChange={(value) => setNumericState(String(value), setWeight)}
           />
           <Input
             label="Height"
             placeholder="Height"
             value={height}
-            type="number"
-            onChange={(value) => setHeight(Number(value))}
+            pattern="/\d+/g"
+            required={true}
+            onChange={(value) => setNumericState(String(value), setHeight)}
           />
           <Input
             label="Licence number"
             placeholder="0123-4567-789"
             value={licence}
+            required={true}
             onChange={(value) => setLicence(String(value))}
           />
         </div>
@@ -198,20 +200,20 @@ export default function SignupFighterPage() {
                 label="Victories"
                 placeholder="0"
                 value={victories}
-                onChange={(value) => setVictories(Number(value))}
+                onChange={(value) => setNumericState(String(value), setVictories)}
               />
               <Input
                 label="Defeats"
                 placeholder="0"
                 value={defeats}
                 className="w-fit"
-                onChange={(value) => setDefeats(Number(value))}
+                onChange={(value) => setNumericState(String(value), setDefeats)}
               />
               <Input
                 label="Draws"
                 placeholder="0"
                 value={draws}
-                onChange={(value) => setDraws(Number(value))}
+                onChange={(value) => setNumericState(String(value), setDraws)}
               />
               <Input
                 label="Last fight date"

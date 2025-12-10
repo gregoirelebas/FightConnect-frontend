@@ -3,7 +3,9 @@ interface InputProps {
   placeholder: string;
   className?: string;
   type?: string;
+  pattern?: string;
   value: string | number;
+  required?: boolean;
   onChange: (value: string | number) => void;
   onValidate?: () => void;
 }
@@ -35,6 +37,8 @@ export default function Input(props: InputProps) {
         placeholder={props.placeholder}
         value={props.value}
         type={props.type ? props.type : 'text'}
+        pattern={props.pattern ? props.pattern : undefined}
+        required={props.required ? props.required : false}
         onChange={(e) => props.onChange(e.target.value)}
         onKeyDownCapture={(e) => handleKeyDown(e.key)}
       />

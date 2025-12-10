@@ -12,3 +12,8 @@ export async function setCookieState(cookieName: string, callback: (value: strin
     callback(value);
   }
 }
+
+export async function setNumericState(value: string, callback: (value: number) => void) {
+  const numeric = value.replaceAll(/\D+/g, '');
+  callback(Number(numeric));
+}

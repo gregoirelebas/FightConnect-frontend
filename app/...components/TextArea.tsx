@@ -20,7 +20,7 @@ interface TextAreaProps {
 export default function TextArea(props: TextAreaProps) {
   return (
     <div>
-      <div className="text-sm">{props.label}</div>
+      <div>{props.label}</div>
       <textarea
         className={`${props.className ? props.className : ''} input w-full h-40 resize-none`}
         placeholder={props.placeholder}
