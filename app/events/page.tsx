@@ -20,7 +20,7 @@ export default function Events() {
           label={"You can search here :"}
           placeholder={"Search an event"}
           value={search}
-          onChange={setSearch}
+          onChange={value => setSearch(String(value))}
         ></Input>
         <Button
           variant={ButtonVariant.Primary}

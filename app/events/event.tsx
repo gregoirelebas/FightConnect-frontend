@@ -1,4 +1,4 @@
-import Button from "../...components/Button";
+import Button, { ButtonVariant } from "../...components/Button";
 
 export default function Event(props: {
   name: string;
@@ -22,7 +22,7 @@ export default function Event(props: {
         <span>-</span>
         <span>{props.level}</span>
       </div>
-      <Button className="h-10 w-40 flex justify-center items-center">More info</Button>
+      <Button variant={ButtonVariant.Primary} className="h-10 w-40 flex justify-center items-center">More info</Button>
     </div>
   );
 }
