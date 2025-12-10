@@ -9,16 +9,16 @@ import Button, { ButtonVariant } from "../...components/Button";
 import Link from "next/link";
 
 export default function NewEvent() {
-  const [eventName, setEventName] = useState("");
-  const [level, setLevel] = useState("");
-  const [date, setDate] = useState("");
-  const [club, setClub] = useState("");
+  const [eventName, setEventName] = useState<string>("");
+  const [level, setLevel] = useState<string>("");
+  const [date, setDate] = useState<string>("");
+  const [club, setClub] = useState<string>("");
 
-  const [description, setDescription] = useState("");
+  const [description, setDescription] = useState<string>("");
 
   return (
     <div className="flex flex-col items-center h-[calc(100vh-80px)] text font-sans ">
-      <div className="h-full mt-3 mb-3 w-250 bg-accent/30 rounded-4xl flex flex-col justify-around items-center">
+      <div className="h-full mt-3 mb-3 w-250 border-gray-500 border-3 bg-red-500/10 rounded-4xl flex flex-col justify-around items-center">
         <div className="flex flex-row items-center">
           <h1 className="font-bold ml-60">Create a New Event</h1>
          <Link href="/dashboard/promoter"> <Button className="w-25 h-10 text-sm ml-35"  variant={ButtonVariant.Refuse}>Go Back</Button></Link>

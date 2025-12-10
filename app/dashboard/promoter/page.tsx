@@ -23,7 +23,7 @@ export default function Dashboard() {
         <div className="h-1/2 w-full flex flex-col justify-around items-center">
           <h3>Upcoming Fights</h3>
           <div className="h-4/5 w-full pl-3 pr-3 border border-gray-500 flex flex-col items-center overflow-y-auto">
-            <div className="bg-gray-500 mt-3 min-h-18 w-full rounded-2xl flex flex-row justify-around items-center">
+            <div className="bg-white text-black mt-3 min-h-18 w-full rounded-2xl flex flex-row justify-around items-center">
               <span>Event Fight Name</span>
               <span>Date</span>
               <span>Catégorie</span>
@@ -32,6 +32,7 @@ export default function Dashboard() {
                 Go to Fight Page
               </Button>
             </div>
+
           </div>
         </div>
         <div className="h-1/2 w-full flex flex-col justify-around items-center">
