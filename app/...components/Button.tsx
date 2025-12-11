@@ -41,28 +41,28 @@ export default function Button(props: ButtonProps) {
   switch (props.variant) {
     case ButtonVariant.Primary:
       backgroundColor = 'bg-primary';
-      hoverColor = 'hover:bg-primary/80';
+      hoverColor = 'hover:bg-primary-hover';
       break;
 
     case ButtonVariant.Secondary:
       backgroundColor = 'bg-accent';
-      hoverColor = 'hover:bg-accent/80';
+      hoverColor = 'hover:bg-accent-hover';
       break;
 
     case ButtonVariant.Ternary:
       backgroundColor = 'bg-foreground';
-      hoverColor = 'hover:bg-foreground/80';
+      hoverColor = 'hover:bg-foreground-hover';
       border = 'border border-accent';
       break;
 
     case ButtonVariant.Accept:
       backgroundColor = 'bg-success';
-      hoverColor = 'hover:bg-success/80';
+      hoverColor = 'hover:bg-success-hover';
       break;
 
     case ButtonVariant.Refuse:
       backgroundColor = 'bg-error';
-      hoverColor = 'hover:bg-error/80';
+      hoverColor = 'hover:bg-error-hover';
       break;
   }
 
