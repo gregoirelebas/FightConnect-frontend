@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Input from "../...components/Input";
 import Button, { ButtonVariant } from "../...components/Button";
 import Event from "./event";
@@ -9,7 +9,27 @@ import { Sport, Level, Experience } from "../...types/enum";
 
 export default function Events() {
   const [search, setSearch] = useState<string>("");
-  const [level, setLevel] = useState<string>("");
+  const [level, setLevel] = useState<Level>(Level.Amateur);
+  const [sport, setSport] = useState<Sport[]>([]);
+  const [experience, setExperience] = useState<Experience>(Experience.Zero);
+  const [allEvents, setAllEvents] = useState([])
+
+  useEffect(() => {
+    const result = fetch(process.env.NEXT_PUBLIC_API_URL + "events/search")
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.result) {
+          setAllEvents(data.event);
+        } else {
+          console.error("Error registering fighter:", data.error);
+        }
+      });
+  }, []);
+
+  const cardEvent = allEvents.map((data:any, i) => {
+    return <Event key={i} name={data.name} date={data.date} sport={data.sports} experience={data.experience} weight={data.weight} level={data.level} />
+  })
+
 
   return (
     <div className="flex flex-col h-[calc(100vh-80px)] text font-sans ">
@@ -20,7 +40,7 @@ export default function Events() {
           label={"You can search here :"}
           placeholder={"Search an event"}
           value={search}
-          onChange={value => setSearch(String(value))}
+          onChange={(value) => setSearch(String(value))}
         ></Input>
         <Button
           variant={ButtonVariant.Primary}
@@ -39,13 +59,13 @@ export default function Events() {
                 name="level"
                 label="Pro"
                 value={Level.Pro}
-                onChange={setLevel}
+                onChange={(value) => setLevel(value as Level)}
               ></RadioButton>
               <RadioButton
                 name="level"
                 label="Amateur"
                 value={Level.Amateur}
-                onChange={setLevel}
+                onChange={(value) => setLevel(value as Level)}
               ></RadioButton>
             </div>
           </div>
@@ -60,6 +80,7 @@ export default function Events() {
                 { value: Sport.MuayThai, label: "Muay Thai" },
                 { value: Sport.EnglishBoxing, label: "English Boxing" },
               ]}
+              onChange={(value) => setSport([value as Sport])}
             ></Dropdown>
           </div>
           <div className="h-20 mt-8 flex flex-col justify-between">
@@ -78,16 +99,17 @@ export default function Events() {
                 { value: Experience.TwentyTwoTwentyFour, label: "22-24" },
                 { value: Experience.TwentyFivePlus, label: "25+" },
               ]}
+              onChange={(value) => setExperience(value as Experience)}
             ></Dropdown>
           </div>
-          <div className="h-20 mt-8 flex flex-col justify-between">
+          {/* <div className="h-20 mt-8 flex flex-col justify-between">
             <span>Min Weight :</span>
             <Dropdown className="w-50" options={[{ value: "figth", label: "1" }]}></Dropdown>
           </div>
           <div className="h-20 mt-8 flex flex-col justify-between">
             <span>Max Weight :</span>
             <Dropdown className="w-50" options={[{ value: "figth", label: "1" }]}></Dropdown>
-          </div>
+          </div> */}
           <Button
             variant={ButtonVariant.Primary}
             className="h-10 w-40 mt-10 flex justify-center items-center"
@@ -97,9 +119,7 @@ export default function Events() {
         </div>
         <div className="w-4/5 pl-3 mb-5 ml-1 mr-2 mt-2 flex flex-col border border-gray-600 rounded-3xl">
           <h3 className="w-full">Events</h3>
-          <div className="flex flex-wrap">
-            {/* <Event /> */}
-            </div>
+          <div className="flex flex-wrap">{cardEvent}</div>
         </div>
       </div>
     </div>

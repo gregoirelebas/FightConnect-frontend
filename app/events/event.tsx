@@ -4,7 +4,7 @@ export default function Event(props: {
   name: string;
   date: string;
   sport: string;
-  categorie: string;
+  experience: string;
   weight: number;
   level: string;
 }) {
@@ -16,7 +16,7 @@ export default function Event(props: {
         <h3>{props.date}</h3>
       </div>
       <h3>{props.sport}</h3>
-      <h3>{props.categorie}</h3>
+      <h3>{props.experience}</h3>
       <div className="flex flex-row w-60 justify-around">
         <span>{props.weight}</span>
         <span>-</span>
