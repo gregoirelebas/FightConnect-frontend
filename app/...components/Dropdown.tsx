@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 export interface DropdownOptionProps {
   value: string;
@@ -12,6 +12,7 @@ function DropdownOption(props: DropdownOptionProps) {
 interface DropdownProps {
   className?: string;
   options: DropdownOptionProps[];
+  onChange: (value: string | number) => void;
 }
 
 /**
@@ -19,6 +20,7 @@ interface DropdownProps {
  * @param props - The dropdown component props
  * @param props.options - Array of dropdown options with label and value properties
  * @param props.className - Optional CSS class name to apply to the select element
+ * @param props.onChange - Callback function triggered when dropdown value changes
  * @returns A select element containing the mapped dropdown options
  */
 export default function Dropdown(props: DropdownProps) {
@@ -28,7 +30,8 @@ export default function Dropdown(props: DropdownProps) {
 
   return (
     <select
-      className={`${props.className ? props.className : ''} input appearance-none cursor-pointer`}>
+      className={`${props.className ? props.className : ""} input appearance-none cursor-pointer`}
+      onChange={(e) => props.onChange(e.target.value)} >
       {options}
     </select>
   );
