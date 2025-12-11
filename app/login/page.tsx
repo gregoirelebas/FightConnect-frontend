@@ -6,28 +6,29 @@ import Link from "next/link";
 import Input from "../...components/Input";
 import { useRouter } from "next/navigation";
 
-
 export default function Login() {
-  
-  const router = useRouter(); 
+  const router = useRouter();
 
   const [name, setName] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
-  const handleLogin = () => {
-
-    fetch("http://10.0.3.177:3000/users/signin", {
+  const handleLogin = async () => {
+    const options = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({name,password}),
-    })
-    .then(response => response.json())
-    .then(data => {
-      if (data.result===true) {
-        router.push("/events")
-      }
-    })
+      body: JSON.stringify({ name, password }),
+    };
 
+    const result = await fetch(process.env.NEXT_PUBLIC_API_URL + "users/signin", options).then(
+      (response) => response.json()
+    );
+
+    if (result.result) {
+      console.log("Successfully Login");
+      router.push("/events");
+    } else {
+      console.error("Error login", result.error);
+    }
   };
 
   return (
@@ -47,14 +48,14 @@ export default function Login() {
             label={"Username"}
             placeholder={"Username..."}
             value={name}
-            onChange={value => setName(String(value))}
+            onChange={(value) => setName(String(value))}
           ></Input>
           <Input
             className="w-xs"
             label={"Password"}
             placeholder={"Password..."}
             value={password}
-            onChange={value => setPassword(String(value))}
+            onChange={(value) => setPassword(String(value))}
             type="password"
           ></Input>
           <Button variant={ButtonVariant.Primary} onClick={() => handleLogin()} className="w-xs">
@@ -65,5 +66,3 @@ export default function Login() {
     </div>
   );
 }
-
-
