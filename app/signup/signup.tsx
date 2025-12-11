@@ -28,13 +28,17 @@ export default function SignupComponent() {
 
   const uploadInputRef = useRef<HTMLInputElement>(null);
 
+  const [isRequestSent, setRequestSent] = useState<boolean>(false);
+
   const uploadProfilePicture = async (files: FileList | null) => {
     if (!files || files.length == 0) return;
 
     setProfilePicture(files[0].name);
   };
 
-  const loadNextPage = () => {
+  const loadNextPage = async () => {
+    if (isRequestSent) return;
+
     if (!username || !email || !password) {
       setErrorMessage('Please fill all required fields');
       return;
@@ -54,6 +58,24 @@ export default function SignupComponent() {
     }
 
     if (phoneNumber && !phonePattern.test(phoneNumber)) {
+      return;
+    }
+
+    setRequestSent(true);
+
+    const request = await fetch(
+      process.env.NEXT_PUBLIC_API_URL + 'users/checkUsername/' + username
+    ).then((response) => response.json());
+
+    setRequestSent(false);
+
+    if (!request.result) {
+      if (request.error) {
+        console.error(request.error);
+      } else {
+        setErrorMessage('This username is already used');
+      }
+
       return;
     }
 
