@@ -18,6 +18,7 @@ export default function SignupFighterPage() {
   const [password, setPassword] = useState<string>('');
   const [phoneNumber, setPhoneNumber] = useState<string>('');
   const [bio, setBio] = useState<string>('');
+  const [profilePicture, setProfilePicture] = useState<string>('');
 
   const [sportList, setSportList] = useState<Sport[]>([]);
   const [level, setLevel] = useState<Level>(Level.Amateur);
@@ -41,6 +42,7 @@ export default function SignupFighterPage() {
     setCookieState(Cookies.password, setPassword);
     setCookieState(Cookies.phoneNumber, setPhoneNumber);
     setCookieState(Cookies.bio, setBio);
+    setCookieState(Cookies.profilePicture, setProfilePicture);
   }, []);
 
   const setPromoter = () => {};
@@ -68,7 +70,7 @@ export default function SignupFighterPage() {
       password: password,
       phoneNumber: phoneNumber,
       bio: bio,
-      profilePicture: '',
+      profilePicture: profilePicture,
       role: Role.Fighter,
       sports: sportList,
       level: level,
@@ -80,8 +82,6 @@ export default function SignupFighterPage() {
       drawCount: draws,
       lastFightDate: lastFightDate,
     };
-
-    console.log(fighter);
 
     const options = {
       method: 'POST',
