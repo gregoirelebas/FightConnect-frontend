@@ -1,9 +1,6 @@
 "use client";
 import Button, { ButtonVariant } from "@/app/...components/Button";
-import Link from "next/link";
-import React, { useState } from "react";
-import Calendar from "react-calendar";
-import "react-calendar/dist/Calendar.css";
+
 
 export default function upcomingEvent(props: {
   name : string,

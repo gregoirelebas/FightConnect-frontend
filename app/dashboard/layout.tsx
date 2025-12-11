@@ -2,8 +2,8 @@ import { Metadata } from 'next';
 import Header from '@/app/...components/Header';
 
 export const metadata: Metadata = {
-  title: 'Sign up',
-  description: 'Create an account to join FightConnect',
+  title: 'Dashboard',
+  description: 'View of the dashboard with the Events',
 };
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {

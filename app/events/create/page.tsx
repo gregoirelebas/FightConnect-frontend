@@ -1,11 +1,11 @@
 "use client";
 import React, { useState } from "react";
-import Input from "../...components/Input";
-import RadioButton from "../...components/RadioButton";
-import TextArea from "../...components/TextArea";
-import { Experience, Level, MaxWeight, MinWeight, Sport } from "../...types/enum";
-import Dropdown from "../...components/Dropdown";
-import Button, { ButtonVariant } from "../...components/Button";
+import Input from "../../...components/Input";
+import RadioButton from "../../...components/RadioButton";
+import TextArea from "../../...components/TextArea";
+import { Experience, Level, MaxWeight, MinWeight, Sport } from "../../...types/enum";
+import Dropdown from "../../...components/Dropdown";
+import Button, { ButtonVariant } from "../../...components/Button";
 import Link from "next/link";
 import router from "next/router";
 import { Event } from '@/app/...types/Event';
@@ -94,13 +94,13 @@ export default function NewEvent() {
               value={eventName}
               onChange={(value) => setEventName(String(value))}
             />
-            {/* <Input
+            <Input
               label="Date"
               placeholder="Enter Date Event"
               type="date"
               value={date}
               onChange={(value) => setDate(String(value))}
-            /> */}
+            />
             <Input
               label="Club"
               placeholder="name Club"

@@ -7,7 +7,7 @@ import "react-calendar/dist/Calendar.css";
 
 export default function Dashboard() {
   return (
-    <div className="flex flex-row h-[calc(100vh-80px)] text font-sans ml-3 mr-3">
+    <div className="flex flex-row h-[calc(100vh-80px)] font-sans ml-3 mr-3">
       <div className="h-full w-1/5 flex justify-center mt-2 ">
         <div className="flex flex-col h-full w-full justify-around items-center">
           <h3>Fight Calendar</h3>
