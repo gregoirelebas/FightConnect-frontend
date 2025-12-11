@@ -11,8 +11,12 @@ import { setCookieState, setNumericState } from '@/app/...helpers/states';
 import { Level, Role, Sport } from '@/app/...types/enum';
 import { Fighter } from '@/app/...types/fighter';
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { deleteCookie } from '@/app/...helpers/cookies';
 
 export default function SignupFighterComponent() {
+  const router = useRouter();
+
   const [username, setUsername] = useState<string>('');
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
@@ -36,6 +40,10 @@ export default function SignupFighterComponent() {
 
   const [lastFightDate, setLastFightDate] = useState<string>('');
 
+  const [errorMessage, setErrorMessage] = useState<string>('');
+
+  const [isRequestSent, setRequestSent] = useState<boolean>(false);
+
   useEffect(() => {
     setCookieState(Cookies.username, setUsername);
     setCookieState(Cookies.email, setEmail);
@@ -55,15 +63,27 @@ export default function SignupFighterComponent() {
     }
   };
 
-  const onLevelChange = (value: string) => {
-    setLevel(value as Level);
-  };
-
-  const onExperienceChange = (isChecked: boolean) => {
-    setHasExperience(isChecked);
-  };
-
   const registerFighter = async () => {
+    if (isRequestSent) return; //Prevent multiple requests if user spam the button.
+
+    if (sportList.length == 0) {
+      return;
+    }
+
+    if (weight == 0 || height == 0) {
+      setErrorMessage('Please fill in your height and weight');
+      return;
+    }
+
+    if (!licence) {
+      return;
+    }
+
+    if (hasExperience && !lastFightDate) {
+      setErrorMessage('Please fill in your last fight date');
+      return;
+    }
+
     const fighter: Fighter = {
       name: username,
       email: email,
@@ -77,10 +97,10 @@ export default function SignupFighterComponent() {
       weight: weight,
       height: height,
       licenceNumber: licence,
-      victoryCount: victories,
-      defeatCount: defeats,
-      drawCount: draws,
-      lastFightDate: lastFightDate,
+      victoryCount: hasExperience ? victories : 0,
+      defeatCount: hasExperience ? defeats : 0,
+      drawCount: hasExperience ? draws : 0,
+      lastFightDate: hasExperience ? lastFightDate : '',
     };
 
     const options = {
@@ -89,16 +109,28 @@ export default function SignupFighterComponent() {
       body: JSON.stringify(fighter),
     };
 
-    const result = await fetch(
+    setRequestSent(true);
+
+    const request = await fetch(
       process.env.NEXT_PUBLIC_API_URL + 'users/signup/fighter',
       options
     ).then((response) => response.json());
 
-    if (result.result) {
-      console.log('Fighter registered successfully');
-    } else {
-      console.error('Error registering fighter:', result.error);
+    setRequestSent(false);
+
+    if (!request.result) {
+      console.error('Error registering fighter:', request.error);
+      return;
     }
+
+    deleteCookie(Cookies.username);
+    deleteCookie(Cookies.email);
+    deleteCookie(Cookies.password);
+    deleteCookie(Cookies.phoneNumber);
+    deleteCookie(Cookies.bio);
+    deleteCookie(Cookies.profilePicture);
+
+    router.push('/dashboard');
   };
 
   return (
@@ -116,18 +148,23 @@ export default function SignupFighterComponent() {
         <div className="card">
           <h3>Level</h3>
           <fieldset className="cardElement">
-            <RadioButton name="level" label="Pro" value={Level.Pro} onChange={onLevelChange} />
+            <RadioButton
+              name="level"
+              label="Pro"
+              value={Level.Pro}
+              onChange={(value) => setLevel(value as Level)}
+            />
             <RadioButton
               name="level"
               label="Amateur"
               value={Level.Amateur}
               isChecked={true}
-              onChange={onLevelChange}
+              onChange={(value) => setLevel(value as Level)}
             />
           </fieldset>
         </div>
         <div className="card">
-          <h3>Practiced sports</h3>
+          <h3>Sport(s)</h3>
           <fieldset className="cardElement">
             <Checkbox name="sport" label="MMA" value={Sport.MMA} onChange={onSportChange} />
             <Checkbox
@@ -155,42 +192,52 @@ export default function SignupFighterComponent() {
               onChange={onSportChange}
             />
           </fieldset>
+          {sportList.length == 0 && (
+            <span className="text-error">At least one sport is required</span>
+          )}
         </div>
       </div>
-      <div className="card w-fit">
-        <h3>Infos</h3>
-        <div className="flex gap-20">
+      <div className="flex gap-5">
+        <div className="card w-fit">
+          <h3>Body</h3>
+          <div className="flex gap-20">
+            <Input
+              label="Weight (kg)"
+              placeholder="Weight"
+              value={weight}
+              min={0}
+              required={true}
+              onChange={(value) => setNumericState(String(value), setWeight)}
+            />
+            <Input
+              label="Height (cm)"
+              placeholder="Height"
+              value={height}
+              min={0}
+              required={true}
+              onChange={(value) => setNumericState(String(value), setHeight)}
+            />
+          </div>
+        </div>
+        <div className="card w-fit">
+          <h3>Official licence registration</h3>
           <Input
-            label="Weight"
-            placeholder="Weight"
-            value={weight}
-            pattern={/\d+/g}
-            required={true}
-            onChange={(value) => setNumericState(String(value), setWeight)}
-          />
-          <Input
-            label="Height"
-            placeholder="Height"
-            value={height}
-            pattern={/\d+/g}
-            required={true}
-            onChange={(value) => setNumericState(String(value), setHeight)}
-          />
-          <Input
-            label="Licence number"
-            placeholder="0123-4567-789"
+            label="Licence number (XXXX-XXXX-XXXX)"
+            placeholder="XXXX-XXXX-XXXX"
             value={licence}
+            pattern={/\S{4}-\S{4}-\S{4}/}
             required={true}
+            error="You must have a valid licence to sign up as a fighter"
             onChange={(value) => setLicence(String(value))}
           />
         </div>
       </div>
-      <div className=" card w-fit">
+      <div className="card w-fit">
         <Checkbox
           name="experience"
           label="I have fighting experience"
-          value="hasExperience"
-          onChange={onExperienceChange}
+          value=""
+          onChange={setHasExperience}
         />
         {hasExperience && (
           <div className="card px-0">
@@ -226,9 +273,10 @@ export default function SignupFighterComponent() {
           </div>
         )}
       </div>
-      <div className="flex justify-center">
+      <div className="flex flex-col items-center gap-2">
+        {errorMessage && <span className="text-error">{errorMessage}</span>}
         <Button variant={ButtonVariant.Primary} className="w-3xs" onClick={registerFighter}>
-          Validate
+          Sign up!
         </Button>
       </div>
     </div>

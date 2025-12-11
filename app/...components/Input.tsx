@@ -9,6 +9,8 @@ interface InputProps {
   type?: string | undefined;
   pattern?: RegExp | undefined;
   value: string | number;
+  min?: number | undefined;
+  max?: number | undefined;
   required?: boolean | undefined;
   error?: string;
   onChange: (value: string | number) => void;
@@ -53,8 +55,10 @@ export default function Input(props: InputProps) {
         className={`input ${props.className ? props.className : ''}
         ${isValid ? '' : 'border-error'}`}
         placeholder={props.placeholder}
-        value={props.value}
         type={props.type}
+        value={props.value}
+        min={props.min}
+        max={props.max}
         required={props.required}
         onChange={(e) => props.onChange(e.target.value)}
         onBlur={() => checkValidPattern()}
