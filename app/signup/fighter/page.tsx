@@ -164,7 +164,7 @@ export default function SignupFighterPage() {
             label="Weight"
             placeholder="Weight"
             value={weight}
-            pattern="/\d+/g"
+            pattern={/\d+/g}
             required={true}
             onChange={(value) => setNumericState(String(value), setWeight)}
           />
@@ -172,7 +172,7 @@ export default function SignupFighterPage() {
             label="Height"
             placeholder="Height"
             value={height}
-            pattern="/\d+/g"
+            pattern={/\d+/g}
             required={true}
             onChange={(value) => setNumericState(String(value), setHeight)}
           />
