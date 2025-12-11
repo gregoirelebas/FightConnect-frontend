@@ -1,11 +1,16 @@
+'use client';
+
+import { useState } from 'react';
+
 interface InputProps {
   label: string;
   placeholder: string;
   className?: string;
-  type?: string;
-  pattern?: string;
+  type?: string | undefined;
+  pattern?: RegExp | undefined;
   value: string | number;
-  required?: boolean;
+  required?: boolean | undefined;
+  error?: string;
   onChange: (value: string | number) => void;
   onValidate?: () => void;
 }
@@ -23,25 +28,39 @@ interface InputProps {
  * @returns A JSX element containing a labeled input field with optional validation
  */
 export default function Input(props: InputProps) {
+  const [isValid, setIsValid] = useState<boolean>(true);
+
+  const checkValidPattern = () => {
+    if (props.pattern && props.value) {
+      setIsValid(props.pattern.test(String(props.value)));
+    }
+  };
+
   const handleKeyDown = (key: string) => {
-    if (key === 'Enter' && props.onValidate) {
-      props.onValidate();
+    if (key === 'Enter') {
+      checkValidPattern();
+
+      if (props.onValidate) {
+        props.onValidate();
+      }
     }
   };
 
   return (
-    <div>
+    <div className="flex flex-col">
       <div>{props.label}</div>
       <input
-        className={`${props.className ? props.className : ''} input`}
+        className={`input ${props.className ? props.className : ''}
+        ${isValid ? '' : 'border-error'}`}
         placeholder={props.placeholder}
         value={props.value}
-        type={props.type ? props.type : 'text'}
-        pattern={props.pattern ? props.pattern : undefined}
-        required={props.required ? props.required : false}
+        type={props.type}
+        required={props.required}
         onChange={(e) => props.onChange(e.target.value)}
+        onBlur={() => checkValidPattern()}
         onKeyDownCapture={(e) => handleKeyDown(e.key)}
       />
+      {!isValid && <span className=" text-sm mt-1 text-error">{props.error}</span>}
     </div>
   );
 }

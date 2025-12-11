@@ -62,7 +62,8 @@ body {
 
 @layer components {
   .input {
-    @apply bg-foreground
+    @apply w-fit 
+    bg-foreground
     text-base
     border
     border-grey
