@@ -93,6 +93,16 @@ export default function SignupComponent() {
     router.push('signup/fighter');
   };
 
+  const DEBUG_fillForm = () => {
+    setUsername('username');
+    setEmail('email@debug.com');
+    setPassword('password');
+    setConfirmPassword('password');
+    setPhoneNumber('0123456789');
+    setBio('A superb biography...');
+    setProfilePicture('awesomePicture.png');
+  };
+
   const usernamePattern = /^(?=.{4,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$/;
 
   const emailPattern =
@@ -102,8 +112,11 @@ export default function SignupComponent() {
     /^(?:(?:\+|00)33[\s.-]{0,3}(?:\(0\)[\s.-]{0,3})?|0)[1-9](?:(?:[\s.-]?\d{2}){4}|\d{2}(?:[\s.-]?\d{3}){2})$/;
 
   return (
-    <div className=" flex flex-col justify-between items-center pb-5">
+    <div className=" flex flex-col justify-between items-center p-5">
       <Logo className="logo" />
+      <Button variant={ButtonVariant.Primary} className="absolute right-5" onClick={DEBUG_fillForm}>
+        [DEBUG]_FillForm
+      </Button>
       <h1 className="underline underline-offset-8">Sign up</h1>
       <div className="w-5xl flex flex-col gap-5 p-5 rounded-2xl">
         <span>Fields marqued with * are required</span>
