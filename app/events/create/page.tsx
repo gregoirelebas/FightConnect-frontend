@@ -3,45 +3,43 @@ import React, { useState } from "react";
 import Input from "../../...components/Input";
 import RadioButton from "../../...components/RadioButton";
 import TextArea from "../../...components/TextArea";
-import { Experience, Level, MaxWeight, MinWeight, Sport } from "../../...types/enum";
+import { Experience, Level, Sport, Weight } from "../../...types/enum";
 import Dropdown from "../../...components/Dropdown";
 import Button, { ButtonVariant } from "../../...components/Button";
 import Link from "next/link";
 import router from "next/router";
-import { Event } from '@/app/...types/Event';
+import { Event } from "@/app/...types/Event";
 
 export default function NewEvent() {
   const [eventName, setEventName] = useState<string>("");
   const [level, setLevel] = useState<Level>(Level.Amateur);
-  const [date, setDate] = useState<string>("2025-11-10");
+  const [date, setDate] = useState<string>("2025-11-");
   const [club, setClub] = useState<string>("");
   const [sport, setSport] = useState<Sport[]>([]);
   const [experience, setExperience] = useState<string>("");
-  const [minWeight, setMinWeight] = useState<MinWeight>(MinWeight.Fifty);
-  const [maxWeight, setMaxWeight] = useState<MaxWeight>(MaxWeight.Hundred);
+  const [weight, setWeight] = useState<Weight>(Weight.FiftyTwoFiftySeven);
   const [description, setDescription] = useState<string>("");
   const [promoterId, setPromoterId] = useState<string>("693ac337db89e719499d49ee");
   const [fighters, setFighters] = useState<string[]>([]);
 
-  const event : Event = {
-    level: level,
-    sports: sport,
-    clubName: club,
-    date: date,
-    experience: experience,
-    minWeight: minWeight,
-    maxWeight: maxWeight,
-    name: eventName,
-    description: description,
-    promoterId: promoterId,
-    fighters : fighters
-  };
-
   const createEvent = async () => {
+    const event: Event = {
+      level: level,
+      sports: sport,
+      clubName: club,
+      date: date,
+      experience: experience,
+      weight: weight,
+      name: eventName,
+      description: description,
+      promoterId: promoterId,
+      fighters: fighters,
+    };
+
     const options = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({event}),
+      body: JSON.stringify(event),
     };
 
     const result = await fetch(process.env.NEXT_PUBLIC_API_URL + "events/create", options).then(
@@ -142,38 +140,20 @@ export default function NewEvent() {
               ></Dropdown>
             </div>
             <div className="h-20 flex flex-col justify-between">
-              <span>Min Weight :</span>
+              <span>Weight :</span>
               <Dropdown
                 className="w-50"
                 options={[
-                  { value: MinWeight.Eighty, label: "50" },
-                  { value: MinWeight.FiftyFive, label: "55" },
-                  { value: MinWeight.Sixty, label: "60" },
-                  { value: MinWeight.SixtyFive, label: "65" },
-                  { value: MinWeight.Seventy, label: "70" },
-                  { value: MinWeight.SeventyFive, label: "75" },
-                  { value: MinWeight.Eighty, label: "80" },
-                  { value: MinWeight.EightyFive, label: "85" },
+                  { value: Weight.FiftyTwoFiftySeven, label: "52-57" },
+                  { value: Weight.FiftySevenSixtyOne, label: "57-61" },
+                  { value: Weight.SixtyOneSixtySix, label: "61-66" },
+                  { value: Weight.SixtySixSeventy, label: "66-70" },
+                  { value: Weight.SeventySeventySeven, label: "70-77" },
+                  { value: Weight.SeventySevenEightyFour, label: "77-84" },
+                  { value: Weight.EightyFourNinetyThree, label: "84-93" },
+                  { value: Weight.NinetyThreeOneHundredTwenty, label: "93-120" },
                 ]}
-                onChange={(value) => setMinWeight(value as MinWeight)}
-              ></Dropdown>
-            </div>
-            <div className="h-20 flex flex-col justify-between">
-              <span>Max Weight :</span>
-              <Dropdown
-                className="w-50"
-                options={[
-                  { value: MaxWeight.Sixty, label: "60" },
-                  { value: MaxWeight.SixtyFive, label: "65" },
-                  { value: MaxWeight.Seventy, label: "70" },
-                  { value: MaxWeight.SeventyFive, label: "75" },
-                  { value: MaxWeight.Eighty, label: "80" },
-                  { value: MaxWeight.EightyFive, label: "85" },
-                  { value: MaxWeight.Ninety, label: "90" },
-                  { value: MaxWeight.NinetyFive, label: "95" },
-                  { value: MaxWeight.Hundred, label: "100" },
-                ]}
-                onChange={(value) => setMaxWeight(value as MaxWeight)}
+                onChange={(value) => setWeight(value as Weight)}
               ></Dropdown>
             </div>
           </div>

@@ -5,14 +5,15 @@ import Button, { ButtonVariant } from "../...components/Button";
 import Event from "./event";
 import RadioButton from "../...components/RadioButton";
 import Dropdown from "../...components/Dropdown";
-import { Sport, Level, Experience } from "../...types/enum";
+import { Sport, Level, Experience, Weight } from "../...types/enum";
 
 export default function Events() {
   const [search, setSearch] = useState<string>("");
   const [level, setLevel] = useState<Level>(Level.Amateur);
   const [sport, setSport] = useState<Sport[]>([]);
   const [experience, setExperience] = useState<Experience>(Experience.Zero);
-  const [allEvents, setAllEvents] = useState([])
+  const [weight, setWeight] = useState<Weight>(Weight.FiftyTwoFiftySeven);
+  const [allEvents, setAllEvents] = useState([]);
 
   useEffect(() => {
     const result = fetch(process.env.NEXT_PUBLIC_API_URL + "events/search")
@@ -26,10 +27,19 @@ export default function Events() {
       });
   }, []);
 
-  const cardEvent = allEvents.map((data:any, i) => {
-    return <Event key={i} name={data.name} date={data.date} sport={data.sports} experience={data.experience} weight={data.weight} level={data.level} />
-  })
-
+  const cardEvent = allEvents.map((data: any, i) => {
+    return (
+      <Event
+        key={i}
+        name={data.name}
+        date={data.date}
+        sport={data.sports}
+        experience={data.experience}
+        weight={data.weight}
+        level={data.level}
+      />
+    );
+  });
 
   return (
     <div className="flex flex-col h-[calc(100vh-80px)] text font-sans ">
@@ -102,14 +112,23 @@ export default function Events() {
               onChange={(value) => setExperience(value as Experience)}
             ></Dropdown>
           </div>
-          {/* <div className="h-20 mt-8 flex flex-col justify-between">
-            <span>Min Weight :</span>
-            <Dropdown className="w-50" options={[{ value: "figth", label: "1" }]}></Dropdown>
+          <div className="h-20 flex flex-col justify-between">
+            <span>Weight :</span>
+            <Dropdown
+              className="w-50"
+              options={[
+                { value: Weight.FiftyTwoFiftySeven, label: "52-57" },
+                { value: Weight.FiftySevenSixtyOne, label: "57-61" },
+                { value: Weight.SixtyOneSixtySix, label: "61-66" },
+                { value: Weight.SixtySixSeventy, label: "66-70" },
+                { value: Weight.SeventySeventySeven, label: "70-77" },
+                { value: Weight.SeventySevenEightyFour, label: "77-84" },
+                { value: Weight.EightyFourNinetyThree, label: "84-93" },
+                { value: Weight.NinetyThreeOneHundredTwenty, label: "93-120" },
+              ]}
+              onChange={(value) => setWeight(value as Weight)}
+            ></Dropdown>
           </div>
-          <div className="h-20 mt-8 flex flex-col justify-between">
-            <span>Max Weight :</span>
-            <Dropdown className="w-50" options={[{ value: "figth", label: "1" }]}></Dropdown>
-          </div> */}
           <Button
             variant={ButtonVariant.Primary}
             className="h-10 w-40 mt-10 flex justify-center items-center"

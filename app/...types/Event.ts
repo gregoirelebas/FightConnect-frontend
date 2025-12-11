@@ -1,4 +1,4 @@
-import { Level, MaxWeight, MinWeight, Sport } from './enum';
+import { Level, Weight, Sport } from './enum';
 
 export interface Event {
   level: Level;
@@ -6,8 +6,7 @@ export interface Event {
   clubName: string;
   date : string;
   experience : string;
-  minWeight: MinWeight;
-  maxWeight: MaxWeight;
+  weight: Weight;
   name: string;
   description: string;
   promoterId: string;

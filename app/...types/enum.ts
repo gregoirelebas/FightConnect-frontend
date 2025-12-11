@@ -29,25 +29,14 @@ export enum Experience {
   TwentyFivePlus = '25+',
 }
 
-export enum MinWeight {
-  Fifty = '50',
-  FiftyFive = '55',
-  Sixty = '60',
-  SixtyFive = '65',
-  Seventy = '70',
-  SeventyFive = '75',
-  Eighty = '80',
-  EightyFive = '85',
+export enum Weight {
+  FiftyTwoFiftySeven = '52-57',
+  FiftySevenSixtyOne = '57-61',
+  SixtyOneSixtySix = '61-66',
+  SixtySixSeventy = '66-70',
+  SeventySeventySeven = '70-77',
+  SeventySevenEightyFour = '77-84',
+  EightyFourNinetyThree = '84-93',
+  NinetyThreeOneHundredTwenty = '93-120',
 }
 
-export enum MaxWeight {
-  Sixty = '60',
-  SixtyFive = '65',
-  Seventy = '70',
-  SeventyFive = '75',
-  Eighty = '80',
-  EightyFive = '85',
-  Ninety = '90',
-  NinetyFive = '95',
-  Hundred = '100',
-}
