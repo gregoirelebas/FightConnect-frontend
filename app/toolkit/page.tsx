@@ -87,7 +87,7 @@ export default function Toolkit() {
         <span>This is a *SPAN* text</span>
       </div>
       <div className="mt-5">
-        <Dropdown className="w-lg" options={dropdownOptions} />
+        <Dropdown className="w-lg" options={dropdownOptions} onChange={() => {}} />
       </div>
       <div className="flex mt-5 gap-5">
         <RadioButton
