@@ -10,7 +10,7 @@ import profile from '../../public/defaultProfile.png';
 import { useRouter } from 'next/navigation';
 import Logo from '../...components/Logo';
 
-import { bioCK, emailCK, passwordCK, phoneNumberCK, usernameCK } from '../...constants/cookies';
+import Cookies from '../...types/cookies';
 import { setCookies } from '../...helpers/cookies';
 
 export default function SignupComponent() {
@@ -58,11 +58,11 @@ export default function SignupComponent() {
     setErrorMessage('');
 
     setCookies([
-      [usernameCK, username],
-      [emailCK, email],
-      [passwordCK, password],
-      [phoneNumberCK, phoneNumber],
-      [bioCK, bio],
+      [Cookies.username, username],
+      [Cookies.email, email],
+      [Cookies.password, password],
+      [Cookies.phoneNumber, phoneNumber],
+      [Cookies.bio, bio],
     ]);
 
     router.push('signup/fighter');

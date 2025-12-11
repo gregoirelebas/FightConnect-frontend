@@ -5,7 +5,7 @@ import Checkbox from '@/app/...components/Checkbox';
 import Input from '@/app/...components/Input';
 import Logo from '@/app/...components/Logo';
 import RadioButton from '@/app/...components/RadioButton';
-import { bioCK, emailCK, passwordCK, phoneNumberCK, usernameCK } from '@/app/...constants/cookies';
+import Cookies from '@/app/...types/cookies';
 import { setCookieState, setNumericState } from '@/app/...helpers/states';
 
 import { Level, Role, Sport } from '@/app/...types/enum';
@@ -36,11 +36,11 @@ export default function SignupFighterPage() {
   const [lastFightDate, setLastFightDate] = useState<string>('');
 
   useEffect(() => {
-    setCookieState(usernameCK, setUsername);
-    setCookieState(emailCK, setEmail);
-    setCookieState(passwordCK, setPassword);
-    setCookieState(phoneNumberCK, setPhoneNumber);
-    setCookieState(bioCK, setBio);
+    setCookieState(Cookies.username, setUsername);
+    setCookieState(Cookies.email, setEmail);
+    setCookieState(Cookies.password, setPassword);
+    setCookieState(Cookies.phoneNumber, setPhoneNumber);
+    setCookieState(Cookies.bio, setBio);
   }, []);
 
   const setPromoter = () => {};
