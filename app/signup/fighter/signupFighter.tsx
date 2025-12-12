@@ -133,7 +133,7 @@ export default function SignupFighterComponent() {
 
   return (
     <div className="flex flex-col gap-10 my-10 mx-20">
-      <RoleSwitch />
+      <RoleSwitch role={Role.Fighter} />
       <div className="flex gap-5">
         <div className="card">
           <h3>Level</h3>
