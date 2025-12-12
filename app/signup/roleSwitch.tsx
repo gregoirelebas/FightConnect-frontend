@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import Button, { ButtonVariant } from '../...components/Button';
-import Logo from '../...components/Logo';
+import Logo from '../...UI/Logo';
 
 export default function RoleSwitch() {
   return (

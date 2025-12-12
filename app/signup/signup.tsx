@@ -8,7 +8,7 @@ import Button, { ButtonVariant } from '../...components/Button';
 
 import profile from '../../public/defaultProfile.png';
 import { useRouter } from 'next/navigation';
-import Logo from '../...components/Logo';
+import Logo from '../...UI/Logo';
 
 import Cookies from '../...types/cookies';
 import { setCookies } from '../...helpers/cookies';
