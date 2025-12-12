@@ -16,6 +16,7 @@ export default function Events() {
   const [weight, setWeight] = useState<Weight>(Weight.FiftyTwoFiftySeven)
   const [allEvents, setAllEvents] = useState([])
   const [isPopUp, setIsPopUp] = useState(false);
+  const [currentEvent, setCurrentEvent] = useState('');
 
   useEffect(() => {
     const result = fetch(process.env.NEXT_PUBLIC_API_URL + "events/search")
@@ -30,7 +31,7 @@ export default function Events() {
   }, []);
 
   const cardEvent = allEvents.map((data: any, i) => {
-    return <Event key={i} setIsPopUp={setIsPopUp} name={data.name} date={data.date} sport={data.sports} experience={data.experience} weight={data.weight} level={data.level} />
+    return <Event key={i} id={data._id} setCurrentEvent={setCurrentEvent} setIsPopUp={setIsPopUp} name={data.name} date={data.date} sport={data.sports} experience={data.experience} weight={data.weight} level={data.level} />
   })
 
 
@@ -136,7 +137,7 @@ export default function Events() {
         </div>
       </div>
       </div>
-      {isPopUp && <PopUpEvent setIsPopUp={setIsPopUp} />}
+      {isPopUp && <PopUpEvent setIsPopUp={setIsPopUp} id={currentEvent} />}
     </>
   );
 }
