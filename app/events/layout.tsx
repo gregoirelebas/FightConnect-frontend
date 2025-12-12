@@ -1,19 +1,11 @@
-import type { Metadata } from 'next';
-import { Geist, Geist_Mono } from 'next/font/google';
-import '../globals.css';
-import Header from '../...components/Header';
+import { Metadata } from 'next';
+import Header from '@/app/...UI/Header';
 
-export default function Layout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
-  return (
-    <html lang="en">
-      <body>
-        <Header />
-        {children}
-      </body>
-    </html>
-  );
+export const metadata: Metadata = {
+  title: 'Events',
+  description: 'View all the Events and search with filter',
+};
+
+export default function DashboardLayout({ children }: { children: React.ReactNode }) {
+  return <section><Header/>{children}</section>;
 }

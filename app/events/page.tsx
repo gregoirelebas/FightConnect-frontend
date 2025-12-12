@@ -6,7 +6,6 @@ import Event from "./event";
 import RadioButton from "../...components/RadioButton";
 import Dropdown from "../...components/Dropdown";
 import { Sport, Level, Experience, Weight } from "../...types/enum";
-import { Sport, Level, Experience } from "../...types/enum";
 import PopUpEvent from "./PopUpEvent";
 
 export default function Events() {
@@ -14,6 +13,7 @@ export default function Events() {
   const [level, setLevel] = useState<Level>(Level.Amateur);
   const [sport, setSport] = useState<Sport[]>([]);
   const [experience, setExperience] = useState<Experience>(Experience.Zero);
+  const [weight, setWeight] = useState<Weight>(Weight.FiftyTwoFiftySeven)
   const [allEvents, setAllEvents] = useState([])
   const [isPopUp, setIsPopUp] = useState(false);
 
@@ -73,7 +73,6 @@ export default function Events() {
                 ></RadioButton>
               </div>
             </div>
-          </div>
           <div className="h-20 mt-8 flex flex-col justify-between">
             <span>Sports :</span>
             <Dropdown
@@ -130,11 +129,12 @@ export default function Events() {
           >
             Apply
           </Button>
-        </div>
+          </div>
         <div className="w-4/5 pl-3 mb-5 ml-1 mr-2 mt-2 flex flex-col border border-gray-600 rounded-3xl">
           <h3 className="w-full">Events</h3>
           <div className="flex flex-wrap">{cardEvent}</div>
         </div>
+      </div>
       </div>
       {isPopUp && <PopUpEvent setIsPopUp={setIsPopUp} />}
     </>
