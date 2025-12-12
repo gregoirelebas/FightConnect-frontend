@@ -1,17 +1,44 @@
 "use client";
 import Button, { ButtonVariant } from "@/app/...components/Button";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import moment from "moment";
 import PopUpEventDashboard from "./PopUpEventDashboard";
+import UpcomingEvent from "./UpcomingEvents";
+
 
 export default function Dashboard() {
   const validateDate = ["04-12-2025", "14-12-2025", "24-12-2025"];
   const waitingDate = ["08-12-2025", "18-12-2025"];
 
   const [isPopUp, setIsPopUp] = useState(false);
+  // const [upcomingEvent, setUpcomingEvent] = useState([])
+
+
+  const upcomingEvent = [
+    {name:"Fight Lyon",date:"12/12/25",level:"pro",fighterAsk:3,setIsPopUp:"setIsPopUp"},
+    {name:"Fight Paris",date:"14/12/25",level:"pro",fighterAsk:3,setIsPopUp:"setIsPopUp"},
+    {name:"Fight Nante",date:"18/12/25",level:"pro",fighterAsk:3,setIsPopUp:"setIsPopUp"},
+  ];
+
+    // useEffect(() => {
+    //   const result = fetch(process.env.NEXT_PUBLIC_API_URL + "events/user/"+ id)
+    //     .then((response) => response.json())
+    //     .then((data) => {s
+    //       if (data.result) {
+    //         setUpcomingEvent(data.event);
+    //       } else {
+    //         console.error("Error", data.error);
+    //       }
+    //     });
+    // }, []);
+
+    const listUpcomingEvent = upcomingEvent.map((data :any,i) => {
+      return <UpcomingEvent  key={i} setIsPopUp={setIsPopUp} name={data.name} date={data.date} level={data.level} fighterAsk={3} />
+    });
+
 
   return (
     <div className="flex flex-row h-[calc(100vh-80px)] font-sans ml-3 mr-3">
@@ -20,7 +47,7 @@ export default function Dashboard() {
           <h3>Fight Calendar</h3>
           <Calendar
             className="bg-white text-black rounded-2xl"
-            tileClassName={({ date, view }: { date: Date; view: string }) => {
+            tileClassName={({ date }: { date: Date }) => {
               const formattedDate = moment(date).format("DD-MM-YYYY");
               if (validateDate.includes(formattedDate)) {
                 return "validateDate";
@@ -54,6 +81,7 @@ export default function Dashboard() {
                 Manage Event
               </Button>
             </div>
+            {listUpcomingEvent}
           </div>
         </div>
         <div className="h-1/2 w-full flex flex-col justify-around items-center">
@@ -61,7 +89,7 @@ export default function Dashboard() {
           <div className="h-4/5 w-full pl-3 pr-3 border border-gray-500 flex flex-col items-center overflow-y-auto"></div>
         </div>
       </div>
-      {isPopUp && <PopUpEventDashboard setIsPopUp={setIsPopUp} />}
+      {isPopUp && <PopUpEventDashboard name={"bip"} date={"11/11/25"} level={"pro"} setIsPopUp={setIsPopUp} />}
     </div>
   );
 }

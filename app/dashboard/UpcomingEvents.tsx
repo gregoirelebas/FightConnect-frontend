@@ -1,12 +1,12 @@
 import Button, { ButtonVariant } from "@/app/...components/Button";
 
 
-export default function upcomingEvent(props: {
+export default function UpcomingEvent(props: {
   name : string,
   date : string,
   level : string;
-  askFighter : number,
-  setIsPopUp: React.Dispatch<React.SetStateAction<boolean>>;
+  fighterAsk : number,
+  setIsPopUp: React.Dispatch<React.SetStateAction<boolean>>,
 }) {
   
   return (
@@ -14,8 +14,8 @@ export default function upcomingEvent(props: {
       <span>{props.name}</span>
       <span>{props.date}</span>
       <span>{props.level}</span>
-      <span>{props.askFighter}</span>
-      <Button variant={ButtonVariant.Primary} onClick={() => props.setIsPopUp(true)} className="w-35 h-10 text-xs">
+      <span>{props.fighterAsk}</span>
+      <Button variant={ButtonVariant.Primary} onClick={() => (props.setIsPopUp(true))} className="w-35 h-10 text-xs">
         Manage Event
       </Button>
     </div>

@@ -6,6 +6,6 @@ export const metadata: Metadata = {
   description: 'View all the Events and search with filter',
 };
 
-export default function DashboardLayout({ children }: { children: React.ReactNode }) {
+export default function EventLayout({ children }: { children: React.ReactNode }) {
   return <section><Header/>{children}</section>;
 }

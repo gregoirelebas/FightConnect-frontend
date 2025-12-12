@@ -1,7 +1,10 @@
 import Button, { ButtonVariant } from "../...components/Button";
 
 export default function PopUpEvenDashboard(props: {
-  setIsPopUp: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsPopUp: React.Dispatch<React.SetStateAction<boolean>>,
+  name:string,
+  date: string,
+  level:string
 }) {
   return (
     <div className="absolute top-0 left-0 w-screen h-screen bg-background/80 flex justify-center items-center">
@@ -20,9 +23,9 @@ export default function PopUpEvenDashboard(props: {
         <div className="h-9/10 w-full border-gray-500 border-2 rounded-3xl">
           <div className="h-1/3 w-full text-black flex justify-around items-center">
             <h1>Info</h1>
-            <span>Event Name</span>
-            <span>Date</span>
-            <span>Catégorie</span>
+            <span>{props.name}</span>
+            <span>{props.date}</span>
+            <span>{props.level}</span>
           </div>
           <div className="h-2/3 w-full bg-gray-300 rounded-b-3xl flex flex-col items-center overflow-y-auto">
             {/* Fighter div for accept ou refuse  */}
