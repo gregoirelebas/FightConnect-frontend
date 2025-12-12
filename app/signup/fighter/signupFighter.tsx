@@ -131,9 +131,24 @@ export default function SignupFighterComponent() {
     router.push('/dashboard');
   };
 
+  const DEBUG_fillForm = () => {
+    setSportList([Sport.MMA, Sport.Jiujitsu]);
+    setWeight(80);
+    setHeight(180);
+    setLicence('XXXX-XXXX-XXXX');
+    setHasExperience(true);
+    setVictories(5);
+    setDefeats(2);
+    setDraws(3);
+    setLastFightDate('2025-06-15');
+  };
+
   return (
     <div className="flex flex-col gap-10 my-10 mx-20">
       <RoleSwitch role={Role.Fighter} />
+      <Button variant={ButtonVariant.Primary} className="absolute right-5" onClick={DEBUG_fillForm}>
+        [DEBUG]_FillForm
+      </Button>
       <div className="flex gap-5">
         <div className="card">
           <h3>Level</h3>

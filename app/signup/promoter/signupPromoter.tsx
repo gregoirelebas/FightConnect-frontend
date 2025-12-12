@@ -131,9 +131,16 @@ export default function SignupPromoterComponent() {
     />
   ));
 
+  const DEBUG_fillForm = () => {
+    setSiret('32411889200037');
+  };
+
   return (
     <div className="flex flex-col my-10 mx-20 gap-10">
       <RoleSwitch role={Role.Promoter} />
+      <Button variant={ButtonVariant.Primary} className="absolute right-5" onClick={DEBUG_fillForm}>
+        [DEBUG]_FillForm
+      </Button>
       <div className="card">
         <h3>Official informations</h3>
         <div className="flex gap-10">
