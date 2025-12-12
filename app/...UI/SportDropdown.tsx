@@ -2,6 +2,7 @@ import Dropdown, { DropdownOptionProps } from '../...components/Dropdown';
 import { Sport } from '../...types/enum';
 
 interface SportDropdownProps {
+  classname?: string | undefined;
   onChange: (value: string) => void;
 }
 
@@ -14,5 +15,5 @@ export default function SportDropdown(props: SportDropdownProps) {
     { label: 'Muay Thai', value: Sport.MuayThai },
   ];
 
-  return <Dropdown options={sportOptions} onChange={props.onChange} />;
+  return <Dropdown options={sportOptions} className={props.classname} onChange={props.onChange} />;
 }
