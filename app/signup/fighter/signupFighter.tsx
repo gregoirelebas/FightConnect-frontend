@@ -3,7 +3,6 @@
 import Button, { ButtonVariant } from '@/app/...components/Button';
 import Checkbox from '@/app/...components/Checkbox';
 import Input from '@/app/...components/Input';
-import Logo from '@/app/...components/Logo';
 import RadioButton from '@/app/...components/RadioButton';
 import Cookies from '@/app/...types/cookies';
 import { setCookieState, setNumericState } from '@/app/...helpers/states';
@@ -13,6 +12,7 @@ import { Fighter } from '@/app/...types/fighter';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { deleteCookie } from '@/app/...helpers/cookies';
+import RoleSwitch from '../roleSwitch';
 
 export default function SignupFighterComponent() {
   const router = useRouter();
@@ -52,8 +52,6 @@ export default function SignupFighterComponent() {
     setCookieState(Cookies.bio, setBio);
     setCookieState(Cookies.profilePicture, setProfilePicture);
   }, []);
-
-  const setPromoter = () => {};
 
   const onSportChange = (isChecked: boolean, value: string) => {
     if (isChecked) {
@@ -135,15 +133,7 @@ export default function SignupFighterComponent() {
 
   return (
     <div className="flex flex-col gap-10 my-10 mx-20">
-      <div className="flex justify-center gap-20 mb-10">
-        <Logo className="logo" />
-        <Button variant={ButtonVariant.Primary} className="w-3xs">
-          Fighter
-        </Button>
-        <Button variant={ButtonVariant.Ternary} className="w-3xs" onClick={setPromoter}>
-          Promoter
-        </Button>
-      </div>
+      <RoleSwitch />
       <div className="flex gap-5">
         <div className="card">
           <h3>Level</h3>
