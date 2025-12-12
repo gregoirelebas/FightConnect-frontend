@@ -3,13 +3,16 @@
 import Button, { ButtonVariant } from './...components/Button';
 import { useRouter } from 'next/navigation';
 import Input from './...components/Input';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { setCookie } from './...helpers/cookies';
 import Cookies from './...types/cookies';
 import { Role } from './...types/enum';
+import { UserContext } from './...providers/userProvider';
 
 export default function LandingComponent() {
   const router = useRouter();
+
+  const userContext = useContext(UserContext);
 
   const [name, setName] = useState<string>('');
   const [password, setPassword] = useState<string>('');
@@ -59,11 +62,17 @@ export default function LandingComponent() {
 
     setRequestSent(false);
 
-    if (request.result) {
-      router.push('/events');
-    } else {
+    if (!request.result) {
       console.error(request.error);
+      return;
     }
+
+    userContext.setToken(request.token);
+    userContext.setRole(request.role as Role);
+
+    console.log(request.token + ' - ' + request.role);
+
+    router.push('/events');
   };
 
   return (

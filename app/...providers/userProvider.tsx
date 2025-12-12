@@ -4,8 +4,8 @@ import React, { createContext, Dispatch, SetStateAction, useState } from 'react'
 import { Role } from '../...types/enum';
 
 interface User {
-  userID: string;
-  setUserID: Dispatch<SetStateAction<string>>;
+  token: string;
+  setToken: Dispatch<SetStateAction<string>>;
 
   role: Role;
   setRole: Dispatch<SetStateAction<Role>>;
@@ -14,13 +14,13 @@ interface User {
 export const UserContext = createContext<User>({} as User);
 
 export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [userID, setUserID] = useState<string>('');
+  const [token, setToken] = useState<string>('');
   const [role, setRole] = useState<Role>(Role.Fighter);
 
   const user: User = {
-    userID: userID,
+    token: token,
     role: role,
-    setUserID: setUserID,
+    setToken: setToken,
     setRole: setRole,
   };
 
