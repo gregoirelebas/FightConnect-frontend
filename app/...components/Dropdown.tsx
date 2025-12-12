@@ -1,8 +1,8 @@
 import React from 'react';
 
 export interface DropdownOptionProps {
-  value: string;
   label: string;
+  value: string;
 }
 
 function DropdownOption(props: DropdownOptionProps) {

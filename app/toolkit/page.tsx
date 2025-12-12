@@ -38,20 +38,20 @@ export default function Toolkit() {
 
   const dropdownOptions: DropdownOptionProps[] = [
     {
-      value: 'value 1',
       label: 'Label 1',
+      value: 'value 1',
     },
     {
-      value: 'value 2',
       label: 'Label 2',
+      value: 'value 2',
     },
     {
-      value: 'value 3',
       label: 'Label 3',
+      value: 'value 3',
     },
     {
-      value: 'value 4',
       label: 'Label 4',
+      value: 'value 4',
     },
   ];
 
