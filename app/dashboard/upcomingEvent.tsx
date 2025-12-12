@@ -1,4 +1,3 @@
-"use client";
 import Button, { ButtonVariant } from "@/app/...components/Button";
 
 
@@ -6,7 +5,8 @@ export default function upcomingEvent(props: {
   name : string,
   date : string,
   level : string;
-  askFighter : number
+  askFighter : number,
+  setIsPopUp: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
   
   return (
@@ -15,8 +15,8 @@ export default function upcomingEvent(props: {
       <span>{props.date}</span>
       <span>{props.level}</span>
       <span>{props.askFighter}</span>
-      <Button variant={ButtonVariant.Primary} className="w-35 h-10 text-xs">
-        Go to Fight Page
+      <Button variant={ButtonVariant.Primary} onClick={() => props.setIsPopUp(true)} className="w-35 h-10 text-xs">
+        Manage Event
       </Button>
     </div>
   );
