@@ -2,7 +2,7 @@ import { Role, Sport } from './enum';
 
 export interface Organization {
   name: string;
-  date: Date;
+  date: string;
 }
 
 export interface Promoter {
