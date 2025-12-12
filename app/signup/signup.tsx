@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Input from '../...components/Input';
 import TextArea from '../...components/TextArea';
 import Image from 'next/image';
@@ -12,6 +12,8 @@ import Logo from '../...components/Logo';
 
 import Cookies from '../...types/cookies';
 import { setCookies } from '../...helpers/cookies';
+import { Role } from '../...types/enum';
+import { setCookieState } from '../...helpers/states';
 
 export default function SignupComponent() {
   const router = useRouter();
@@ -24,11 +26,17 @@ export default function SignupComponent() {
   const [bio, setBio] = useState<string>('');
   const [profilePicture, setProfilePicture] = useState<string>('');
 
+  const [role, setRole] = useState<Role>(Role.Fighter);
+
   const [errorMessage, setErrorMessage] = useState<string>('');
 
   const uploadInputRef = useRef<HTMLInputElement>(null);
 
   const [isRequestSent, setRequestSent] = useState<boolean>(false);
+
+  useEffect(() => {
+    setCookieState(Cookies.role, (value: string) => setRole(value as Role));
+  }, []);
 
   const uploadProfilePicture = async (files: FileList | null) => {
     if (!files || files.length == 0) return;
@@ -90,7 +98,13 @@ export default function SignupComponent() {
       [Cookies.profilePicture, profilePicture],
     ]);
 
-    router.push('signup/fighter');
+    if (role === Role.Fighter) {
+      router.push('signup/fighter');
+    } else if (role === Role.Promoter) {
+      router.push('signup/promoter');
+    } else {
+      console.error('Unknown sign up role : ' + role);
+    }
   };
 
   const DEBUG_fillForm = () => {

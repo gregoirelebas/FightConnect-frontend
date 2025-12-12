@@ -4,6 +4,9 @@ import Button, { ButtonVariant } from './...components/Button';
 import { useRouter } from 'next/navigation';
 import Input from './...components/Input';
 import { useState } from 'react';
+import { setCookie } from './...helpers/cookies';
+import Cookies from './...types/cookies';
+import { Role } from './...types/enum';
 
 export default function LandingComponent() {
   const router = useRouter();
@@ -16,10 +19,12 @@ export default function LandingComponent() {
   const [isRequestSent, setRequestSent] = useState<boolean>(false);
 
   const signUpFighter = () => {
+    setCookie(Cookies.role, Role.Fighter);
     router.push('/signup');
   };
 
   const signUpPromoter = () => {
+    setCookie(Cookies.role, Role.Promoter);
     router.push('/signup');
   };
 

@@ -5,4 +5,5 @@ export default abstract class Cookies {
   static phoneNumber: string = 'phoneNumber';
   static bio: string = 'bio';
   static profilePicture: string = 'profilePicture';
+  static role: string = 'role';
 }
