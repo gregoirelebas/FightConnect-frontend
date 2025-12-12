@@ -1,11 +1,17 @@
-import Link from 'next/link';
+'use client';
 
+import Link from 'next/link';
 import Logo from '../...UI/Logo';
+import { useRouter } from 'next/navigation';
+import { deleteCookies } from '../...helpers/cookies';
+import Cookies from '../...types/cookies';
 
 export default function Header() {
+  const router = useRouter();
 
   const logout = () => {
-
+    deleteCookies([Cookies.token, Cookies.role]);
+    router.push('/');
   };
 
   return (
@@ -13,20 +19,18 @@ export default function Header() {
       <Logo />
       <nav>
         <div className="flex flex-row text-xl w-150 justify-around items-center">
-          <h3>
-            <Link href={'/events'}>Events</Link>
-          </h3>
-          <h3>
-            <Link href={'/dashboard'}>Dashboard</Link>
-          </h3>
-          <h3>
-            <Link href={'/profile'}>
-            <div className='w-13 h-13 rounded-full bg-[url(/defaultProfile.png)] bg-cover border border-white'></div>
-            </Link>
-          </h3>
-          <h3>
-            <Link href={'/'}>Logout</Link>
-          </h3>
+          <Link href={'/events'}>
+            <h3>Events</h3>
+          </Link>
+          <Link href={'/dashboard'}>
+            <h3>Dashboard</h3>
+          </Link>
+          <Link href={'/profile'}>
+            <h3>
+              <div className="w-13 h-13 rounded-full bg-[url(/defaultProfile.png)] bg-cover border border-white"></div>
+            </h3>
+          </Link>
+          <h3 onClick={logout}>Logout</h3>
         </div>
       </nav>
     </div>

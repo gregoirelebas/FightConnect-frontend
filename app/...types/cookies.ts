@@ -6,4 +6,7 @@ export default abstract class Cookies {
   static bio: string = 'bio';
   static profilePicture: string = 'profilePicture';
   static role: string = 'role';
+
+  static token: string = 'token';
+  static userRole: string = 'userRole';
 }

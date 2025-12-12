@@ -70,7 +70,8 @@ export default function LandingComponent() {
     userContext.setToken(request.token);
     userContext.setRole(request.role as Role);
 
-    console.log(request.token + ' - ' + request.role);
+    setCookie(Cookies.token, request.token);
+    setCookie(Cookies.role, request.role);
 
     router.push('/events');
   };

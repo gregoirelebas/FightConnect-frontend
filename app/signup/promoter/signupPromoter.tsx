@@ -10,7 +10,7 @@ import Button, { ButtonVariant } from '@/app/...components/Button';
 import OrganizationComponent from './organization';
 import { setCookieState } from '@/app/...helpers/states';
 import Cookies from '@/app/...types/cookies';
-import { deleteCookie } from '@/app/...helpers/cookies';
+import { deleteCookies, setCookie } from '@/app/...helpers/cookies';
 import { useRouter } from 'next/navigation';
 import { UserContext } from '@/app/...providers/userProvider';
 
@@ -118,12 +118,17 @@ export default function SignupPromoterComponent() {
     userContext.setToken(request.token);
     userContext.setRole(Role.Promoter);
 
-    deleteCookie(Cookies.username);
-    deleteCookie(Cookies.email);
-    deleteCookie(Cookies.password);
-    deleteCookie(Cookies.phoneNumber);
-    deleteCookie(Cookies.bio);
-    deleteCookie(Cookies.profilePicture);
+    setCookie(Cookies.token, request.token);
+    setCookie(Cookies.role, Role.Fighter);
+
+    deleteCookies([
+      Cookies.username,
+      Cookies.email,
+      Cookies.password,
+      Cookies.phoneNumber,
+      Cookies.bio,
+      Cookies.profilePicture,
+    ]);
 
     router.push('/dashboard');
   };

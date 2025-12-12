@@ -13,7 +13,7 @@ import { Level, Role, Sport } from '@/app/...types/enum';
 import { Fighter } from '@/app/...types/fighter';
 import { useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { deleteCookie } from '@/app/...helpers/cookies';
+import { deleteCookies, setCookie } from '@/app/...helpers/cookies';
 import RoleSwitch from '../roleSwitch';
 
 export default function SignupFighterComponent() {
@@ -128,12 +128,17 @@ export default function SignupFighterComponent() {
     userContext.setToken(request.token);
     userContext.setRole(Role.Fighter);
 
-    deleteCookie(Cookies.username);
-    deleteCookie(Cookies.email);
-    deleteCookie(Cookies.password);
-    deleteCookie(Cookies.phoneNumber);
-    deleteCookie(Cookies.bio);
-    deleteCookie(Cookies.profilePicture);
+    setCookie(Cookies.token, request.token);
+    setCookie(Cookies.role, Role.Fighter);
+
+    deleteCookies([
+      Cookies.username,
+      Cookies.email,
+      Cookies.password,
+      Cookies.phoneNumber,
+      Cookies.bio,
+      Cookies.profilePicture,
+    ]);
 
     router.push('/dashboard');
   };
