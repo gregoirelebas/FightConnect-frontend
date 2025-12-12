@@ -1,16 +1,15 @@
-import { Level, Weight, Sport } from './enum';
+import { Level, Weight, Sport, Experience } from './enum';
 
 export interface Event {
   level: Level;
-  sports: Sport[];
+  sport: Sport;
   clubName: string;
-  date : string;
-  experience : string;
+  date: string;
+  experience: Experience;
   weight: Weight;
   name: string;
   description: string;
-  promoterId: string;
-  fighters: string[]
+  promoterToken: string;
+  fighters: string[];
+  token: string;
 }
-
-

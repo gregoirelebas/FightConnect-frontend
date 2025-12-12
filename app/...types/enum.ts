@@ -7,7 +7,7 @@ export enum Sport {
   MMA = 'mma',
   Jiujitsu = 'jjb',
   KickBoxing = 'kickBoxing',
-  MuayThai = 'muaythai',
+  MuayThai = 'muayThai',
   EnglishBoxing = 'englishBoxing',
 }
 
@@ -39,4 +39,3 @@ export enum Weight {
   EightyFourNinetyThree = '84-93',
   NinetyThreeOneHundredTwenty = '93-120',
 }
-
