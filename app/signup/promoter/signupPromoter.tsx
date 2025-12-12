@@ -80,15 +80,15 @@ export default function SignupPromoterComponent() {
     setErrorMessage('');
 
     const promoter: Promoter = {
-      username: username,
+      name: username,
       email: email,
       password: password,
       phoneNumber: phoneNumber,
       bio: bio,
       profilePicture: profilePicture,
       role: Role.Promoter,
-      sport: sport,
-      siretNumber: siret,
+      sports: [sport],
+      siret: siret,
       organizations: organizations,
     };
 

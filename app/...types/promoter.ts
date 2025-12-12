@@ -6,14 +6,14 @@ export interface Organization {
 }
 
 export interface Promoter {
-  username: string;
+  name: string;
   email: string;
   password: string;
   phoneNumber: string;
   bio: string;
   profilePicture: string;
   role: Role;
-  sport: Sport;
-  siretNumber: string;
+  sports: Sport[]; //Declared as an array but expect only one in sign up
+  siret: string;
   organizations: Organization[];
 }
