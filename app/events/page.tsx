@@ -6,14 +6,16 @@ import Event from "./event";
 import RadioButton from "../...components/RadioButton";
 import Dropdown from "../...components/Dropdown";
 import { Sport, Level, Experience, Weight } from "../...types/enum";
+import { Sport, Level, Experience } from "../...types/enum";
+import PopUpEvent from "./PopUpEvent";
 
 export default function Events() {
   const [search, setSearch] = useState<string>("");
   const [level, setLevel] = useState<Level>(Level.Amateur);
   const [sport, setSport] = useState<Sport[]>([]);
   const [experience, setExperience] = useState<Experience>(Experience.Zero);
-  const [weight, setWeight] = useState<Weight>(Weight.FiftyTwoFiftySeven);
-  const [allEvents, setAllEvents] = useState([]);
+  const [allEvents, setAllEvents] = useState([])
+  const [isPopUp, setIsPopUp] = useState(false);
 
   useEffect(() => {
     const result = fetch(process.env.NEXT_PUBLIC_API_URL + "events/search")
@@ -28,55 +30,48 @@ export default function Events() {
   }, []);
 
   const cardEvent = allEvents.map((data: any, i) => {
-    return (
-      <Event
-        key={i}
-        name={data.name}
-        date={data.date}
-        sport={data.sports}
-        experience={data.experience}
-        weight={data.weight}
-        level={data.level}
-      />
-    );
-  });
+    return <Event key={i} setIsPopUp={setIsPopUp} name={data.name} date={data.date} sport={data.sports} experience={data.experience} weight={data.weight} level={data.level} />
+  })
+
 
   return (
-    <div className="flex flex-col h-[calc(100vh-80px)] text font-sans ">
-      <div className="h-1/10 ml-4 flex flex-row items-center">
-        <div className="w-1/5"></div>
-        <Input
-          className="w-200 h-10"
-          label={"You can search here :"}
-          placeholder={"Search an event"}
-          value={search}
-          onChange={(value) => setSearch(String(value))}
-        ></Input>
-        <Button
-          variant={ButtonVariant.Primary}
-          className="h-10 w-40 ml-80 mt-8 flex justify-center items-center"
-        >
-          Search
-        </Button>
-      </div>
-      <div className="h-9/10 flex flex-row">
-        <div className="w-1/5 pt-2 pl-3 mb-5 ml-2 mr-1 mt-2 border border-gray-600 rounded-3xl">
-          <h3>Filter</h3>
-          <div className="h-15 mt-10 flex flex-col justify-between">
-            <span>Level :</span>
-            <div className="flex flex-row w-50 justify-between">
-              <RadioButton
-                name="level"
-                label="Pro"
-                value={Level.Pro}
-                onChange={(value) => setLevel(value as Level)}
-              ></RadioButton>
-              <RadioButton
-                name="level"
-                label="Amateur"
-                value={Level.Amateur}
-                onChange={(value) => setLevel(value as Level)}
-              ></RadioButton>
+    <>
+      <div className="flex flex-col h-[calc(100vh-80px)] text font-sans ">
+        <div className="h-1/10 ml-4 flex flex-row items-center">
+          <div className="w-1/5"></div>
+          <Input
+            className="w-200 h-10"
+            label={"You can search here :"}
+            placeholder={"Search an event"}
+            value={search}
+            onChange={(value) => setSearch(String(value))}
+          ></Input>
+          <Button
+            variant={ButtonVariant.Primary}
+            className="h-10 w-40 ml-80 mt-8 flex justify-center items-center"
+          >
+            Search
+          </Button>
+        </div>
+        <div className="h-9/10 flex flex-row">
+          <div className="w-1/5 pt-2 pl-3 mb-5 ml-2 mr-1 mt-2 border border-gray-600 rounded-3xl">
+            <h3>Filter</h3>
+            <div className="h-15 mt-10 flex flex-col justify-between">
+              <span>Level :</span>
+              <div className="flex flex-row w-50 justify-between">
+                <RadioButton
+                  name="level"
+                  label="Pro"
+                  value={Level.Pro}
+                  onChange={(value) => setLevel(value as Level)}
+                ></RadioButton>
+                <RadioButton
+                  name="level"
+                  label="Amateur"
+                  value={Level.Amateur}
+                  onChange={(value) => setLevel(value as Level)}
+                ></RadioButton>
+              </div>
             </div>
           </div>
           <div className="h-20 mt-8 flex flex-col justify-between">
@@ -141,6 +136,7 @@ export default function Events() {
           <div className="flex flex-wrap">{cardEvent}</div>
         </div>
       </div>
-    </div>
+      {isPopUp && <PopUpEvent setIsPopUp={setIsPopUp} />}
+    </>
   );
 }

@@ -7,6 +7,7 @@ export default function Event(props: {
   experience: string;
   weight: string;
   level: string;
+  setIsPopUp: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
   const date = new Date(props.date);
   const year = date.getFullYear();
@@ -28,12 +29,7 @@ export default function Event(props: {
         <span>-</span>
         <span>Level : {props.level}</span>
       </div>
-      <Button
-        variant={ButtonVariant.Primary}
-        className="h-10 w-40 flex justify-center items-center"
-      >
-        More info
-      </Button>
+      <Button onClick={() => props.setIsPopUp(true)} variant={ButtonVariant.Primary} className="h-10 w-40 flex justify-center items-center">More info</Button>
     </div>
   );
 }
