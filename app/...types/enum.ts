@@ -39,3 +39,15 @@ export enum Weight {
   EightyFourNinetyThree = '84-93',
   NinetyThreeOneHundredTwenty = '93-120',
 }
+
+export enum EventStatus {
+  Upcoming = 'upcoming',
+  Cancelled = 'cancelled',
+  Completed = 'completed',
+}
+
+export enum ApplicationStatus {
+  Accepted = 'accepted',
+  Pending = 'pending',
+  Denied = 'denied',
+}
