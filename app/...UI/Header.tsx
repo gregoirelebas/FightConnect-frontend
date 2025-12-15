@@ -1,19 +1,11 @@
 'use client';
 
 import Link from 'next/link';
+
 import Logo from '../...UI/Logo';
-import { useRouter } from 'next/navigation';
-import { deleteCookies } from '../...helpers/cookies';
-import Cookies from '../...types/cookies';
+import LogoutComponent from './Logout';
 
 export default function Header() {
-  const router = useRouter();
-
-  const logout = () => {
-    deleteCookies([Cookies.token, Cookies.role]);
-    router.push('/');
-  };
-
   return (
     <div className="header text-white w-full h-20 pl-20 bg-foreground font-bold border-primary border-l-0 border-r-0 border-t-0 border-2 flex flex-row justify-between items-center">
       <Logo />
@@ -30,7 +22,7 @@ export default function Header() {
               <div className="w-13 h-13 rounded-full bg-[url(/defaultProfile.png)] bg-cover border border-white"></div>
             </h3>
           </Link>
-          <h3 onClick={logout}>Logout</h3>
+          <LogoutComponent />
         </div>
       </nav>
     </div>
