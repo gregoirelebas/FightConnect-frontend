@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Sign up - Fighter',
+  title: 'Sign up Fighter - FightConnect',
   description: 'Create an account to join FightConnect',
 };
 
