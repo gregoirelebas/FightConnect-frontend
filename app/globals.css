@@ -18,6 +18,9 @@
   --color-success: #27d77a;
   --color-success-hover: #46de8e;
 
+  --color-warning: #f2b441;
+  --color-warning-hover: #f3bb54;
+
   --color-error: #ff3b30;
   --color-error-hover: #ff4f45;
 
@@ -53,12 +56,12 @@ body {
 
   p {
     font-family: var(--font-inter);
-    font-size: 16px;
+    font-size: 20px;
   }
 
   span {
     font-family: var(--font-inter);
-    font-size: 14px;
+    font-size: 16px;
   }
 
   select {
@@ -103,17 +106,14 @@ body {
 
 /* Personnalisation des cases du calendrier */
 .react-calendar__tile.validateDate {
-  background-color: #27d77a; 
+  background-color: #27d77a;
   color: white;
 }
 .react-calendar__tile.waitingDate {
-  background-color: #d7263d; 
+  background-color: #d7263d;
   border-bottom-left-radius: 80%;
   border-top-right-radius: 80%;
   border-top-left-radius: 20%;
   border-bottom-right-radius: 20%;
   color: white;
 }
-
-
-

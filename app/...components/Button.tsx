@@ -68,7 +68,7 @@ export default function Button(props: ButtonProps) {
 
   return (
     <button
-      className={`${props.className} ${backgroundColor} ${border} px-6 py-3 rounded-lg transition-all duration-200 font-medium text-white ${hoverColor} active:scale-95 cursor-pointer`}
+      className={`${props.className} ${backgroundColor} ${border} px-6 py-3 rounded-lg transition-all duration-200 font-medium ${hoverColor} active:scale-95 cursor-pointer`}
       onClick={props.onClick}>
       {props.children}
     </button>

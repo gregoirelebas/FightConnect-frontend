@@ -1,10 +1,10 @@
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Sign up',
-  description: 'Create an account to join FightConnect',
+  title: 'Profile',
+  description: 'Your FightConnect profile',
 };
 
-export default function SignupLayout({ children }: { children: React.ReactNode }) {
+export default function ProfileLayout({ children }: { children: React.ReactNode }) {
   return <section>{children}</section>;
 }
