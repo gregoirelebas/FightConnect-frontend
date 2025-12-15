@@ -8,7 +8,13 @@ import { Role, Sport } from '@/app/...types/enum';
 import { Fighter } from '@/app/...types/fighter';
 import { Promoter } from '@/app/...types/promoter';
 
-export default function UserInfos({ user }: { user: Fighter | Promoter }) {
+export default function UserInfos({
+  user,
+  isAdmin,
+}: {
+  user: Fighter | Promoter;
+  isAdmin: boolean;
+}) {
   const sportPills = user.sports.map((sport: Sport, index: number) => (
     <Pill key={index} bgColor="accent" textColor="background">
       {SportToString(sport)}
@@ -25,9 +31,11 @@ export default function UserInfos({ user }: { user: Fighter | Promoter }) {
           <div>
             <div className="flex justify-between items-center">
               <h1 className="font-bold">{user.name}</h1>
-              <Button variant={ButtonVariant.Ternary} className="text-accent" onClick={() => {}}>
-                Settings
-              </Button>
+              {isAdmin && (
+                <Button variant={ButtonVariant.Ternary} className="text-accent" onClick={() => {}}>
+                  Settings
+                </Button>
+              )}
             </div>
             {user.role === Role.Fighter && (
               <div className="flex gap-3">

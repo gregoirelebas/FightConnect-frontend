@@ -12,20 +12,34 @@ import EventCard from './eventCard';
 import { useEffect, useState } from 'react';
 import { Promoter } from '@/app/...types/promoter';
 import { setFighterState, setPromoterState } from '@/app/...helpers/states';
+import { getCookie } from '@/app/...helpers/cookies';
+import Cookies from '@/app/...types/cookies';
 
-export default function ProfileComponent() {
+export default function ProfileComponent({ username }: { username: string | undefined }) {
   const [user, setUser] = useState<Fighter | Promoter>();
+  const [userToken, setUserToken] = useState<string | undefined>('');
+  const [profileToken, setProfileToken] = useState<string>('');
 
   useEffect(() => {
     async function fetchUser() {
-      const request = await fetch(
-        process.env.NEXT_PUBLIC_API_URL + 'users/Ngt5y-2O32s1T9Y44AJJufXzhfM2bokp'
-      ).then((response) => response.json());
+      const token = await getCookie(Cookies.token);
+      setUserToken(token);
+
+      let url;
+      if (username) {
+        url = process.env.NEXT_PUBLIC_API_URL + `users/profile/${username}`;
+      } else {
+        url = process.env.NEXT_PUBLIC_API_URL + `users/me/${token}`;
+      }
+
+      const request = await fetch(url).then((response) => response.json());
 
       if (!request.result) {
         console.error(request.error);
         return;
       }
+
+      setProfileToken(request.data.userId.token);
 
       if (request.data.userId.role === Role.Fighter) {
         setFighterState(request.data, setUser);
@@ -35,7 +49,7 @@ export default function ProfileComponent() {
     }
 
     fetchUser();
-  }, []);
+  }, [username]);
 
   const eventHistory = [
     {
@@ -83,7 +97,7 @@ export default function ProfileComponent() {
       <Header />
       {user && (
         <div className="flex flex-col gap-5 my-10 mx-100">
-          <UsersInfos user={user} />
+          <UsersInfos user={user} isAdmin={userToken === profileToken} />
           {user.role === Role.Fighter && <FighterStats user={user as Fighter} />}
           {user.role === Role.Promoter && <PromoterStats user={user as Promoter} />}
           <div className="card">

@@ -1,5 +1,5 @@
 import ProfileComponent from './...UI/profile';
 
 export default function ProfilePage() {
-  return <ProfileComponent />;
+  return <ProfileComponent username={undefined} />;
 }
