@@ -9,48 +9,40 @@ import { EventStatus, Level, Role, Sport } from '@/app/...types/enum';
 import PromoterStats from './promoterStats';
 import { SortAscend } from '@/app/...helpers/date';
 import EventCard from './eventCard';
+import { useEffect, useState } from 'react';
+import { Promoter } from '@/app/...types/promoter';
+import { setFighterState, setPromoterState } from '@/app/...helpers/states';
 
 export default function ProfileComponent() {
-  const mockFighter: Fighter = {
-    name: 'John Doe',
-    email: 'email@email.com',
-    password: 'password',
-    phoneNumber: '0312345678',
-    bio: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-    profilePicture: '',
-    role: Role.Fighter,
-    sports: [Sport.MMA, Sport.Jiujitsu],
-    level: Level.Amateur,
-    weight: 80,
-    height: 180,
-    licenceNumber: 'string',
-    victoryCount: 10,
-    defeatCount: 5,
-    drawCount: 3,
-    lastFightDate: '2025-05-01',
-  };
+  const [user, setUser] = useState<Fighter | Promoter>();
 
-  const mockPromoter = {
-    name: 'Jane Smith',
-    email: 'email@email.col',
-    password: 'password',
-    phoneNumber: '0398765432',
-    bio: 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-    profilePicture: '',
-    role: Role.Promoter,
-    sports: [Sport.EnglishBoxing],
-    siret: '123 456 789 00012',
-    organizations: [
-      { name: 'Fight Night', date: '2023-03-15' },
-      { name: 'Championship Series', date: '2023-07-22' },
-    ],
-  };
+  useEffect(() => {
+    async function fetchUser() {
+      const request = await fetch(
+        process.env.NEXT_PUBLIC_API_URL + 'users/Ngt5y-2O32s1T9Y44AJJufXzhfM2bokp'
+      ).then((response) => response.json());
+
+      if (!request.result) {
+        console.error(request.error);
+        return;
+      }
+
+      if (request.data.userId.role === Role.Fighter) {
+        setFighterState(request.data, setUser);
+      } else if (request.data.userId.role === Role.Promoter) {
+        setPromoterState(request.data, setUser);
+      }
+    }
+
+    fetchUser();
+  }, []);
 
   const eventHistory = [
     {
       sport: Sport.EnglishBoxing,
       name: 'Mortal Kombat',
       promoter: 'John Doe',
+      level: Level.Pro,
       status: EventStatus.Completed,
       date: new Date('2023-01-01'),
     },
@@ -58,6 +50,7 @@ export default function ProfileComponent() {
       sport: Sport.MMA,
       name: 'Ultimate Showdown',
       promoter: 'Not John Doe',
+      level: Level.Amateur,
       status: EventStatus.Cancelled,
       date: new Date('2023-05-14'),
     },
@@ -65,6 +58,7 @@ export default function ProfileComponent() {
       sport: Sport.Jiujitsu,
       name: 'Grapple Fest',
       promoter: 'Jane Smith',
+      level: Level.Pro,
       status: EventStatus.Upcoming,
       date: new Date('2024-02-04'),
     },
@@ -78,6 +72,7 @@ export default function ProfileComponent() {
       sport={event.sport}
       name={event.name}
       promoter={event.promoter}
+      level={event.level}
       status={event.status}
       date={new Date(event.date)}
     />
@@ -86,15 +81,17 @@ export default function ProfileComponent() {
   return (
     <>
       <Header />
-      <div className="flex flex-col gap-5 my-10 mx-100">
-        <UsersInfos user={mockFighter} />
-        <FighterStats user={mockFighter} />
-        <PromoterStats user={mockPromoter} />
-        <div className="card">
-          <h3 className="font-bold">Fight history</h3>
-          <div className="flex flex-col scroll-my-1 gap-3">{eventsCards}</div>
+      {user && (
+        <div className="flex flex-col gap-5 my-10 mx-100">
+          <UsersInfos user={user} />
+          {user.role === Role.Fighter && <FighterStats user={user as Fighter} />}
+          {user.role === Role.Promoter && <PromoterStats user={user as Promoter} />}
+          <div className="card">
+            <h3 className="font-bold">Fighting events history</h3>
+            <div className="flex flex-col scroll-my-1 gap-3">{eventsCards}</div>
+          </div>
         </div>
-      </div>
+      )}
     </>
   );
 }

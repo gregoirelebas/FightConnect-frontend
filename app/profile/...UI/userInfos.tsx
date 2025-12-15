@@ -20,12 +20,12 @@ export default function UserInfos({ user }: { user: Fighter | Promoter }) {
       <div>
         <Image src={profile} alt="Profile Picture" width={150} height={0} />
       </div>
-      <div>
+      <div className="w-full">
         <div className="flex flex-col gap-7">
           <div>
             <div className="flex justify-between items-center">
               <h1 className="font-bold">{user.name}</h1>
-              <Button variant={ButtonVariant.Ternary} className=" text-accent" onClick={() => {}}>
+              <Button variant={ButtonVariant.Ternary} className="text-accent" onClick={() => {}}>
                 Settings
               </Button>
             </div>

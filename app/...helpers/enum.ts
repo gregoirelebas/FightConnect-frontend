@@ -1,4 +1,4 @@
-import { ApplicationStatus, EventStatus, Sport } from '../...types/enum';
+import { ApplicationStatus, EventStatus, Level, Sport } from '../...types/enum';
 
 export function SportToString(sport: Sport) {
   switch (sport) {
@@ -83,5 +83,18 @@ export function ApplicationStatusToColor(status: ApplicationStatus) {
 
     default:
       throw new Error('Unknown application status: ' + status);
+  }
+}
+
+export function LevelToString(level: Level) {
+  switch (level) {
+    case Level.Amateur:
+      return 'Amateur';
+
+    case Level.Pro:
+      return 'Professional';
+
+    default:
+      throw new Error('Unknown level: ' + level);
   }
 }

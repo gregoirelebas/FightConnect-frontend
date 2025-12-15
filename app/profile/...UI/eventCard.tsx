@@ -1,5 +1,10 @@
-import { EventStatus, Sport } from '@/app/...types/enum';
-import { EventStatusToColor, EventStatusToString, SportToString } from '@/app/...helpers/enum';
+import { EventStatus, Level, Sport } from '@/app/...types/enum';
+import {
+  EventStatusToColor,
+  EventStatusToString,
+  LevelToString,
+  SportToString,
+} from '@/app/...helpers/enum';
 import { DateToString } from '@/app/...helpers/date';
 
 import Pill from '@/app/...components/Pill';
@@ -8,6 +13,7 @@ interface EventCardProps {
   sport: Sport;
   promoter: string;
   name: string;
+  level: Level;
   status: EventStatus;
   date: Date;
 }
@@ -20,9 +26,12 @@ export default function EventCard(props: EventCardProps) {
           {SportToString(props.sport)}
         </Pill>
       </div>
-      <div className="w-full grid grid-cols-4 items-center">
+      <div className="w-full grid grid-cols-5 items-center">
         <span className="text-xl">{props.name}</span>
         <span>Promoter: {props.promoter}</span>
+        <Pill bgColor="accent" textColor="background">
+          {LevelToString(props.level)}
+        </Pill>
         <Pill
           bgColor={EventStatusToColor(props.status)}
           textColor={props.status === EventStatus.Cancelled ? 'white' : 'background'}>
