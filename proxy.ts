@@ -5,12 +5,11 @@ import { getCookie } from '@/app/...helpers/cookies';
 export default async function proxy(request: NextRequest) {
   const token = await getCookie(Coookies.token);
 
-  const landing = request.url === 'http://localhost:3001/';
   const signup = request.url.includes('signup');
   const events = request.url.includes('events');
   const dashboard = request.url.includes('dashboard');
 
-  if ((landing || signup) && token) {
+  if (signup && token) {
     return NextResponse.redirect(new URL('/dashboard', request.url));
   }
 
