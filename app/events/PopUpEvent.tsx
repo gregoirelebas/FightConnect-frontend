@@ -12,6 +12,22 @@ export default function PopUpEvent(props: {
   const url = process.env.NEXT_PUBLIC_API_URL;
   const [event, setEvent] = useState<Event>();
 
+  const date = event?.date ? new Date(event.date) : null;
+const day = date?.getDate();
+const month = date?.getMonth();
+const year = date?.getFullYear();
+const formatedDate = `${day} / ${month} / ${year}`
+
+let imageUrl = "/cageMMA.png";
+switch (event?.sport) {
+  case "jjb":
+    imageUrl = "/TTjjb.png";
+    break;
+
+  default:
+    break;
+}
+
   useEffect(() => {
     fetch(`${url}events/${props.token}`).then(response => response.json())
       .then(data => setEvent(data.data))
@@ -19,7 +35,7 @@ export default function PopUpEvent(props: {
   console.log(event);
   return (
     <div className="absolute top-0 left-0 w-screen h-screen bg-background/80 flex flex-col justify-center items-center">
-      <div className="w-150 h-100 bg-[url(/cageMMA.png)] bg-cover flex flex-col justify-between rounded-xl relative p-5 items-center">
+      <div className= {`w-150 h-100 bg-[url(${imageUrl})] bg-cover flex flex-col justify-between rounded-xl relative p-5 items-center`}>
 
 
         <h1 className="text-wight text-2xl text-center border-5 w-[40%]">EVENT</h1>
@@ -28,7 +44,7 @@ export default function PopUpEvent(props: {
             <h2 className="text-wight text-2xl flex-auto text-center font-bold"> {event.clubName} </h2>
             <h2 className="text-wight text-2xl flex-auto text-center font-bold"> {event.sport} </h2>
             <h2 className="text-wight text-2xl flex-auto text-center font-bold"> {event.level}</h2>
-            <h2 className="text-wight text-2xl flex-auto text-center font-bold"> {event.date}</h2>
+            <h2 className="text-wight text-2xl flex-auto text-center font-bold"> {formatedDate}</h2>
           </div>
         }
 
