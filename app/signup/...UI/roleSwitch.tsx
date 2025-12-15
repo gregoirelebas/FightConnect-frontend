@@ -1,7 +1,7 @@
 import Link from 'next/link';
-import Button, { ButtonVariant } from '../...components/Button';
-import Logo from '../...UI/Logo';
-import { Role } from '../...types/enum';
+import Button, { ButtonVariant } from '@/app/...components/Button';
+import Logo from '@/app/...UI/Logo';
+import { Role } from '@/app/...types/enum';
 
 interface RoleSwitchProps {
   role: Role;

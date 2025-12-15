@@ -2,7 +2,7 @@
 
 import { Role, Sport } from '@/app/...types/enum';
 import type { Promoter, Organization } from '@/app/...types/promoter';
-import RoleSwitch from '../roleSwitch';
+import RoleSwitch from './roleSwitch';
 import SportDropdown from '@/app/...UI/SportDropdown';
 import Input from '@/app/...components/Input';
 import { useContext, useEffect, useState } from 'react';

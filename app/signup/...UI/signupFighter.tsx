@@ -14,7 +14,7 @@ import { Fighter } from '@/app/...types/fighter';
 import { useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { deleteCookies, setCookie } from '@/app/...helpers/cookies';
-import RoleSwitch from '../roleSwitch';
+import RoleSwitch from './roleSwitch';
 
 export default function SignupFighterComponent() {
   const router = useRouter();

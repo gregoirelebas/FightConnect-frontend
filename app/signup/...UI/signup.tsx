@@ -1,19 +1,21 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import Input from '../...components/Input';
-import TextArea from '../...components/TextArea';
 import Image from 'next/image';
-import Button, { ButtonVariant } from '../...components/Button';
+import { useRouter } from 'next/navigation';
+
+import Input from '@/app/...components/Input';
+import TextArea from '@/app/...components/TextArea';
+import Button, { ButtonVariant } from '@/app/...components/Button';
+
+import Logo from '@/app/...UI/Logo';
+
+import Cookies from '@/app/...types/cookies';
+import { setCookies } from '@/app/...helpers/cookies';
+import { setCookieState } from '@/app/...helpers/states';
+import { Role } from '@/app/...types/enum';
 
 import profile from '../../public/defaultProfile.png';
-import { useRouter } from 'next/navigation';
-import Logo from '../...UI/Logo';
-
-import Cookies from '../...types/cookies';
-import { setCookies } from '../...helpers/cookies';
-import { Role } from '../...types/enum';
-import { setCookieState } from '../...helpers/states';
 
 export default function SignupComponent() {
   const router = useRouter();
