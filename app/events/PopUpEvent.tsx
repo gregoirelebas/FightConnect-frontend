@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import Button, { ButtonVariant } from "../...components/Button";
 import { Event } from "../...types/event";
+import { DateToString } from "../...helpers/date";
 
 
 
@@ -12,12 +13,9 @@ export default function PopUpEvent(props: {
   const url = process.env.NEXT_PUBLIC_API_URL;
   const [event, setEvent] = useState<Event>();
 
-  const date = event?.date ? new Date(event.date) : null;
-  const day = date?.getDate();
-  const month = date?.getMonth();
-  const year = date?.getFullYear();
-  const formatedDate = `${day} / ${month} / ${year}`
 
+     
+    
   let imageUrl = "bg-[url(/cageMMA.png)]";
   switch (event?.sport) {
     case "jjb":
@@ -50,7 +48,7 @@ export default function PopUpEvent(props: {
             <h2 className="text-wight text-2xl flex-auto text-center font-bold"> {event.clubName} </h2>
             <h2 className="text-wight text-2xl flex-auto text-center font-bold"> {event.sport} </h2>
             <h2 className="text-wight text-2xl flex-auto text-center font-bold"> {event.level}</h2>
-            <h2 className="text-wight text-2xl flex-auto text-center font-bold"> {formatedDate}</h2>
+            <h2 className="text-wight text-2xl flex-auto text-center font-bold"> {DateToString(new Date(event.date))}</h2>
           </div>
         }
 
