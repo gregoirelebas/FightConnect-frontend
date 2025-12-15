@@ -13,29 +13,35 @@ export default function PopUpEvent(props: {
   const [event, setEvent] = useState<Event>();
 
   const date = event?.date ? new Date(event.date) : null;
-const day = date?.getDate();
-const month = date?.getMonth();
-const year = date?.getFullYear();
-const formatedDate = `${day} / ${month} / ${year}`
+  const day = date?.getDate();
+  const month = date?.getMonth();
+  const year = date?.getFullYear();
+  const formatedDate = `${day} / ${month} / ${year}`
 
-let imageUrl = "/cageMMA.png";
-switch (event?.sport) {
-  case "jjb":
-    imageUrl = "/TTjjb.png";
-    break;
+  let imageUrl = "bg-[url(/cageMMA.png)]";
+  switch (event?.sport) {
+    case "jjb":
+      imageUrl = "bg-[url(/TTjjb.png)]";
+      break;
+    case "kickBoxing":
+      imageUrl = "bg-[url(/ring.png)]";
+    case "englishBoxing":
+      imageUrl = "bg-[url(/ring.png)]";
+    case "muayThai":
+      imageUrl = "bg-[url(/ring.png)]";
 
-  default:
-    break;
-}
+    default:
+      break;
+  }
 
   useEffect(() => {
     fetch(`${url}events/${props.token}`).then(response => response.json())
       .then(data => setEvent(data.data))
   }, [])
-  console.log(event);
+  console.log(imageUrl);
   return (
     <div className="absolute top-0 left-0 w-screen h-screen bg-background/80 flex flex-col justify-center items-center">
-      <div className= {`w-150 h-100 bg-[url(${imageUrl})] bg-cover flex flex-col justify-between rounded-xl relative p-5 items-center`}>
+      <div className={`w-150 h-100 ${imageUrl} bg-cover flex flex-col justify-between rounded-xl relative p-5 items-center`}>
 
 
         <h1 className="text-wight text-2xl text-center border-5 w-[40%]">EVENT</h1>
