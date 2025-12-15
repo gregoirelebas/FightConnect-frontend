@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import Button, { ButtonVariant } from "../...components/Button";
+import { Event } from "../...types/event";
+
 
 
 export default function PopUpEvent(props: {
@@ -8,7 +10,7 @@ export default function PopUpEvent(props: {
 }) {
 
   const url = process.env.NEXT_PUBLIC_API_URL;
-  const [event, setEvent] = useState<any>({});
+  const [event, setEvent] = useState<Event>();
 
   useEffect(() => {
     fetch(`${url}events/${props.token}`).then(response => response.json())
@@ -17,19 +19,22 @@ export default function PopUpEvent(props: {
   console.log(event);
   return (
     <div className="absolute top-0 left-0 w-screen h-screen bg-background/80 flex flex-col justify-center items-center">
-      <div className="w-100 h-100 bg-white flex flex-col justify-between rounded-xl relative p-5 items-center">
-
-        <h1 className="text-black text-2xl text-center border-5 w-[50%]">EVENT</h1>
-       <div>
-        <h2 className="text-black text-2xl flex-auto text-center"><span className="font-bold text-3xl">Club:</span> {event.clubName} </h2>
-        <h2 className="text-black text-2xl flex-auto text-center"><span className="font-bold text-3xl">sport:</span> {event.sports} </h2>
-        <h2 className="text-black text-2xl flex-auto text-center"><span className="font-bold text-3xl">level:</span> {event.level}</h2>
-        <h2 className="text-black text-2xl flex-auto text-center"><span className="font-bold text-3xl">date:</span> {event.date}</h2>
-        </div>
+      <div className="w-150 h-100 bg-[url(/cageMMA.png)] bg-cover flex flex-col justify-between rounded-xl relative p-5 items-center">
 
 
+        <h1 className="text-wight text-2xl text-center border-5 w-[40%]">EVENT</h1>
+        {event &&
+          <div>
+            <h2 className="text-wight text-2xl flex-auto text-center font-bold"> {event.clubName} </h2>
+            <h2 className="text-wight text-2xl flex-auto text-center font-bold"> {event.sport} </h2>
+            <h2 className="text-wight text-2xl flex-auto text-center font-bold"> {event.level}</h2>
+            <h2 className="text-wight text-2xl flex-auto text-center font-bold"> {event.date}</h2>
+          </div>
+        }
 
-        <p className="text-2xl text-black cursor-pointer absolute top-3 right-3" onClick={() => props.setIsPopUp(false)}>x</p>
+
+
+        <Button variant={ButtonVariant.Refuse} className="text-xs text-wight cursor-pointer absolute top-3 right-3" onClick={() => props.setIsPopUp(false)}>X</Button>
 
         <div className="flex justify-center items-end p-4">
           <Button variant={ButtonVariant.Accept}>Join</Button>
