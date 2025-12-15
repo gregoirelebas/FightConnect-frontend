@@ -15,7 +15,7 @@ export default function Header() {
   };
 
   return (
-    <div className="header text w-full h-20 pl-20 bg-background border-primary border-l-0 border-r-0 border-t-0 border flex flex-row justify-between items-center">
+    <div className="header text-white w-full h-20 pl-20 bg-foreground font-bold border-primary border-l-0 border-r-0 border-t-0 border-2 flex flex-row justify-between items-center">
       <Logo />
       <nav>
         <div className="flex flex-row text-xl w-150 justify-around items-center">
