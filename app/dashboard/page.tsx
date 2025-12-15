@@ -6,53 +6,124 @@ import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import moment from "moment";
 import PopUpEventDashboard from "./PopUpEventDashboard";
-import UpcomingEvent from "./UpcomingEvents";
-
+import { getCookie } from "../...helpers/cookies";
+import Cookies from "../...types/cookies";
+import { Event } from "../...types/Event";
+import { DateToString } from "../...helpers/date";
+import EventsDisplay from "./EventsDisplay";
 
 export default function Dashboard() {
-  const validateDate = ["04-12-2025", "14-12-2025", "24-12-2025"];
-  const waitingDate = ["08-12-2025", "18-12-2025"];
-
+  const [validateDate, setValidateDate] = useState<string[]>([]);
+  const [PassedDate, setPassedDate] = useState<string[]>([]);
   const [isPopUp, setIsPopUp] = useState(false);
-  // const [upcomingEvent, setUpcomingEvent] = useState([])
+  const [allEvent, setAllEvent] = useState<Event[]>([]);
+  const [token, setToken] = useState<string>("");
+  const [currentEvent, setCurrentEvent] = useState("");
 
+  const getEventByToken = async () => {
+    const value = await getCookie(Cookies.token);
+    setToken(value ?? "");
 
-  const upcomingEvent = [
-    {name:"Fight Lyon",date:"12/12/25",level:"pro",fighterAsk:3,setIsPopUp:"setIsPopUp"},
-    {name:"Fight Paris",date:"14/12/25",level:"pro",fighterAsk:3,setIsPopUp:"setIsPopUp"},
-    {name:"Fight Nante",date:"18/12/25",level:"pro",fighterAsk:3,setIsPopUp:"setIsPopUp"},
-  ];
+    const request = await fetch(process.env.NEXT_PUBLIC_API_URL + `events/promoter/${value}`).then(
+      (response) => response.json()
+    );
 
-    // useEffect(() => {
-    //   const result = fetch(process.env.NEXT_PUBLIC_API_URL + "events/user/"+ id)
-    //     .then((response) => response.json())
-    //     .then((data) => {s
-    //       if (data.result) {
-    //         setUpcomingEvent(data.event);
-    //       } else {
-    //         console.error("Error", data.error);
-    //       }
-    //     });
-    // }, []);
+    setAllEvent(request.data);
+  };
 
-    const listUpcomingEvent = upcomingEvent.map((data :any,i) => {
-      return <UpcomingEvent  key={i} setIsPopUp={setIsPopUp} name={data.name} date={data.date} level={data.level} fighterAsk={3} />
-    });
+  useEffect(() => {
+    getEventByToken();
+  }, []);
 
+  const getFormatedDate = (date: string) => {
+    const temporaryDate = new Date(date);
+    const year = temporaryDate.getFullYear();
+    let temporaryMonth = temporaryDate.getMonth() + 1;
+    let month;
+    let day;
+    if (temporaryMonth < 10) {
+      month = "0" + temporaryMonth;
+    } else {
+      month = temporaryMonth;
+    }
+    if (temporaryDate.getDate() < 10) {
+      day = "0" + temporaryDate.getDate();
+    } else {
+      day = temporaryDate.getDate();
+    }
+    const formatDate = `${day}-${month}-${year}`;
+    return formatDate;
+  };
+
+  useEffect(() => {
+    let nowDate = Date.now();
+    let futurDate = [];
+    let passedDate = [];
+    for (let data of allEvent) {
+      let eventDate = new Date(data.date).getTime();
+      if (nowDate > eventDate) {
+        passedDate.push(getFormatedDate(data.date));
+      } else {
+        futurDate.push(getFormatedDate(data.date));
+      }
+    }
+    setValidateDate(futurDate);
+    setPassedDate(passedDate);
+  }, [allEvent]);
+
+  const listUpcomingEvent = allEvent.map((data: any, i) => {
+    let nowDate = Date.now();
+    let theDate = new Date(data.date);
+    let eventDate = new Date(data.date).getTime();
+
+    if (nowDate <= eventDate) {
+      return (
+        <EventsDisplay
+          token={data.token}
+          setIsPopUp={setIsPopUp}
+          name={data.name}
+          date={DateToString(theDate)}
+          level={data.level}
+          setCurrentEvent={setCurrentEvent}
+          fighterAsk={3}
+        />
+      );
+    }
+  });
+
+  const listPassedEvent = allEvent.map((data: any, i) => {
+    let nowDate = Date.now();
+    let theDate = new Date(data.date);
+    let eventDate = new Date(data.date).getTime();
+
+    if (nowDate > eventDate) {
+      return (
+        <EventsDisplay
+          token={data.token}
+          setIsPopUp={setIsPopUp}
+          name={data.name}
+          date={DateToString(theDate)}
+          level={data.level}
+          setCurrentEvent={setCurrentEvent}
+          fighterAsk={3}
+        />
+      );
+    }
+  });
 
   return (
-    <div className="flex flex-row h-[calc(100vh-80px)] font-sans ml-3 mr-3">
-      <div className="h-full w-1/5 flex justify-center mt-2 ">
+    <div className="flex flex-row h-[calc(100vh-80px)] font-sans">
+      <div className="h-full w-3/10 flex justify-center ">
         <div className="flex flex-col h-2/3 w-full justify-around items-center">
           <h3>Fight Calendar</h3>
           <Calendar
-            className="bg-white text-black rounded-2xl"
+            className="text-black"
             tileClassName={({ date }: { date: Date }) => {
               const formattedDate = moment(date).format("DD-MM-YYYY");
               if (validateDate.includes(formattedDate)) {
                 return "validateDate";
-              } else if (waitingDate.includes(formattedDate)) {
-                return "waitingDate";
+              } else if (PassedDate.includes(formattedDate)) {
+                return "passedDate";
               }
               return undefined;
             }}
@@ -64,32 +135,30 @@ export default function Dashboard() {
           </Link>
         </div>
       </div>
-      <div className="h-full w-4/5 pl-5 flex flex-col">
-        <div className="h-1/2 w-full flex flex-col justify-around items-center">
-          <h3>Upcoming Fights</h3>
-          <div className="h-4/5 w-full pl-3 pr-3 border border-gray-500 flex flex-col items-center overflow-y-auto">
-            <div className="bg-white text-black mt-3 min-h-18 w-full rounded-2xl flex flex-row justify-around items-center">
-              <span>Event Fight Name</span>
-              <span>Date</span>
-              <span>Catégorie</span>
-              <span>Number Fighter</span>
-              <Button
-                onClick={() => setIsPopUp(true)}
-                variant={ButtonVariant.Primary}
-                className="w-35 h-10 text-xs"
-              >
-                Manage Event
-              </Button>
-            </div>
+      <div className="h-full w-7/10 flex flex-col items-center justify-around border border-t-0 border-b-0 border-r-0">
+        <div className="h-1/2 w-4/5 pt-5 flex flex-col justify-around items-center">
+          <h3 className="border border-t-0 border-l-0 border-r-0 w-full flex justify-center">
+            Upcoming Fights
+          </h3>
+          <div className="h-4/5 w-full pl-3 pr-3 flex flex-col items-center overflow-y-auto">
             {listUpcomingEvent}
           </div>
         </div>
-        <div className="h-1/2 w-full flex flex-col justify-around items-center">
-          <h3>Passed Fights</h3>
-          <div className="h-4/5 w-full pl-3 pr-3 border border-gray-500 flex flex-col items-center overflow-y-auto"></div>
+        <div className="h-1/2 w-4/5 flex flex-col justify-around items-center">
+          <h3 className="border border-t-0 border-l-0 border-r-0 w-full flex justify-center">
+            Passed Fights
+          </h3>
+          <div className="h-4/5 w-full pl-3 pr-3  flex flex-col items-center overflow-y-auto">
+            {listPassedEvent}
+          </div>
         </div>
       </div>
-      {isPopUp && <PopUpEventDashboard name={"bip"} date={"11/11/25"} level={"pro"} setIsPopUp={setIsPopUp} />}
+      {isPopUp && (
+        <PopUpEventDashboard
+          setIsPopUp={setIsPopUp}
+          token={currentEvent}
+        />
+      )}
     </div>
   );
 }
