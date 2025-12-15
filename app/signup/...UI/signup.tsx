@@ -15,7 +15,7 @@ import { setCookies } from '@/app/...helpers/cookies';
 import { setCookieState } from '@/app/...helpers/states';
 import { Role } from '@/app/...types/enum';
 
-import profile from '../../public/defaultProfile.png';
+import profile from '@/public/defaultProfile.png';
 
 export default function SignupComponent() {
   const router = useRouter();

@@ -7,19 +7,15 @@ import RadioButton from '@/app/...components/RadioButton';
 import Cookies from '@/app/...types/cookies';
 import { setCookieState, setNumericState } from '@/app/...helpers/states';
 
-import { UserContext } from '@/app/...providers/userProvider';
-
 import { Level, Role, Sport } from '@/app/...types/enum';
 import { Fighter } from '@/app/...types/fighter';
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { deleteCookies, setCookie } from '@/app/...helpers/cookies';
 import RoleSwitch from './roleSwitch';
 
 export default function SignupFighterComponent() {
   const router = useRouter();
-
-  const userContext = useContext(UserContext);
 
   const [username, setUsername] = useState<string>('');
   const [email, setEmail] = useState<string>('');
@@ -124,9 +120,6 @@ export default function SignupFighterComponent() {
       console.error('Error registering fighter:', request.error);
       return;
     }
-
-    userContext.setToken(request.token);
-    userContext.setRole(Role.Fighter);
 
     setCookie(Cookies.token, request.token);
     setCookie(Cookies.role, Role.Fighter);

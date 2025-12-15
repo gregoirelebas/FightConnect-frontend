@@ -5,19 +5,16 @@ import type { Promoter, Organization } from '@/app/...types/promoter';
 import RoleSwitch from './roleSwitch';
 import SportDropdown from '@/app/...UI/SportDropdown';
 import Input from '@/app/...components/Input';
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Button, { ButtonVariant } from '@/app/...components/Button';
 import OrganizationComponent from './organization';
 import { setCookieState } from '@/app/...helpers/states';
 import Cookies from '@/app/...types/cookies';
 import { deleteCookies, setCookie } from '@/app/...helpers/cookies';
 import { useRouter } from 'next/navigation';
-import { UserContext } from '@/app/...providers/userProvider';
 
 export default function SignupPromoterComponent() {
   const router = useRouter();
-
-  const userContext = useContext(UserContext);
 
   const [username, setUsername] = useState<string>('');
   const [email, setEmail] = useState<string>('');
@@ -114,9 +111,6 @@ export default function SignupPromoterComponent() {
       console.error(request.error);
       return;
     }
-
-    userContext.setToken(request.token);
-    userContext.setRole(Role.Promoter);
 
     setCookie(Cookies.token, request.token);
     setCookie(Cookies.role, Role.Fighter);
