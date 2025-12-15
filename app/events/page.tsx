@@ -149,7 +149,7 @@ export default function EventsPage() {
           </div>
         </div>
       </div>
-      {isPopUp && <PopUpEvent setIsPopUp={setIsPopUp} id={currentEvent} />}
+      {isPopUp && <PopUpEvent setIsPopUp={setIsPopUp} token={currentEvent} />}
     </>
   );
 }
