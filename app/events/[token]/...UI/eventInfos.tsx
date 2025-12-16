@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { dateToString } from '@/app/...helpers/date';
-import { setCookieState, setFighterState } from '@/app/...helpers/states';
+import { setFighterState } from '@/app/...helpers/states';
 import Cookies from '@/app/...types/cookies';
 import { getCookie } from '@/app/...helpers/cookies';
 import { Event } from '@/app/...types/event';
@@ -37,9 +37,9 @@ export default function EventInfos({ token }: { token: string | undefined }) {
 
       setEvent(eventRequest.data);
 
-      const _token = await getCookie(Cookies.token);
-      if (_token && event) {
-        setIsAdmin(_token === event.promoterToken);
+      const userToken = await getCookie(Cookies.token);
+      if (userToken) {
+        setIsAdmin(userToken === eventRequest.data.promoterToken);
       }
 
       const applicationRequest = await fetch(
@@ -66,7 +66,7 @@ export default function EventInfos({ token }: { token: string | undefined }) {
     }
 
     fetchEvent();
-  }, []);
+  }, [token]);
 
   function createInfoCard(text: string, data: string, color: string) {
     return (
