@@ -12,6 +12,7 @@ import { Event } from '@/app/...types/event';
 import SportDropdown from '@/app/...UI/SportDropdown';
 import { useRouter } from 'next/navigation';
 
+
 export default function NewEvent() {
 const router = useRouter();
 
@@ -58,45 +59,53 @@ const router = useRouter();
   };
 
   return (
-    <div className="flex flex-col items-center h-[calc(100vh-80px)] text font-sans ">
-      <div className="h-full mt-3 mb-3 w-250 border-gray-500 border-3 bg-red-500/10 rounded-4xl flex flex-col justify-around items-center">
-        <div className="flex flex-row items-center">
-          <h1 className="font-bold ml-60">Create a New Event</h1>
+    <div className="flex flex-col items-center h-[calc(100vh-80px)] bg-[url(/createRing.png)] bg-center bg-cover text-white font-sans ">
+      <div className="h-full w-1/2 bg-foreground roun flex flex-col font-bold justify-around items-center">
+        <div className="flex flex-row h-1/6 w-full items-center justify-center border-2 border-l-0 border-r-0 border-t-0">
+          <div className='flex flex-col mr-50'>
+          <h1>Create an Event</h1>
+          <p>Fill in the information to create a new battle event</p>
+          </div>
           <Link href="/dashboard">
             {' '}
-            <Button className="w-25 h-10 text-sm ml-35" variant={ButtonVariant.Refuse}>
+            <Button className="w-25 h-10 text-sm" variant={ButtonVariant.Refuse}>
               Go Back
             </Button>
           </Link>
         </div>
         <div className="flex flex-col justify-around items-center h-2/5">
-          <div className="h-15 flex flex-col justify-between">
-            <span>Level :</span>
-            <div className="flex flex-row w-50 justify-between">
+          <div className="h-20 flex flex-col justify-between">
+            <span>Event Type :</span>
+            <div className="flex flex-row w-110 justify-between">
+              <div className='h-12 w-50 bg-foreground border-2 rounded-2xl border-accent flex items-center justify-center'>
               <RadioButton
                 name="level"
-                label="Pro"
+                label="Professional"
                 value={Level.Pro}
                 onChange={(value) => setLevel(value as Level)}
               />
+              </div>
+              <div className='h-12 w-50 bg-foreground border-2 rounded-2xl border-accent flex items-center justify-center'>
               <RadioButton
                 name="level"
                 label="Amateur"
                 value={Level.Amateur}
+                isChecked={true}
                 onChange={(value) => setLevel(value as Level)}
               />
+              </div>
             </div>
           </div>
-          <div className="flex flex-wrap w-230 h-7/10 mt-10 justify-around">
+          <div className="flex flex-wrap w-200 h-7/10 mt-10 justify-around">
             <Input
-              label="Event Name"
+              label="Name of Event"
               placeholder="Event Name..."
               type="text"
               value={eventName}
               onChange={(value) => setEventName(String(value))}
             />
             <Input
-              label="Date"
+              label="Date of Event"
               placeholder="Enter Date Event"
               type="date"
               value={date}
@@ -133,7 +142,7 @@ const router = useRouter();
               />
             </div>
             <div className="h-20 flex flex-col justify-between">
-              <span>Weight :</span>
+              <span>Category of Weight :</span>
               <Dropdown
                 className="w-50"
                 options={[
@@ -153,15 +162,15 @@ const router = useRouter();
         </div>
         <div className="w-200">
           <TextArea
-            label="Description"
-            placeholder="Write some words about you..."
+            label="Event Description"
+            placeholder="Write some words about this event..."
             value={description}
             className="w-full"
             onChange={setDescription}
           />
         </div>
-        <Button variant={ButtonVariant.Accept} onClick={() => createEvent()}>
-          Add Event
+        <Button className="w-100" variant={ButtonVariant.Accept} onClick={() => createEvent()}>
+          Create Event
         </Button>
       </div>
     </div>
