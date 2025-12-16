@@ -6,7 +6,7 @@ import { setFighterState } from '@/app/...helpers/states';
 import Cookies from '@/app/...types/cookies';
 import { getCookie } from '@/app/...helpers/cookies';
 import { Event } from '@/app/...types/event';
-import { LevelToString, SportToString } from '@/app/...helpers/enum';
+import { LevelToColor, LevelToString, SportToString } from '@/app/...helpers/enum';
 
 import FighterApplicant from './fighterApplicant';
 import { Fighter } from '@/app/...types/fighter';
@@ -80,7 +80,10 @@ export default function EventInfos({ token }: { token: string | undefined }) {
       <div className="flex flex-col mx-100 my-10 gap-10">
         <div className="h-80 card justify-end bg-[url('@/public/LandingFond.jpg')] bg-cover bg-center">
           <div className="flex gap-5">
-            <span className="pill">{LevelToString(event.level)}</span>
+            <span className={`pill bg-${LevelToColor(event.level)} text-white`}>
+              {' '}
+              {LevelToString(event.level)}
+            </span>
             <span className="pill">{SportToString(event.sport)}</span>
           </div>
           <h1>{event.name}</h1>
@@ -97,7 +100,7 @@ export default function EventInfos({ token }: { token: string | undefined }) {
           <p className="text-grey">{event.description}</p>
         </div>
         <div>
-          <h2 className="font-bold mb-5">Fighter Applicants</h2>
+          <h2 className="font-bold mb-5">Fighter applicants</h2>
           {applications.length == 0 ? (
             <div className="card">
               <h3>No applicants yet</h3>
