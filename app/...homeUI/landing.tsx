@@ -53,12 +53,21 @@ export default function LandingComponent() {
       <div className="flex flex-col items-center gap-10">
         <div className="flex items-center">
           <h1 className="text-7xl font-bold">Fight Connect</h1>
-          {userToken && <LogoutComponent className="absolute right-30" />}
-          {!userToken && (
-            <Button variant={ButtonVariant.Primary} className="absolute right-30" onClick={login}>
-              Login
-            </Button>
-          )}
+          <div className="flex gap-10 absolute right-30">
+            {userToken && (
+              <>
+                <Button variant={ButtonVariant.Ternary} onClick={() => router.push('/dashboard')}>
+                  Dashboard
+                </Button>
+                <LogoutComponent />
+              </>
+            )}
+            {!userToken && (
+              <Button variant={ButtonVariant.Primary} onClick={login}>
+                Login
+              </Button>
+            )}
+          </div>
         </div>
         <h3>Less headaches, more fights! Find fighters or fighting events fast and safely...</h3>
       </div>
