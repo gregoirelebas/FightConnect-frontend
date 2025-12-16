@@ -102,6 +102,10 @@ body {
   .cardElement {
     @apply flex justify-center items-center gap-15;
   }
+
+  .pill {
+    @apply w-fit h-fit px-3 py-1 rounded-full bg-accent font-bold text-black;
+  }
 }
 
 /* Personnalisation des cases du calendrier */

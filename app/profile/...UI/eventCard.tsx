@@ -2,16 +2,14 @@ import { EventStatus, Level, Sport } from '@/app/...types/enum';
 import {
   EventStatusToColor,
   EventStatusToString,
+  LevelToColor,
   LevelToString,
   SportToString,
 } from '@/app/...helpers/enum';
 import { DateToString } from '@/app/...helpers/date';
 
-import Pill from '@/app/...components/Pill';
-
 interface EventCardProps {
   sport: Sport;
-  promoter: string;
   name: string;
   level: Level;
   status: EventStatus;
@@ -19,26 +17,19 @@ interface EventCardProps {
 }
 
 export default function EventCard(props: EventCardProps) {
+  const eventColors = EventStatusToColor(props.status);
+
   return (
-    <div className="flex items-center px-5 py-3 bg-background rounded-xl cursor-pointer">
-      <div className="w-1/4">
-        <Pill bgColor="accent" textColor="background">
-          {SportToString(props.sport)}
-        </Pill>
-      </div>
-      <div className="w-full grid grid-cols-5 items-center">
-        <span className="text-xl">{props.name}</span>
-        <span>Promoter: {props.promoter}</span>
-        <Pill bgColor="accent" textColor="background">
-          {LevelToString(props.level)}
-        </Pill>
-        <Pill
-          bgColor={EventStatusToColor(props.status)}
-          textColor={props.status === EventStatus.Cancelled ? 'white' : 'background'}>
-          {EventStatusToString(props.status)}
-        </Pill>
-        <span className="text-right text-grey text-sm">{DateToString(props.date)}</span>
-      </div>
+    <div className="grid grid-cols-5 items-center px-5 py-3 bg-background rounded-xl cursor-pointer">
+      <span className="pill">{SportToString(props.sport)}</span>
+      <span className="text-xl">{props.name}</span>
+      <span className={`pill bg-${LevelToColor(props.level)} text-white}`}>
+        {LevelToString(props.level)}
+      </span>
+      <span className={`pill bg-${eventColors[0]} text-${eventColors[1]}`}>
+        {EventStatusToString(props.status)}
+      </span>
+      <span className="text-right text-grey">{DateToString(props.date)}</span>
     </div>
   );
 }

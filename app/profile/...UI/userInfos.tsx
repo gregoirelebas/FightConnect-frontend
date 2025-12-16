@@ -2,7 +2,6 @@ import profile from '@/public/defaultProfile.png';
 
 import Image from 'next/image';
 import Button, { ButtonVariant } from '@/app/...components/Button';
-import Pill from '@/app/...components/Pill';
 import { SportToString } from '@/app/...helpers/enum';
 import { Role, Sport } from '@/app/...types/enum';
 import { Fighter } from '@/app/...types/fighter';
@@ -16,9 +15,9 @@ export default function UserInfos({
   isAdmin: boolean;
 }) {
   const sportPills = user.sports.map((sport: Sport, index: number) => (
-    <Pill key={index} bgColor="accent" textColor="background">
+    <span key={index} className="pill">
       {SportToString(sport)}
-    </Pill>
+    </span>
   ));
 
   return (

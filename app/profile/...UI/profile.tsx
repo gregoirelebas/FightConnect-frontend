@@ -55,7 +55,6 @@ export default function ProfileComponent({ username }: { username: string | unde
     {
       sport: Sport.EnglishBoxing,
       name: 'Mortal Kombat',
-      promoter: 'John Doe',
       level: Level.Pro,
       status: EventStatus.Completed,
       date: new Date('2023-01-01'),
@@ -63,7 +62,6 @@ export default function ProfileComponent({ username }: { username: string | unde
     {
       sport: Sport.MMA,
       name: 'Ultimate Showdown',
-      promoter: 'Not John Doe',
       level: Level.Amateur,
       status: EventStatus.Cancelled,
       date: new Date('2023-05-14'),
@@ -71,7 +69,6 @@ export default function ProfileComponent({ username }: { username: string | unde
     {
       sport: Sport.Jiujitsu,
       name: 'Grapple Fest',
-      promoter: 'Jane Smith',
       level: Level.Pro,
       status: EventStatus.Upcoming,
       date: new Date('2024-02-04'),
@@ -85,7 +82,6 @@ export default function ProfileComponent({ username }: { username: string | unde
       key={index}
       sport={event.sport}
       name={event.name}
-      promoter={event.promoter}
       level={event.level}
       status={event.status}
       date={new Date(event.date)}

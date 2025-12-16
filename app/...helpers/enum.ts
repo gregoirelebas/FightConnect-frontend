@@ -41,13 +41,13 @@ export function EventStatusToString(status: EventStatus) {
 export function EventStatusToColor(status: EventStatus) {
   switch (status) {
     case EventStatus.Cancelled:
-      return 'error';
+      return ['error', 'white'];
 
     case EventStatus.Completed:
-      return 'success';
+      return ['success', 'black'];
 
     case EventStatus.Upcoming:
-      return 'accent';
+      return ['accent', 'black'];
 
     default:
       throw new Error('Unknown event status:' + status);
@@ -93,6 +93,19 @@ export function LevelToString(level: Level) {
 
     case Level.Pro:
       return 'Professional';
+
+    default:
+      throw new Error('Unknown level: ' + level);
+  }
+}
+
+export function LevelToColor(level: Level) {
+  switch (level) {
+    case Level.Amateur:
+      return 'warning';
+
+    case Level.Pro:
+      return 'primary';
 
     default:
       throw new Error('Unknown level: ' + level);
