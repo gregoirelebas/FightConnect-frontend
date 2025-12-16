@@ -88,7 +88,7 @@ export default function EventInfos({ token }: { token: string | undefined }) {
         </div>
         <div className="grid grid-cols-4 gap-5">
           <InfoCard text="Date" data={dateToString(event.date)} color="bg-accent" />
-          <InfoCard text="Location" data={'Event city'} color="bg-error" />
+          <InfoCard text="Location" data={event.city} color="bg-error" />
           <InfoCard text="Experience" data={`${event.experience} fights`} color="bg-warning" />
           <InfoCard text="Weight class" data={`${event.weight} kg`} color="bg-success" />
         </div>

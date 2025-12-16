@@ -4,6 +4,7 @@ export interface Event {
   level: Level;
   sport: Sport;
   clubName: string;
+  city: string;
   date: string;
   experience: Experience;
   weight: Weight;
