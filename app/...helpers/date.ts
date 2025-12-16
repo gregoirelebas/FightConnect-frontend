@@ -1,9 +1,9 @@
-function DayToString(number: number): string {
+function numberToString(number: number): string {
   if (number < 10) return '0' + number.toString();
   else return number.toString();
 }
 
-export function DateToString(date: Date): string {
+export function dateToString(dateString: string): string {
   const months = [
     'January',
     'February',
@@ -19,16 +19,29 @@ export function DateToString(date: Date): string {
     'December',
   ];
 
-  const day = DayToString(date.getUTCDate());
+  const date = new Date(dateString);
+
+  const day = numberToString(date.getUTCDate());
   const month = months[date.getUTCMonth()];
-  const year = DayToString(date.getUTCFullYear());
+  const year = numberToString(date.getUTCFullYear());
 
   return `${day} ${month} ${year}`;
 }
-export function SortAscend(a: Date, b: Date) {
-  return b.getTime() - a.getTime();
+
+export function getFormatedDate(dateString: string) {
+  const date = new Date(dateString);
+
+  const day = numberToString(date.getUTCDate());
+  const month = numberToString(date.getUTCMonth() + 1);
+  const year = date.getUTCFullYear();
+
+  return `${day}-${month}-${year}`;
 }
 
-export function SortDescend(a: Date, b: Date) {
-  return a.getTime() - b.getTime();
+export function sortAscend(a: string, b: string) {
+  return new Date(b).getTime() - new Date(a).getTime();
+}
+
+export function sortDescend(a: string, b: string) {
+  return new Date(a).getTime() - new Date(b).getTime();
 }

@@ -6,14 +6,14 @@ import {
   LevelToString,
   SportToString,
 } from '@/app/...helpers/enum';
-import { DateToString } from '@/app/...helpers/date';
+import { dateToString } from '@/app/...helpers/date';
 
 interface EventCardProps {
   sport: Sport;
   name: string;
   level: Level;
   status: EventStatus;
-  date: Date;
+  date: string;
 }
 
 export default function EventCard(props: EventCardProps) {
@@ -29,7 +29,7 @@ export default function EventCard(props: EventCardProps) {
       <span className={`pill bg-${eventColors[0]} text-${eventColors[1]}`}>
         {EventStatusToString(props.status)}
       </span>
-      <span className="text-right text-grey">{DateToString(props.date)}</span>
+      <span className="text-right text-grey">{dateToString(props.date)}</span>
     </div>
   );
 }

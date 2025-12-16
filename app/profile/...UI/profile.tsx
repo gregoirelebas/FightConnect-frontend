@@ -7,7 +7,7 @@ import UsersInfos from './userInfos';
 import { Fighter } from '@/app/...types/fighter';
 import { EventStatus, Level, Role, Sport } from '@/app/...types/enum';
 import PromoterStats from './promoterStats';
-import { SortAscend } from '@/app/...helpers/date';
+import { sortAscend } from '@/app/...helpers/date';
 import EventCard from './eventCard';
 import { useEffect, useState } from 'react';
 import { Promoter } from '@/app/...types/promoter';
@@ -57,25 +57,25 @@ export default function ProfileComponent({ username }: { username: string | unde
       name: 'Mortal Kombat',
       level: Level.Pro,
       status: EventStatus.Completed,
-      date: new Date('2023-01-01'),
+      date: '2023-01-01',
     },
     {
       sport: Sport.MMA,
       name: 'Ultimate Showdown',
       level: Level.Amateur,
       status: EventStatus.Cancelled,
-      date: new Date('2023-05-14'),
+      date: '2023-05-14',
     },
     {
       sport: Sport.Jiujitsu,
       name: 'Grapple Fest',
       level: Level.Pro,
       status: EventStatus.Upcoming,
-      date: new Date('2024-02-04'),
+      date: '2024-02-04',
     },
   ];
 
-  eventHistory.sort((a, b) => SortAscend(a.date, b.date));
+  eventHistory.sort((a, b) => sortAscend(a.date, b.date));
 
   const eventsCards = eventHistory.map((event, index) => (
     <EventCard
@@ -84,7 +84,7 @@ export default function ProfileComponent({ username }: { username: string | unde
       name={event.name}
       level={event.level}
       status={event.status}
-      date={new Date(event.date)}
+      date={event.date}
     />
   ));
 

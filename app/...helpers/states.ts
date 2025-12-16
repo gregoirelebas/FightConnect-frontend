@@ -1,4 +1,3 @@
-import { Dispatch, SetStateAction } from 'react';
 import { Role } from '../...types/enum';
 import { Fighter } from '../...types/fighter';
 import { Promoter } from '../...types/promoter';

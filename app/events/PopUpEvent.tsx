@@ -1,60 +1,63 @@
-import { useEffect, useState } from "react";
-import Button, { ButtonVariant } from "../...components/Button";
-import { Event } from "../...types/event";
-import { DateToString } from "../...helpers/date";
-
-
+import { useEffect, useState } from 'react';
+import Button, { ButtonVariant } from '../...components/Button';
+import { Event } from '../...types/event';
+import { dateToString } from '../...helpers/date';
 
 export default function PopUpEvent(props: {
   setIsPopUp: React.Dispatch<React.SetStateAction<boolean>>;
   token: string;
 }) {
-
   const url = process.env.NEXT_PUBLIC_API_URL;
   const [event, setEvent] = useState<Event>();
 
-
-     
-    
-  let imageUrl = "bg-[url(/cageMMA.png)]";
+  let imageUrl = 'bg-[url(/cageMMA.png)]';
   switch (event?.sport) {
-    case "jjb":
-      imageUrl = "bg-[url(/TTjjb.png)]";
+    case 'jjb':
+      imageUrl = 'bg-[url(/TTjjb.png)]';
       break;
-    case "kickBoxing":
-      imageUrl = "bg-[url(/ring.png)]";
-    case "englishBoxing":
-      imageUrl = "bg-[url(/ring.png)]";
-    case "muayThai":
-      imageUrl = "bg-[url(/ring.png)]";
+    case 'kickBoxing':
+      imageUrl = 'bg-[url(/ring.png)]';
+    case 'englishBoxing':
+      imageUrl = 'bg-[url(/ring.png)]';
+    case 'muayThai':
+      imageUrl = 'bg-[url(/ring.png)]';
 
     default:
       break;
   }
 
   useEffect(() => {
-    fetch(`${url}events/${props.token}`).then(response => response.json())
-      .then(data => setEvent(data.data))
-  }, [])
+    fetch(`${url}events/${props.token}`)
+      .then((response) => response.json())
+      .then((data) => setEvent(data.data));
+  }, []);
   console.log(imageUrl);
   return (
     <div className="absolute top-0 left-0 w-screen h-screen bg-background/80 flex flex-col justify-center items-center">
-      <div className={`w-150 h-100 ${imageUrl} bg-cover flex flex-col justify-between rounded-xl relative p-5 items-center`}>
-
-
+      <div
+        className={`w-150 h-100 ${imageUrl} bg-cover flex flex-col justify-between rounded-xl relative p-5 items-center`}>
         <h1 className="text-wight text-2xl text-center border-5 w-[40%]">EVENT</h1>
-        {event &&
+        {event && (
           <div>
-            <h2 className="text-wight text-2xl flex-auto text-center font-bold"> {event.clubName} </h2>
+            <h2 className="text-wight text-2xl flex-auto text-center font-bold">
+              {' '}
+              {event.clubName}{' '}
+            </h2>
             <h2 className="text-wight text-2xl flex-auto text-center font-bold"> {event.sport} </h2>
             <h2 className="text-wight text-2xl flex-auto text-center font-bold"> {event.level}</h2>
-            <h2 className="text-wight text-2xl flex-auto text-center font-bold"> {DateToString(new Date(event.date))}</h2>
+            <h2 className="text-wight text-2xl flex-auto text-center font-bold">
+              {' '}
+              {dateToString(event.date)}
+            </h2>
           </div>
-        }
+        )}
 
-
-
-        <Button variant={ButtonVariant.Refuse} className="text-xs text-wight cursor-pointer absolute top-3 right-3" onClick={() => props.setIsPopUp(false)}>X</Button>
+        <Button
+          variant={ButtonVariant.Refuse}
+          className="text-xs text-wight cursor-pointer absolute top-3 right-3"
+          onClick={() => props.setIsPopUp(false)}>
+          X
+        </Button>
 
         <div className="flex justify-center items-end p-4">
           <Button variant={ButtonVariant.Accept}>Join</Button>
@@ -62,9 +65,5 @@ export default function PopUpEvent(props: {
       </div>
       {/* <p className="text-black ">The "Date" at the "Club" join for the "sport" fight.</p> */}
     </div>
-
-  )
-
-
-
+  );
 }

@@ -1,115 +1,115 @@
-"use client";
-import Button, { ButtonVariant } from "@/app/...components/Button";
-import Link from "next/link";
-import React, { useEffect, useState } from "react";
-import Calendar from "react-calendar";
-import "react-calendar/dist/Calendar.css";
-import moment from "moment";
-import PopUpEventDashboard from "./PopUpEventDashboard";
-import { getCookie } from "../...helpers/cookies";
-import Cookies from "../...types/cookies";
-import { Event } from "../...types/Event";
-import { DateToString } from "../...helpers/date";
-import EventsDisplay from "./EventsDisplay";
+'use client';
+
+import Button, { ButtonVariant } from '@/app/...components/Button';
+import Link from 'next/link';
+import React, { useEffect, useState } from 'react';
+import Calendar from 'react-calendar';
+import 'react-calendar/dist/Calendar.css';
+import moment from 'moment';
+import { getCookie } from '../...helpers/cookies';
+import Cookies from '../...types/cookies';
+import { Event } from '../...types/event';
+import { dateToString, getFormatedDate } from '../...helpers/date';
+import EventsDisplay from './EventsDisplay';
+import { useRouter } from 'next/navigation';
 
 export default function Dashboard() {
-  const [validateDate, setValidateDate] = useState<string[]>([]);
-  const [PassedDate, setPassedDate] = useState<string[]>([]);
-  const [isPopUp, setIsPopUp] = useState(false);
-  const [allEvent, setAllEvent] = useState<Event[]>([]);
-  const [token, setToken] = useState<string>("");
-  const [currentEvent, setCurrentEvent] = useState("");
+  const router = useRouter();
 
-  const getEventByToken = async () => {
-    const value = await getCookie(Cookies.token);
-    setToken(value ?? "");
+  const [futureDates, setFutureDates] = useState<string[]>([]);
+  const [previousDates, setPreviousDates] = useState<string[]>([]);
+  const [allEvents, setAllEvents] = useState<Event[]>([]);
 
-    const request = await fetch(process.env.NEXT_PUBLIC_API_URL + `events/promoter/${value}`).then(
-      (response) => response.json()
-    );
-
-    setAllEvent(request.data);
-  };
+  const [currentDate, setCurrentDate] = useState<number>(0);
 
   useEffect(() => {
-    getEventByToken();
-  }, []);
+    async function fetchData() {
+      const now = Date.now();
+      setCurrentDate(now);
 
-  const getFormatedDate = (date: string) => {
-    const temporaryDate = new Date(date);
-    const year = temporaryDate.getFullYear();
-    let temporaryMonth = temporaryDate.getMonth() + 1;
-    let month;
-    let day;
-    if (temporaryMonth < 10) {
-      month = "0" + temporaryMonth;
-    } else {
-      month = temporaryMonth;
-    }
-    if (temporaryDate.getDate() < 10) {
-      day = "0" + temporaryDate.getDate();
-    } else {
-      day = temporaryDate.getDate();
-    }
-    const formatDate = `${day}-${month}-${year}`;
-    return formatDate;
-  };
+      const promoterToken = await getCookie(Cookies.token);
 
-  useEffect(() => {
-    let nowDate = Date.now();
-    let futurDate = [];
-    let passedDate = [];
-    for (let data of allEvent) {
-      let eventDate = new Date(data.date).getTime();
-      if (nowDate > eventDate) {
-        passedDate.push(getFormatedDate(data.date));
-      } else {
-        futurDate.push(getFormatedDate(data.date));
+      const request = await fetch(
+        process.env.NEXT_PUBLIC_API_URL + `events/promoter/${promoterToken}`
+      ).then((response) => response.json());
+
+      if (!request.result) {
+        console.error(request.error);
+        return;
+      }
+
+      if (request.data) {
+        setAllEvents(request.data);
+
+        const futureDates = [];
+        const previousDates = [];
+
+        for (const event of request.data) {
+          const eventDate = new Date(event.date).getTime();
+          if (now > eventDate) {
+            previousDates.push(getFormatedDate(event.date));
+          } else {
+            futureDates.push(getFormatedDate(event.date));
+          }
+        }
+
+        setFutureDates(futureDates);
+        setPreviousDates(previousDates);
       }
     }
-    setValidateDate(futurDate);
-    setPassedDate(passedDate);
-  }, [allEvent]);
 
-  const listUpcomingEvent = allEvent.map((data: any, i) => {
-    let nowDate = Date.now();
-    let theDate = new Date(data.date);
-    let eventDate = new Date(data.date).getTime();
+    fetchData();
+  }, []);
 
-    if (nowDate <= eventDate) {
+  function displayEvent(token: string) {
+    router.push('/events/' + token);
+  }
+
+  const futureEventsComponents = allEvents.map((data: Event, i) => {
+    const eventDate = new Date(data.date).getTime();
+
+    if (currentDate <= eventDate) {
       return (
         <EventsDisplay
+          key={i}
           token={data.token}
-          setIsPopUp={setIsPopUp}
           name={data.name}
-          date={DateToString(theDate)}
+          date={dateToString(data.date)}
           level={data.level}
-          setCurrentEvent={setCurrentEvent}
+          displayEvent={displayEvent}
           fighterAsk={3}
         />
       );
     }
   });
 
-  const listPassedEvent = allEvent.map((data: any, i) => {
-    let nowDate = Date.now();
-    let theDate = new Date(data.date);
-    let eventDate = new Date(data.date).getTime();
+  const previousEventsComponents = allEvents.map((data: Event, i) => {
+    const eventDate = new Date(data.date).getTime();
 
-    if (nowDate > eventDate) {
+    if (currentDate > eventDate) {
       return (
         <EventsDisplay
+          key={i}
           token={data.token}
-          setIsPopUp={setIsPopUp}
           name={data.name}
-          date={DateToString(theDate)}
+          date={dateToString(data.date)}
           level={data.level}
-          setCurrentEvent={setCurrentEvent}
+          displayEvent={displayEvent}
           fighterAsk={3}
         />
       );
     }
   });
+
+  const setCalendarTitleClass = (date: Date) => {
+    const formatedDate = moment(date).format('DD-MM-YYYY');
+    if (futureDates.includes(formatedDate)) {
+      return 'validateDate';
+    } else if (previousDates.includes(formatedDate)) {
+      return 'passedDate';
+    }
+    return undefined;
+  };
 
   return (
     <div className="flex flex-row h-[calc(100vh-80px)] font-sans">
@@ -118,15 +118,8 @@ export default function Dashboard() {
           <h3>Fight Calendar</h3>
           <Calendar
             className="text-black"
-            tileClassName={({ date }: { date: Date }) => {
-              const formattedDate = moment(date).format("DD-MM-YYYY");
-              if (validateDate.includes(formattedDate)) {
-                return "validateDate";
-              } else if (PassedDate.includes(formattedDate)) {
-                return "passedDate";
-              }
-              return undefined;
-            }}
+            tileClassName={({ date }: { date: Date }) => setCalendarTitleClass(date)}
+            locale="en"
           />
           <Link href="/events/create">
             <Button variant={ButtonVariant.Primary} className="w-35 h-10 text-sm">
@@ -141,7 +134,7 @@ export default function Dashboard() {
             Upcoming Fights
           </h3>
           <div className="h-4/5 w-full pl-3 pr-3 flex flex-col items-center overflow-y-auto">
-            {listUpcomingEvent}
+            {futureEventsComponents}
           </div>
         </div>
         <div className="h-1/2 w-4/5 flex flex-col justify-around items-center">
@@ -149,16 +142,10 @@ export default function Dashboard() {
             Passed Fights
           </h3>
           <div className="h-4/5 w-full pl-3 pr-3  flex flex-col items-center overflow-y-auto">
-            {listPassedEvent}
+            {previousEventsComponents}
           </div>
         </div>
       </div>
-      {isPopUp && (
-        <PopUpEventDashboard
-          setIsPopUp={setIsPopUp}
-          token={currentEvent}
-        />
-      )}
     </div>
   );
 }
