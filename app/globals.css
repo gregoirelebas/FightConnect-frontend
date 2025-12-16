@@ -109,11 +109,7 @@ body {
   background-color: #27d77a;
   color: white;
 }
-.react-calendar__tile.waitingDate {
-  background-color: #d7263d;
-  border-bottom-left-radius: 80%;
-  border-top-right-radius: 80%;
-  border-top-left-radius: 20%;
-  border-bottom-right-radius: 20%;
+.react-calendar__tile.passedDate {
+  background-color: gray;
   color: white;
 }

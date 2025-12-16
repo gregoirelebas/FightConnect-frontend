@@ -56,19 +56,19 @@ export default function EventsPage() {
           <div className="w-1/5"></div>
           <Input
             className="w-200 h-10"
-            label={'You can search here :'}
+            label={''}
             placeholder={'Search an event'}
             value={search}
             onChange={(value) => setSearch(String(value))}
           />
           <Button
             variant={ButtonVariant.Primary}
-            className="h-10 w-40 ml-80 mt-8 flex justify-center items-center">
+            className="h-10 w-40 ml-80 flex justify-center items-center">
             Search
           </Button>
         </div>
         <div className="h-9/10 flex flex-row">
-          <div className="w-1/5 pt-2 pl-3 mb-5 ml-2 mr-1 mt-2 border border-gray-600 rounded-3xl">
+          <div className="w-1/5 pt-2 pl-3 mb-5 ml-2 mr-1 mt-2 border-2 border-t-0 border-r-0 border-b-0">
             <h3>Filter</h3>
             <div className="h-15 mt-10 flex flex-col justify-between">
               <span>Level :</span>
@@ -143,8 +143,8 @@ export default function EventsPage() {
               Apply
             </Button>
           </div>
-          <div className="w-4/5 pl-3 mb-5 ml-1 mr-2 mt-2 flex flex-col border border-gray-600 rounded-3xl overflow-y-auto scrollb">
-            <h3 className="w-full text-center">Events</h3>
+          <div className="w-4/5 pl-3 mb-5 ml-1 mr-2 mt-2 flex flex-col border-2 border-r-0 border-l-0 border-t-0 overflow-y-auto scrollb">
+            <h3 className="w-full text-center font-bold text-white border-2 border-r-0 border-l-0 border-t-0">Events</h3>
             <div className="grid grid-cols-5">{cardEvents}</div>
           </div>
         </div>

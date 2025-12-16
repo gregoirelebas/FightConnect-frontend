@@ -8,11 +8,13 @@ import { Experience, Level, Sport, Weight } from '../../...types/enum';
 import Dropdown from '../../...components/Dropdown';
 import Button, { ButtonVariant } from '../../...components/Button';
 import Link from 'next/link';
-import router from 'next/router';
 import { Event } from '@/app/...types/event';
 import SportDropdown from '@/app/...UI/SportDropdown';
+import { useRouter } from 'next/navigation';
 
 export default function NewEvent() {
+const router = useRouter();
+
   const [eventName, setEventName] = useState<string>('');
   const [level, setLevel] = useState<Level>(Level.Amateur);
   const [date, setDate] = useState<string>('2025-01-01');
@@ -60,7 +62,7 @@ export default function NewEvent() {
       <div className="h-full mt-3 mb-3 w-250 border-gray-500 border-3 bg-red-500/10 rounded-4xl flex flex-col justify-around items-center">
         <div className="flex flex-row items-center">
           <h1 className="font-bold ml-60">Create a New Event</h1>
-          <Link href="/dashboard/promoter">
+          <Link href="/dashboard">
             {' '}
             <Button className="w-25 h-10 text-sm ml-35" variant={ButtonVariant.Refuse}>
               Go Back
