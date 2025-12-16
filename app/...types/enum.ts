@@ -4,6 +4,7 @@ export enum Role {
 }
 
 export enum Sport {
+  Empty = "-",
   MMA = 'mma',
   Jiujitsu = 'jjb',
   KickBoxing = 'kickBoxing',
@@ -17,6 +18,7 @@ export enum Level {
 }
 
 export enum Experience {
+  Empty = "-",
   Zero = '0',
   OneThree = '1-3',
   FourSix = '4-6',
@@ -30,6 +32,7 @@ export enum Experience {
 }
 
 export enum Weight {
+  Empty = "-",
   FiftyTwoFiftySeven = '52-57',
   FiftySevenSixtyOne = '57-61',
   SixtyOneSixtySix = '61-66',

@@ -1,4 +1,5 @@
 import Button, { ButtonVariant } from "../...components/Button";
+import { DateToString } from "../...helpers/date";
 
 export default function Event(props: {
   token: string;
@@ -11,23 +12,18 @@ export default function Event(props: {
   setIsPopUp: React.Dispatch<React.SetStateAction<boolean>>;
   setCurrentEvent: React.Dispatch<React.SetStateAction<string>>;
 }) {
-  const date = new Date(props.date);
-  const year = date.getFullYear();
-  const month = date.getMonth();
-  const day = date.getDate();
-
-  const structuredDate = `${year}-${month}-${day}`;
-
   const handlePopUp = () => {
     props.setIsPopUp(true);
     props.setCurrentEvent(props.token);
   };
 
   return (
-    <div className="h-80 flex flex-col justify-around items-center m-3 font-extrabold bg-[url(/boxing.png)] bg-cover bg-center rounded-3xl">
+    <div className="h-80 text-center flex flex-col justify-around items-center m-3 font-extrabold bg-[url(/boxing.png)] bg-cover bg-center rounded-3xl">
       <div className="flex flex-col items-center">
         <h3 className="drop-shadow-[0_0px_3px_rgba(0,0,0,1)]">{props.name}</h3>
-        <span className="drop-shadow-[0_0px_3px_rgba(0,0,0,1)]">{structuredDate}</span>
+        <span className="drop-shadow-[0_0px_3px_rgba(0,0,0,1)]">
+          {DateToString(new Date(props.date))}
+        </span>
       </div>
       <span className="drop-shadow-[0_0px_3px_rgba(0,0,0,1)]">Sport : {props.sport}</span>
       <span className="drop-shadow-[0_0px_3px_rgba(0,0,0,1)]">Experience : {props.experience}</span>
