@@ -10,6 +10,7 @@ import Dropdown from "../...components/Dropdown";
 import { Sport, Level, Experience, Weight } from "../...types/enum";
 import PopUpEvent from "./PopUpEvent";
 import SportDropdown from "../...UI/SportDropdown";
+import { LevelToString, SportToString } from "../...helpers/enum";
 
 export default function EventsPage() {
   const [search, setSearch] = useState<string>("");
@@ -40,10 +41,10 @@ export default function EventsPage() {
         token={data.token}
         name={data.name}
         date={data.date}
-        sport={data.sport}
+        sport={SportToString(data.sport)}
         experience={data.experience}
         weight={data.weight}
-        level={data.level}
+        level={LevelToString(data.level)}
         setCurrentEvent={setCurrentEvent}
         setIsPopUp={setIsPopUp}
       />
@@ -94,7 +95,7 @@ console.log(research)
   return (
     <>
       <div className="flex flex-row h-[calc(100vh-80px)] text font-sans ">
-        <div className="w-1/6 mr-5 border-gray-600 h-full flex flex-row items-center justify-around border-2 border-t-0 border-b-0 border-l-0">
+        <div className="w-1/6 mr-5 pl-5 border-gray-600 h-full flex flex-row items-center border-2 border-t-0 border-b-0 border-l-0">
           <div className="w-4/5 h-4/5 flex flex-col items-center justify-around border-2 border-t-0 border-r-0 border-b-0">
             <h3>Filter</h3>
             <div className="h-15 flex flex-col justify-between">

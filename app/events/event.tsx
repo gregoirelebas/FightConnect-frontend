@@ -19,10 +19,9 @@ export default function Event(props: {
 
   return (
     <div className="h-80 text-center flex flex-col justify-around items-center m-3 font-extrabold bg-[url(/boxing.png)] bg-cover bg-center rounded-3xl">
-      <div className="flex flex-col items-center">
-        <h3 className="drop-shadow-[0_0px_3px_rgba(0,0,0,1)]">{props.name}</h3>
-        <span className="drop-shadow-[0_0px_3px_rgba(0,0,0,1)]">{dateToString(props.date)}</span>
-      </div>
+      <h3 className="drop-shadow-[0_0px_3px_rgba(0,0,0,1)]">{props.name}</h3>
+      <span className="drop-shadow-[0_0px_3px_rgba(0,0,0,1)]">{dateToString(props.date)}</span>
+
       <span className="drop-shadow-[0_0px_3px_rgba(0,0,0,1)]">Sport : {props.sport}</span>
       <span className="drop-shadow-[0_0px_3px_rgba(0,0,0,1)]">Experience : {props.experience}</span>
 
