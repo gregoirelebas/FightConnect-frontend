@@ -1,6 +1,7 @@
 import { Level, Role, Sport } from './enum';
 
 export interface Fighter {
+  token: string;
   name: string;
   email: string;
   password: string;

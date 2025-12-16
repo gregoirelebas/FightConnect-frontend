@@ -24,6 +24,7 @@ export async function setNumericState(value: string, callback: (value: number) =
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function setFighterState(fighter: any, callback: (value: Fighter) => void) {
   const data: Fighter = {
+    token: fighter.userId.token,
     name: fighter.userId.name,
     email: fighter.userId.email,
     password: fighter.userId.password,

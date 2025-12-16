@@ -23,6 +23,7 @@ export default function EventInfos({ token }: { token: string | undefined }) {
   const [event, setEvent] = useState<Event>();
   const [applications, setApplications] = useState<Application[]>([]);
 
+  const [userToken, setUserToken] = useState<string>('');
   const [isAdmin, setIsAdmin] = useState<boolean>(false);
 
   useEffect(() => {
@@ -40,7 +41,8 @@ export default function EventInfos({ token }: { token: string | undefined }) {
 
       const userToken = await getCookie(Cookies.token);
       if (userToken) {
-        setIsAdmin(userToken === eventRequest.data.promoterToken);
+        setUserToken(userToken);
+        setIsAdmin(userToken === eventRequest.data.promoterId.token);
       }
 
       const applicationRequest = await fetch(
@@ -69,11 +71,43 @@ export default function EventInfos({ token }: { token: string | undefined }) {
     fetchEvent();
   }, [token]);
 
+  async function takeDecision(fighterToken: string, decision: boolean) {
+    const options = {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        fighterToken: fighterToken,
+        promoterToken: userToken,
+        eventToken: token,
+        decision: decision,
+      }),
+    };
+
+    const request = await fetch(process.env.NEXT_PUBLIC_API_URL + 'events/decision', options).then(
+      (response) => response.json()
+    );
+
+    if (!request.result) {
+      console.error(request.error);
+      return;
+    }
+  }
+
   const applicationElements = applications.map((application: Application, i: number) => {
     if (application.status != ApplicationStatus.Denied) {
-      return <FighterApplicant key={i} fighter={application.fighter} isAdmin={isAdmin} />;
+      return (
+        <FighterApplicant
+          key={i}
+          fighter={application.fighter}
+          isAdmin={isAdmin}
+          acceptFighter={(fighterToken) => takeDecision(fighterToken, true)}
+          refuseFighter={(fighterToken) => takeDecision(fighterToken, false)}
+        />
+      );
     }
   });
+
+  console.log(applicationElements.length);
 
   return (
     event && (
