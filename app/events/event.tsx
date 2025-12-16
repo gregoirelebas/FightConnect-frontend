@@ -1,5 +1,5 @@
 import Button, { ButtonVariant } from "../...components/Button";
-import { DateToString } from "../...helpers/date";
+import { dateToString } from "../...helpers/date";
 
 export default function Event(props: {
   token: string;
@@ -22,7 +22,7 @@ export default function Event(props: {
       <div className="flex flex-col items-center">
         <h3 className="drop-shadow-[0_0px_3px_rgba(0,0,0,1)]">{props.name}</h3>
         <span className="drop-shadow-[0_0px_3px_rgba(0,0,0,1)]">
-          {DateToString(new Date(props.date))}
+          {dateToString(props.date)}
         </span>
       </div>
       <span className="drop-shadow-[0_0px_3px_rgba(0,0,0,1)]">Sport : {props.sport}</span>
