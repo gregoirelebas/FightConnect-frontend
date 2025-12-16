@@ -11,6 +11,7 @@ import { LevelToString, SportToString } from '@/app/...helpers/enum';
 import FighterApplicant from './fighterApplicant';
 import { Fighter } from '@/app/...types/fighter';
 import { ApplicationStatus } from '@/app/...types/enum';
+import InfoCard from './infoCard';
 
 interface Application {
   fighter: Fighter;
@@ -68,17 +69,6 @@ export default function EventInfos({ token }: { token: string | undefined }) {
     fetchEvent();
   }, [token]);
 
-  function createInfoCard(text: string, data: string, color: string) {
-    return (
-      <div className={`h-30 pl-2 rounded-2xl ${color}`}>
-        <div className="h-full flex flex-col p-5 rounded-l-none rounded-xl gap-2 bg-foreground">
-          <span className="text-xl">{text}</span>
-          <span>{data}</span>
-        </div>
-      </div>
-    );
-  }
-
   const applicationElements = applications.map((application: Application, i: number) => {
     if (application.status != ApplicationStatus.Denied) {
       return <FighterApplicant key={i} fighter={application.fighter} isAdmin={isAdmin} />;
@@ -97,10 +87,10 @@ export default function EventInfos({ token }: { token: string | undefined }) {
           <span className="text-grey">{event.clubName}</span>
         </div>
         <div className="grid grid-cols-4 gap-5">
-          {createInfoCard('Date', dateToString(event.date), 'bg-accent')}
-          {createInfoCard('Location', 'Event city', 'bg-error')}
-          {createInfoCard('Experience', `${event.experience} fights`, 'bg-warning')}
-          {createInfoCard('Weight class', `${event.weight} kg`, 'bg-success')}
+          <InfoCard text="Date" data={dateToString(event.date)} color="bg-accent" />
+          <InfoCard text="Location" data={'Event city'} color="bg-error" />
+          <InfoCard text="Experience" data={`${event.experience} fights`} color="bg-warning" />
+          <InfoCard text="Weight class" data={`${event.weight} kg`} color="bg-success" />
         </div>
         <div className="card">
           <h3>Description</h3>
