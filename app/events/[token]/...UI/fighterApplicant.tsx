@@ -5,7 +5,13 @@ import Button, { ButtonVariant } from '@/app/...components/Button';
 import profile from '@/public/defaultProfile.png';
 import { useRouter } from 'next/navigation';
 
-export default function FighterApplicant({ fighter }: { fighter: Fighter }) {
+export default function FighterApplicant({
+  fighter,
+  isAdmin,
+}: {
+  fighter: Fighter;
+  isAdmin: boolean;
+}) {
   const router = useRouter();
 
   function viewProfile() {
@@ -32,10 +38,12 @@ export default function FighterApplicant({ fighter }: { fighter: Fighter }) {
         <Button variant={ButtonVariant.Ternary} onClick={viewProfile}>
           View profile
         </Button>
-        <div className="grid grid-cols-2 gap-5">
-          <Button variant={ButtonVariant.Accept}>Accept</Button>
-          <Button variant={ButtonVariant.Refuse}>Refuse</Button>
-        </div>
+        {isAdmin && (
+          <div className="grid grid-cols-2 gap-5">
+            <Button variant={ButtonVariant.Accept}>Accept</Button>
+            <Button variant={ButtonVariant.Refuse}>Refuse</Button>
+          </div>
+        )}
       </div>
     </div>
   );

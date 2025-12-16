@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { dateToString } from '@/app/...helpers/date';
-import { setCookieState } from '@/app/...helpers/states';
+import { setCookieState, setFighterState } from '@/app/...helpers/states';
 import Cookies from '@/app/...types/cookies';
 import { getCookie } from '@/app/...helpers/cookies';
 import { Event } from '@/app/...types/event';
@@ -10,33 +10,63 @@ import { LevelToString, SportToString } from '@/app/...helpers/enum';
 
 import FighterApplicant from './fighterApplicant';
 import { Fighter } from '@/app/...types/fighter';
+import { ApplicationStatus } from '@/app/...types/enum';
+
+interface Application {
+  fighter: Fighter;
+  status: ApplicationStatus;
+  date: string;
+}
 
 export default function EventInfos({ token }: { token: string | undefined }) {
-  const [userToken, setUserToken] = useState<string | undefined>(undefined);
   const [event, setEvent] = useState<Event>();
-  const [fighters, setFighters] = useState<Fighter[]>([]);
+  const [applications, setApplications] = useState<Application[]>([]);
+
+  const [isAdmin, setIsAdmin] = useState<boolean>(false);
 
   useEffect(() => {
     async function fetchEvent() {
-      const request = await fetch(process.env.NEXT_PUBLIC_API_URL + `events/${token}`).then(
+      const eventRequest = await fetch(process.env.NEXT_PUBLIC_API_URL + `events/${token}`).then(
         (response) => response.json()
       );
 
-      if (!request.result) {
-        console.error(request.error);
+      if (!eventRequest.result) {
+        console.error(eventRequest.error);
         return;
       }
 
-      setEvent(request.data);
+      setEvent(eventRequest.data);
 
       const _token = await getCookie(Cookies.token);
-      if (_token) {
-        setCookieState(_token, setUserToken);
+      if (_token && event) {
+        setIsAdmin(_token === event.promoterToken);
       }
+
+      const applicationRequest = await fetch(
+        process.env.NEXT_PUBLIC_API_URL + `users/applicants/${token}`
+      ).then((response) => response.json());
+
+      if (!applicationRequest.result) {
+        console.error(applicationRequest.error);
+        return;
+      }
+
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      applicationRequest.data.forEach((x: any) => {
+        setFighterState(x.fighter, (value: Fighter) => {
+          const application: Application = {
+            fighter: value,
+            status: x.status,
+            date: x.date,
+          };
+
+          setApplications((prev) => [...prev, application]);
+        });
+      });
     }
 
     fetchEvent();
-  }, [token]);
+  }, []);
 
   function createInfoCard(text: string, data: string, color: string) {
     return (
@@ -49,8 +79,10 @@ export default function EventInfos({ token }: { token: string | undefined }) {
     );
   }
 
-  const applicants = fighters.map((fighter: Fighter, i: number) => {
-    return <FighterApplicant key={i} fighter={fighter} />;
+  const applicationElements = applications.map((application: Application, i: number) => {
+    if (application.status != ApplicationStatus.Denied) {
+      return <FighterApplicant key={i} fighter={application.fighter} isAdmin={isAdmin} />;
+    }
   });
 
   return (
@@ -76,12 +108,12 @@ export default function EventInfos({ token }: { token: string | undefined }) {
         </div>
         <div>
           <h2 className="font-bold mb-5">Fighter Applicants</h2>
-          {fighters.length == 0 ? (
+          {applications.length == 0 ? (
             <div className="card">
               <h3>No applicants yet</h3>
             </div>
           ) : (
-            <div className="grid grid-cols-3 scroll-my-0">{applicants}</div>
+            <div className="grid grid-cols-3 gap-5">{applicationElements}</div>
           )}
         </div>
       </div>
