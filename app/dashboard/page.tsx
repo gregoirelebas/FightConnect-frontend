@@ -12,6 +12,7 @@ import { Event } from '../...types/event';
 import { dateToString, getFormatedDate } from '../...helpers/date';
 import EventsDisplay from './EventsDisplay';
 import { useRouter } from 'next/navigation';
+import { Role } from '../...types/enum';
 
 export default function Dashboard() {
   const router = useRouter();
@@ -22,16 +23,26 @@ export default function Dashboard() {
 
   const [currentDate, setCurrentDate] = useState<number>(0);
 
+  const [isPromoter, setIsPromoter] = useState<boolean>(false);
+
   useEffect(() => {
     async function fetchData() {
       const now = Date.now();
       setCurrentDate(now);
 
-      const promoterToken = await getCookie(Cookies.token);
+      const userToken = await getCookie(Cookies.token);
+      const role = await getCookie(Cookies.role);
 
-      const request = await fetch(
-        process.env.NEXT_PUBLIC_API_URL + `events/promoter/${promoterToken}`
-      ).then((response) => response.json());
+      let url = '';
+      if (role === Role.Fighter) {
+        url = process.env.NEXT_PUBLIC_API_URL + `events/fighter/${userToken}`;
+        setIsPromoter(false);
+      } else if (role === Role.Promoter) {
+        url = process.env.NEXT_PUBLIC_API_URL + `events/promoter/${userToken}`;
+        setIsPromoter(true);
+      } else throw new Error('Unknown role : ' + role);
+
+      const request = await fetch(url).then((response) => response.json());
 
       if (!request.result) {
         console.error(request.error);
@@ -76,6 +87,7 @@ export default function Dashboard() {
           name={data.name}
           date={dateToString(data.date)}
           level={data.level}
+          isPromoter={isPromoter}
           displayEvent={displayEvent}
           fighterAsk={3}
         />
@@ -94,6 +106,7 @@ export default function Dashboard() {
           name={data.name}
           date={dateToString(data.date)}
           level={data.level}
+          isPromoter={isPromoter}
           displayEvent={displayEvent}
           fighterAsk={3}
         />
@@ -147,4 +160,5 @@ export default function Dashboard() {
         </div>
       </div>
     </div>
-  )};
+  );
+}
