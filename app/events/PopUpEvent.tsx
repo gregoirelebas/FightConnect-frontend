@@ -9,13 +9,17 @@ import Cookies from "../...types/cookies";
 
 
 
+
 export default function PopUpEvent(props: {
   setIsPopUp: React.Dispatch<React.SetStateAction<boolean>>;
   token: string;
 }) {
   const url = process.env.NEXT_PUBLIC_API_URL;
   const [event, setEvent] = useState<Event>();
-  const [fighterToken, setFighterToken] = useState('')
+  const [fighterToken, setFighterToken] = useState('');
+  const [status, setStatus] = useState('');
+   
+
 
 
   let imageUrl = 'bg-[url(/cageMMA.png)]';
@@ -43,29 +47,35 @@ export default function PopUpEvent(props: {
     getCookie(Cookies.token).then(cookie => {
       if (cookie) {
         setFighterToken(cookie)
+
+        fetch(`${url}events/reservation/${cookie}/${props.token}`).then(response => response.json())
+        .then(data=> setStatus(data.status))
       }
     })
     
 
   }, [])
-
+console.log(status)
   const handleJoin = () => {
+    
     try {
       fetch(`${url}events/join`,
         {
           method: 'PUT',
           body: JSON.stringify({ fighterToken, eventToken: props.token }),
           headers: { 'Content-Type': 'application/json' }
-        })
+        }).then(res => res.json()).then(data => setStatus("onHold"))
     } catch (error) {
       console.log(error)
     }
+  };
 
+  let button = <Button className="w-30" onClick={handleJoin} variant={ButtonVariant.Accept}>Join</Button>;
+  if (status=== 'denied') button = <Button className="w-30" onClick={handleJoin} variant={ButtonVariant.Accept}>denied</Button>;
+    if (status=== 'onHold') button = <Button className="w-30" onClick={handleJoin} variant={ButtonVariant.Accept}>onHold </Button>;
+    if (status=== 'accepted') button = <Button className="w-30" onClick={handleJoin} variant={ButtonVariant.Accept}>accepted </Button>;
 
-
-  }
-
-  console.log(imageUrl);
+  
   return (
     <div className="absolute top-0 left-0 w-screen h-screen bg-background/80 flex flex-col justify-center items-center">
       <div className={`w-150 h-100 ${imageUrl} bg-cover flex flex-col justify-between border border-accent rounded-xl relative p-5 items-center`}>
@@ -86,7 +96,7 @@ export default function PopUpEvent(props: {
         <Button variant={ButtonVariant.Ternary} className="text-xs text-wight cursor-pointer absolute top-3 right-3" onClick={() => props.setIsPopUp(false)}>X</Button>
 
         <div className="flex justify-center space-x-4 items-end p-1">
-          <Button className="w-30" onClick={handleJoin} variant={ButtonVariant.Accept}>Join</Button>
+          {button}
           <Button className="w-30" variant={ButtonVariant.Refuse}>More info</Button>
         </div>
       </div>
