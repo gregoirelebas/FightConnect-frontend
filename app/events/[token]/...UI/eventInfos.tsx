@@ -105,6 +105,7 @@ export default function EventInfos({ token }: { token: string | undefined }) {
         key={i}
         fighter={application.fighter}
         showButtons={isAdmin && application.status === ApplicationStatus.Pending}
+        status={application.status}
         acceptFighter={(fighterToken) => takeDecision(fighterToken, true)}
         refuseFighter={(fighterToken) => takeDecision(fighterToken, false)}
       />
