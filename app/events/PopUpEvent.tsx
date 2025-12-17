@@ -79,7 +79,9 @@ export default function PopUpEvent(props: {
   };
 
   let button = <Button className="w-30" onClick={handleJoin} variant={ButtonVariant.Accept}>Join</Button>;
-   if (status === ApplicationStatus.Pending) button = <Button className="w-30" onClick={handleJoin} variant={ButtonVariant.Ternary}>onHold </Button>;
+   if (status === ApplicationStatus.Pending) button = <Button className="w-30" variant={ButtonVariant.Ternary}>onHold </Button>;
+   if(status=== ApplicationStatus.Denied) button = <Button className="w-30" variant={ButtonVariant.Ternary}>Denied</Button>
+   if(status=== ApplicationStatus.Accepted) button = <Button className="w-30" variant={ButtonVariant.Accept}>Accepted</Button>
   
 
   return (
