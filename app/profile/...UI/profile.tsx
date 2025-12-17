@@ -5,7 +5,7 @@ import FighterStats from './fighterStats';
 import UsersInfos from './userInfos';
 
 import { Fighter } from '@/app/...types/fighter';
-import { EventStatus, Level, Role, Sport } from '@/app/...types/enum';
+import { Role } from '@/app/...types/enum';
 import PromoterStats from './promoterStats';
 import { sortAscend } from '@/app/...helpers/date';
 import EventCard from './eventCard';
@@ -14,16 +14,25 @@ import { Promoter } from '@/app/...types/promoter';
 import { setFighterState, setPromoterState } from '@/app/...helpers/states';
 import { getCookie } from '@/app/...helpers/cookies';
 import Cookies from '@/app/...types/cookies';
+import { Event } from '@/app/...types/event';
+import { getEventStatus } from '@/app/...helpers/events';
+import { useRouter } from 'next/navigation';
 
 export default function ProfileComponent({ username }: { username: string | undefined }) {
+  const router = useRouter();
+
   const [user, setUser] = useState<Fighter | Promoter>();
-  const [userToken, setUserToken] = useState<string | undefined>('');
+  const [userToken, setUserToken] = useState<string>('');
   const [profileToken, setProfileToken] = useState<string>('');
+  const [events, setEvents] = useState<Event[]>([]);
+  const [today, setToday] = useState<number>(0);
 
   useEffect(() => {
     async function fetchUser() {
       const token = await getCookie(Cookies.token);
-      setUserToken(token);
+      if (token) {
+        setUserToken(token);
+      }
 
       let url;
       if (username) {
@@ -32,61 +41,61 @@ export default function ProfileComponent({ username }: { username: string | unde
         url = process.env.NEXT_PUBLIC_API_URL + `users/me/${token}`;
       }
 
-      const request = await fetch(url).then((response) => response.json());
+      const userRequest = await fetch(url).then((response) => response.json());
 
-      if (!request.result) {
-        console.error(request.error);
+      if (!userRequest.result) {
+        console.error(userRequest.error);
         return;
       }
 
-      setProfileToken(request.data.userId.token);
+      setProfileToken(userRequest.data.userId.token);
 
-      if (request.data.userId.role === Role.Fighter) {
-        setFighterState(request.data, setUser);
-      } else if (request.data.userId.role === Role.Promoter) {
-        setPromoterState(request.data, setUser);
+      if (userRequest.data.userId.role === Role.Fighter) {
+        setFighterState(userRequest.data, setUser);
+        url = process.env.NEXT_PUBLIC_API_URL + `events/fighter/${userRequest.data.userId.token}`;
+      } else if (userRequest.data.userId.role === Role.Promoter) {
+        setPromoterState(userRequest.data, setUser);
+        url = process.env.NEXT_PUBLIC_API_URL + `events/promoter/${userRequest.data.userId.token}`;
+      } else {
+        console.error('Unknown user role: ' + userRequest.data.userId.role);
+        return;
       }
+
+      const eventRequest = await fetch(url).then((response) => response.json());
+
+      if (!eventRequest.result) {
+        console.error(eventRequest.error);
+        return;
+      }
+
+      setEvents(eventRequest.data);
+
+      setToday(Date.now());
     }
 
     fetchUser();
   }, [username]);
 
-  const eventHistory = [
-    {
-      sport: Sport.EnglishBoxing,
-      name: 'Mortal Kombat',
-      level: Level.Pro,
-      status: EventStatus.Completed,
-      date: '2023-01-01',
-    },
-    {
-      sport: Sport.MMA,
-      name: 'Ultimate Showdown',
-      level: Level.Amateur,
-      status: EventStatus.Cancelled,
-      date: '2023-05-14',
-    },
-    {
-      sport: Sport.Jiujitsu,
-      name: 'Grapple Fest',
-      level: Level.Pro,
-      status: EventStatus.Upcoming,
-      date: '2024-02-04',
-    },
-  ];
+  function displayEvent(token: string) {
+    router.push('/events/' + token);
+  }
 
-  eventHistory.sort((a, b) => sortAscend(a.date, b.date));
+  events.sort((a, b) => sortAscend(a.date, b.date));
 
-  const eventsCards = eventHistory.map((event, index) => (
-    <EventCard
-      key={index}
-      sport={event.sport}
-      name={event.name}
-      level={event.level}
-      status={event.status}
-      date={event.date}
-    />
-  ));
+  const eventsCards = events.map((event, index) => {
+    return (
+      <EventCard
+        key={index}
+        token={event.token}
+        sport={event.sport}
+        name={event.name}
+        level={event.level}
+        status={getEventStatus(today, event.date)}
+        date={event.date}
+        onClick={displayEvent}
+      />
+    );
+  });
 
   return (
     <>

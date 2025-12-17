@@ -9,11 +9,13 @@ import {
 import { dateToString } from '@/app/...helpers/date';
 
 interface EventCardProps {
+  token: string;
   sport: Sport;
   name: string;
   level: Level;
   status: EventStatus;
   date: string;
+  onClick: (token: string) => void;
 }
 
 export default function EventCard(props: EventCardProps) {
@@ -25,7 +27,9 @@ export default function EventCard(props: EventCardProps) {
   });
 
   return (
-    <div className="grid grid-cols-5 items-center px-5 py-3 bg-background rounded-xl cursor-pointer">
+    <div
+      className="grid grid-cols-5 items-center px-5 py-3 bg-background rounded-xl cursor-pointer hover:bg-foreground-hover transition-all duration-200"
+      onClick={() => props.onClick(props.token)}>
       <span className="pill">{SportToString(props.sport)}</span>
       <span className="text-xl">{props.name}</span>
       <span className={`pill ${levelColor} text-white`}>{LevelToString(props.level)}</span>
