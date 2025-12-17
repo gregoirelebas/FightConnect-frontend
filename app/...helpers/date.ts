@@ -3,22 +3,22 @@ function numberToString(number: number): string {
   else return number.toString();
 }
 
-export function dateToString(dateString: string): string {
-  const months = [
-    'January',
-    'February',
-    'March',
-    'April',
-    'May',
-    'June',
-    'July',
-    'August',
-    'September',
-    'October',
-    'November',
-    'December',
-  ];
+const months = [
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December',
+];
 
+export function dateToString(dateString: string): string {
   const date = new Date(dateString);
 
   const day = numberToString(date.getUTCDate());
@@ -26,6 +26,10 @@ export function dateToString(dateString: string): string {
   const year = numberToString(date.getUTCFullYear());
 
   return `${day} ${month} ${year}`;
+}
+
+export function monthToString(month: number) {
+  return months[month];
 }
 
 export function getFormatedDate(dateString: string) {
@@ -41,7 +45,7 @@ export function getFormatedDate(dateString: string) {
 export function getFormatedDateNewEvent(dateString: string) {
   const date = new Date(dateString);
 
-  const day = numberToString(date.getUTCDate()+1);
+  const day = numberToString(date.getUTCDate() + 1);
   const month = numberToString(date.getUTCMonth() + 1);
   const year = date.getUTCFullYear();
 
@@ -54,4 +58,10 @@ export function sortAscend(a: string, b: string) {
 
 export function sortDescend(a: string, b: string) {
   return new Date(a).getTime() - new Date(b).getTime();
+}
+
+export function getWeekDay(locale: string | undefined, date: Date) {
+  const days = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
+
+  return days[date.getDay()];
 }

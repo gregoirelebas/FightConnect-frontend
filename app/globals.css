@@ -109,15 +109,22 @@ body {
 }
 
 /* Personnalisation des cases du calendrier */
-.react-calendar__tile.validateDate {
-  background-color: #27d77a;
-  color: white;
-}
-.react-calendar__tile.passedDate {
-  background-color: gray;
-  color: white;
+.react-calendar {
+  @apply text-white;
 }
 
-::-webkit-calendar-picker-indicator {
-  filter: invert(1);
+.react-calendar__month-view__weekdays {
+  @apply mb-2;
+}
+
+.react-calendar__month-view__weekdays__weekday {
+  @apply text-xs text-grey underline text-center;
+}
+
+.react-calendar__tile {
+  @apply border border-white rounded-md cursor-pointer;
+}
+
+.react-calendar__tile:hover {
+  @apply border-accent rounded-md;
 }
