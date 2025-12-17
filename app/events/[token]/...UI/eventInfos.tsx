@@ -6,12 +6,19 @@ import { setFighterState } from '@/app/...helpers/states';
 import Cookies from '@/app/...types/cookies';
 import { getCookie } from '@/app/...helpers/cookies';
 import { Event } from '@/app/...types/event';
-import { LevelToColor, LevelToString, SportToString } from '@/app/...helpers/enum';
+import {
+  EventStatusToColor,
+  EventStatusToString,
+  LevelToColor,
+  LevelToString,
+  SportToString,
+} from '@/app/...helpers/enum';
 
 import FighterApplicant from './fighterApplicant';
 import { Fighter } from '@/app/...types/fighter';
-import { ApplicationStatus } from '@/app/...types/enum';
+import { ApplicationStatus, EventStatus } from '@/app/...types/enum';
 import InfoCard from './infoCard';
+import { getEventStatus } from '@/app/...helpers/events';
 
 interface Application {
   fighter: Fighter;
@@ -25,6 +32,7 @@ export default function EventInfos({ token }: { token: string | undefined }) {
 
   const [userToken, setUserToken] = useState<string>('');
   const [isAdmin, setIsAdmin] = useState<boolean>(false);
+  const [status, setStatus] = useState<EventStatus | undefined>();
 
   useEffect(() => {
     async function fetchEvent() {
@@ -53,6 +61,8 @@ export default function EventInfos({ token }: { token: string | undefined }) {
         console.error(applicationRequest.error);
         return;
       }
+
+      setStatus(getEventStatus(Date.now(), eventRequest.data.date));
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       applicationRequest.data.forEach((x: any) => {
@@ -114,7 +124,11 @@ export default function EventInfos({ token }: { token: string | undefined }) {
         <FighterApplicant
           key={i}
           fighter={application.fighter}
-          showButtons={isAdmin && application.status === ApplicationStatus.Pending}
+          showButtons={
+            status === EventStatus.Upcoming &&
+            isAdmin &&
+            application.status === ApplicationStatus.Pending
+          }
           status={application.status}
           acceptFighter={(fighterToken) => takeDecision(fighterToken, true)}
           refuseFighter={(fighterToken) => takeDecision(fighterToken, false)}
@@ -126,12 +140,22 @@ export default function EventInfos({ token }: { token: string | undefined }) {
     event && (
       <div className="flex flex-col mx-100 my-10 gap-10">
         <div className="h-80 card justify-end bg-[url('@/public/LandingFond.jpg')] bg-cover bg-center">
-          <div className="flex gap-5">
-            <span className={`pill bg-${LevelToColor(event.level)} text-white`}>
-              {' '}
-              {LevelToString(event.level)}
-            </span>
-            <span className="pill">{SportToString(event.sport)}</span>
+          <div className="w-full flex justify-between">
+            <div className="flex gap-5">
+              <span className={`pill bg-${LevelToColor(event.level)} text-white`}>
+                {' '}
+                {LevelToString(event.level)}
+              </span>
+              <span className="pill">{SportToString(event.sport)}</span>
+            </div>
+            {status && (
+              <span
+                className={`pill bg-${EventStatusToColor(status)[0]} text-${
+                  EventStatusToColor(status)[1]
+                }`}>
+                {EventStatusToString(status)}
+              </span>
+            )}
           </div>
           <h1>{event.name}</h1>
           <span className="text-grey">{event.clubName}</span>
