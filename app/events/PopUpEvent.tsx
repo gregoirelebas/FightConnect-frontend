@@ -6,7 +6,8 @@ import { LevelToString } from "../...helpers/enum";
 import { SportToString } from "../...helpers/enum";
 import { getCookie } from "../...helpers/cookies";
 import Cookies from "../...types/cookies";
-import { ApplicationStatus } from "../...types/enum";
+import { ApplicationStatus, Role } from "../...types/enum";
+import { useRouter } from "next/navigation";
 
 
 
@@ -21,6 +22,8 @@ export default function PopUpEvent(props: {
   const [fighterToken, setFighterToken] = useState('');
   const [status, setStatus] = useState('');
   const [message, setMessage] = useState('');
+  const [role, setRole] = useState('');
+  const router = useRouter();
 
 
 
@@ -52,8 +55,16 @@ export default function PopUpEvent(props: {
 
         fetch(`${url}events/reservation/${cookie}/${props.token}`).then(response => response.json())
           .then(data => setStatus(data.status))
+
+      
       }
     })
+
+    getCookie(Cookies.role).then(cookie => {
+      if (cookie) {
+        setRole(cookie)
+      }
+    });
 
 
   }, [])
@@ -64,7 +75,7 @@ export default function PopUpEvent(props: {
     setTimeout(() => {
       setMessage("");
     }, 3000);
-    
+
 
     try {
       fetch(`${url}events/join`,
@@ -78,13 +89,21 @@ export default function PopUpEvent(props: {
     }
   };
 
-  let button = <Button className="w-30" onClick={handleJoin} variant={ButtonVariant.Accept}>Join</Button>;
-   if (status === ApplicationStatus.Pending) button = <Button className="w-30" variant={ButtonVariant.Ternary}>onHold </Button>;
-   if(status=== ApplicationStatus.Denied) button = <Button className="w-30" variant={ButtonVariant.Ternary}>Denied</Button>
-   if(status=== ApplicationStatus.Accepted) button = <Button className="w-30" variant={ButtonVariant.Accept}>Accepted</Button>
-  
+  let button;
+  if (role === Role.Fighter) {
+    button = <Button className="w-30" onClick={handleJoin} variant={ButtonVariant.Accept}>Join</Button>;
+    if (status === ApplicationStatus.Pending) button = <Button className="w-30" variant={ButtonVariant.Ternary}>onHold </Button>;
+    if (status === ApplicationStatus.Denied) button = <Button className="w-30" variant={ButtonVariant.Ternary}>Denied</Button>
+    if (status === ApplicationStatus.Accepted) button = <Button className="w-30" variant={ButtonVariant.Accept}>Accepted</Button>
+  }
+
+ function displayEvent() {
+    router.push('/events/' + event?.token);
+  }
 
   return (
+
+  
     <div className="absolute top-0 left-0 w-screen h-screen bg-background/80 flex flex-col justify-center items-center">
       <div className={`w-150 h-100 ${imageUrl} bg-cover flex flex-col justify-between border border-accent rounded-xl relative p-5 items-center`}>
 
@@ -95,7 +114,7 @@ export default function PopUpEvent(props: {
             <h2 className="text-wight  text-2xl flex-auto text-center font-bold"> {event.clubName} </h2>
             <h2 className="text-wight  text-2xl flex-auto text-center font-bold"> {SportToString(event.sport)} </h2>
             <h2 className="text-wight  text-2xl flex-auto text-center font-bold"> {LevelToString(event.level)}</h2>
-            <h2 className="text-wight  text-2xl flex-auto text-center font-bold"> {dateToString(new Date(event.date))}</h2>
+            <h2 className="text-wight  text-2xl flex-auto text-center font-bold"> {dateToString(event.date)}</h2>
           </div>
         };
 
@@ -105,10 +124,10 @@ export default function PopUpEvent(props: {
 
         <div className="flex justify-center space-x-4 items-end p-1">
           {button}
-          <Button className="w-30" variant={ButtonVariant.Refuse}>More info</Button>
+          <Button className="w-30" onClick={displayEvent} variant={ButtonVariant.Refuse}>More info</Button>
         </div>
       </div>
-        {message && (
+      {message && (
         <div className="mt-4 p-2 bg-green-200 text-black rounded shadow-md">
           {message}
         </div>
