@@ -1,35 +1,35 @@
-"use client";
+'use client';
 
-import { useEffect, useState } from "react";
-import Input from "../...components/Input";
-import Button, { ButtonVariant } from "../...components/Button";
-import type { Event } from "../...types/event";
-import EventComponent from "./event";
-import RadioButton from "../...components/RadioButton";
-import Dropdown from "../...components/Dropdown";
-import { Sport, Level, Experience, Weight } from "../...types/enum";
-import PopUpEvent from "./PopUpEvent";
-import SportDropdown from "../...UI/SportDropdown";
-import { LevelToString, SportToString } from "../...helpers/enum";
+import { useEffect, useState } from 'react';
+import Input from '../...components/Input';
+import Button, { ButtonVariant } from '../...components/Button';
+import type { Event } from '@/app/...types/event';
+import EventComponent from './event';
+import RadioButton from '../...components/RadioButton';
+import Dropdown from '../...components/Dropdown';
+import { Sport, Level, Experience, Weight } from '../...types/enum';
+import PopUpEvent from './PopUpEvent';
+import SportDropdown from '../...UI/SportDropdown';
+import { LevelToString, SportToString } from '../...helpers/enum';
 
 export default function EventsPage() {
-  const [search, setSearch] = useState<string>("");
+  const [search, setSearch] = useState<string>('');
   const [level, setLevel] = useState<Level>(Level.Amateur);
   const [sport, setSport] = useState<Sport>(Sport.Empty);
   const [experience, setExperience] = useState<Experience>(Experience.Empty);
   const [weight, setWeight] = useState<Weight>(Weight.Empty);
   const [allEvents, setAllEvents] = useState([]);
   const [isPopUp, setIsPopUp] = useState(false);
-  const [currentEvent, setCurrentEvent] = useState("");
+  const [currentEvent, setCurrentEvent] = useState('');
 
   useEffect(() => {
-    fetch(process.env.NEXT_PUBLIC_API_URL + "events/search")
+    fetch(process.env.NEXT_PUBLIC_API_URL + 'events/search')
       .then((response) => response.json())
       .then((request) => {
         if (request.result) {
           setAllEvents(request.data);
         } else {
-          console.error("Error registering fighter:", request.error);
+          console.error('Error registering fighter:', request.error);
         }
       });
   }, []);
@@ -52,45 +52,43 @@ export default function EventsPage() {
   });
 
   const handleSearch = () => {
-    fetch(process.env.NEXT_PUBLIC_API_URL + "events/search?name=" + search)
+    fetch(process.env.NEXT_PUBLIC_API_URL + 'events/search?name=' + search)
       .then((response) => response.json())
       .then((request) => {
         if (request.result) {
           setAllEvents(request.data);
         } else {
-          console.error("Error registering fighter:", request.error);
+          console.error('Error registering fighter:', request.error);
         }
       });
   };
 
   const applyFilter = () => {
-    let research = `level=${level}`
-    
-    if (sport!==Sport.Empty) {
-      research += `&sport=${sport}`
+    let research = `level=${level}`;
+
+    if (sport !== Sport.Empty) {
+      research += `&sport=${sport}`;
     }
 
-    if (experience!==Experience.Empty) {
-      research += `&experience=${experience}`
+    if (experience !== Experience.Empty) {
+      research += `&experience=${experience}`;
     }
 
-    if (weight!==Weight.Empty) {
-      research += `&weight=${weight}`
+    if (weight !== Weight.Empty) {
+      research += `&weight=${weight}`;
     }
-      
-console.log(research)
-    fetch(process.env.NEXT_PUBLIC_API_URL + "events/search?" + research)
+
+    console.log(research);
+    fetch(process.env.NEXT_PUBLIC_API_URL + 'events/search?' + research)
       .then((response) => response.json())
       .then((request) => {
         if (request.result) {
           setAllEvents(request.data);
         } else {
-          console.error("Error registering fighter:", request.error);
+          console.error('Error registering fighter:', request.error);
         }
       });
   };
-
-
 
   return (
     <>
@@ -125,17 +123,17 @@ console.log(research)
               <Dropdown
                 className="w-50"
                 options={[
-                  { value: Experience.Empty, label: "-" },
-                  { value: Experience.Zero, label: "0" },
-                  { value: Experience.OneThree, label: "1-3" },
-                  { value: Experience.FourSix, label: "4-6" },
-                  { value: Experience.SevenNine, label: "7-9" },
-                  { value: Experience.TenTwelve, label: "10-12" },
-                  { value: Experience.ThirteenFifteen, label: "13-15" },
-                  { value: Experience.SixteenEighteen, label: "16-18" },
-                  { value: Experience.NineteenTwentyOne, label: "19-21" },
-                  { value: Experience.TwentyTwoTwentyFour, label: "22-24" },
-                  { value: Experience.TwentyFivePlus, label: "25+" },
+                  { value: Experience.Empty, label: '-' },
+                  { value: Experience.Zero, label: '0' },
+                  { value: Experience.OneThree, label: '1-3' },
+                  { value: Experience.FourSix, label: '4-6' },
+                  { value: Experience.SevenNine, label: '7-9' },
+                  { value: Experience.TenTwelve, label: '10-12' },
+                  { value: Experience.ThirteenFifteen, label: '13-15' },
+                  { value: Experience.SixteenEighteen, label: '16-18' },
+                  { value: Experience.NineteenTwentyOne, label: '19-21' },
+                  { value: Experience.TwentyTwoTwentyFour, label: '22-24' },
+                  { value: Experience.TwentyFivePlus, label: '25+' },
                 ]}
                 onChange={(value) => setExperience(value as Experience)}
               />
@@ -145,15 +143,15 @@ console.log(research)
               <Dropdown
                 className="w-50"
                 options={[
-                  { value: Weight.Empty, label: "-" },
-                  { value: Weight.FiftyTwoFiftySeven, label: "52-57" },
-                  { value: Weight.FiftySevenSixtyOne, label: "57-61" },
-                  { value: Weight.SixtyOneSixtySix, label: "61-66" },
-                  { value: Weight.SixtySixSeventy, label: "66-70" },
-                  { value: Weight.SeventySeventySeven, label: "70-77" },
-                  { value: Weight.SeventySevenEightyFour, label: "77-84" },
-                  { value: Weight.EightyFourNinetyThree, label: "84-93" },
-                  { value: Weight.NinetyThreeOneHundredTwenty, label: "93-120" },
+                  { value: Weight.Empty, label: '-' },
+                  { value: Weight.FiftyTwoFiftySeven, label: '52-57' },
+                  { value: Weight.FiftySevenSixtyOne, label: '57-61' },
+                  { value: Weight.SixtyOneSixtySix, label: '61-66' },
+                  { value: Weight.SixtySixSeventy, label: '66-70' },
+                  { value: Weight.SeventySeventySeven, label: '70-77' },
+                  { value: Weight.SeventySevenEightyFour, label: '77-84' },
+                  { value: Weight.EightyFourNinetyThree, label: '84-93' },
+                  { value: Weight.NinetyThreeOneHundredTwenty, label: '93-120' },
                 ]}
                 onChange={(value) => setWeight(value as Weight)}
               />
@@ -161,8 +159,7 @@ console.log(research)
             <Button
               variant={ButtonVariant.Primary}
               className="h-10 w-40 flex justify-center items-center"
-              onClick={() => applyFilter()}
-            >
+              onClick={() => applyFilter()}>
               Apply
             </Button>
           </div>
@@ -171,16 +168,15 @@ console.log(research)
           <div className="w-full h-1/10 flex flex-row items-center">
             <Input
               className="w-200 h-10"
-              label={""}
-              placeholder={"Search an event"}
+              label={''}
+              placeholder={'Search an event'}
               value={search}
               onChange={(value) => setSearch(String(value))}
             />
             <Button
               variant={ButtonVariant.Primary}
               className="h-10 w-40 ml-80 flex justify-center items-center"
-              onClick={() => handleSearch()}
-            >
+              onClick={() => handleSearch()}>
               Search
             </Button>
           </div>

@@ -5,7 +5,7 @@ import { dateToString, sortAscend } from '@/app/...helpers/date';
 import { setFighterState } from '@/app/...helpers/states';
 import Cookies from '@/app/...types/cookies';
 import { getCookie } from '@/app/...helpers/cookies';
-import { Event } from '@/app/...types/event';
+import { Application, Event } from '@/app/...types/eventtype';
 import {
   EventStatusToColor,
   EventStatusToString,
@@ -19,12 +19,6 @@ import { Fighter } from '@/app/...types/fighter';
 import { ApplicationStatus, EventStatus } from '@/app/...types/enum';
 import InfoCard from './infoCard';
 import { getEventStatus } from '@/app/...helpers/events';
-
-interface Application {
-  fighter: Fighter;
-  status: ApplicationStatus;
-  date: string;
-}
 
 export default function EventInfos({ token }: { token: string | undefined }) {
   const [event, setEvent] = useState<Event>();
