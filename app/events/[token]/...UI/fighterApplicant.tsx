@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation';
 
 interface FighterApplicantProps {
   fighter: Fighter;
-  isAdmin: boolean;
+  showButtons: boolean;
   acceptFighter: (fighterToken: string) => void;
   refuseFighter: (fighterToken: string) => void;
 }
@@ -39,7 +39,7 @@ export default function FighterApplicant(props: FighterApplicantProps) {
         <Button variant={ButtonVariant.Ternary} onClick={viewProfile}>
           View profile
         </Button>
-        {props.isAdmin && (
+        {props.showButtons && (
           <div className="grid grid-cols-2 gap-5">
             <Button
               variant={ButtonVariant.Accept}

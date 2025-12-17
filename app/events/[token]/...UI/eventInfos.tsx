@@ -63,7 +63,9 @@ export default function EventInfos({ token }: { token: string | undefined }) {
             date: x.date,
           };
 
-          setApplications((prev) => [...prev, application]);
+          if (application.status != ApplicationStatus.Denied) {
+            setApplications((prev) => [...prev, application]);
+          }
         });
       });
     }
@@ -91,23 +93,23 @@ export default function EventInfos({ token }: { token: string | undefined }) {
       console.error(request.error);
       return;
     }
+
+    if (!decision) {
+      setApplications(applications.filter((x) => x.fighter.token !== fighterToken));
+    }
   }
 
   const applicationElements = applications.map((application: Application, i: number) => {
-    if (application.status != ApplicationStatus.Denied) {
-      return (
-        <FighterApplicant
-          key={i}
-          fighter={application.fighter}
-          isAdmin={isAdmin}
-          acceptFighter={(fighterToken) => takeDecision(fighterToken, true)}
-          refuseFighter={(fighterToken) => takeDecision(fighterToken, false)}
-        />
-      );
-    }
+    return (
+      <FighterApplicant
+        key={i}
+        fighter={application.fighter}
+        showButtons={isAdmin && application.status === ApplicationStatus.Pending}
+        acceptFighter={(fighterToken) => takeDecision(fighterToken, true)}
+        refuseFighter={(fighterToken) => takeDecision(fighterToken, false)}
+      />
+    );
   });
-
-  console.log(applicationElements.length);
 
   return (
     event && (
