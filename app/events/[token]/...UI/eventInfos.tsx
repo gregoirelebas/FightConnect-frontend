@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { dateToString } from '@/app/...helpers/date';
+import { dateToString, sortAscend } from '@/app/...helpers/date';
 import { setFighterState } from '@/app/...helpers/states';
 import Cookies from '@/app/...types/cookies';
 import { getCookie } from '@/app/...helpers/cookies';
@@ -94,23 +94,33 @@ export default function EventInfos({ token }: { token: string | undefined }) {
       return;
     }
 
-    if (!decision) {
+    if (decision) {
+      const modified = applications.find((x) => x.fighter.token === fighterToken);
+      if (modified) {
+        //Have to remove and add again to trigger state refresh
+        const buffer = applications.filter((x) => x.fighter.token !== fighterToken);
+        modified.status = ApplicationStatus.Accepted;
+        setApplications([...buffer, modified]);
+      }
+    } else {
       setApplications(applications.filter((x) => x.fighter.token !== fighterToken));
     }
   }
 
-  const applicationElements = applications.map((application: Application, i: number) => {
-    return (
-      <FighterApplicant
-        key={i}
-        fighter={application.fighter}
-        showButtons={isAdmin && application.status === ApplicationStatus.Pending}
-        status={application.status}
-        acceptFighter={(fighterToken) => takeDecision(fighterToken, true)}
-        refuseFighter={(fighterToken) => takeDecision(fighterToken, false)}
-      />
-    );
-  });
+  const applicationElements = applications
+    .sort((a, b) => sortAscend(a.date, b.date))
+    .map((application: Application, i: number) => {
+      return (
+        <FighterApplicant
+          key={i}
+          fighter={application.fighter}
+          showButtons={isAdmin && application.status === ApplicationStatus.Pending}
+          status={application.status}
+          acceptFighter={(fighterToken) => takeDecision(fighterToken, true)}
+          refuseFighter={(fighterToken) => takeDecision(fighterToken, false)}
+        />
+      );
+    });
 
   return (
     event && (
