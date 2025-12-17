@@ -38,6 +38,16 @@ export function getFormatedDate(dateString: string) {
   return `${day}-${month}-${year}`;
 }
 
+export function getFormatedDateNewEvent(dateString: string) {
+  const date = new Date(dateString);
+
+  const day = numberToString(date.getUTCDate()+1);
+  const month = numberToString(date.getUTCMonth() + 1);
+  const year = date.getUTCFullYear();
+
+  return `${year}-${month}-${day}`;
+}
+
 export function sortAscend(a: string, b: string) {
   return new Date(b).getTime() - new Date(a).getTime();
 }
