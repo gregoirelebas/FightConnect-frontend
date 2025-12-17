@@ -19,22 +19,24 @@ export default function EventsPage() {
   const [experience, setExperience] = useState<Experience>(Experience.Empty);
   const [weight, setWeight] = useState<Weight>(Weight.Empty);
   const [allEvents, setAllEvents] = useState([]);
+  const [eventShow, setEventShow] = useState([]);
   const [isPopUp, setIsPopUp] = useState(false);
   const [currentEvent, setCurrentEvent] = useState('');
 
   useEffect(() => {
-    fetch(process.env.NEXT_PUBLIC_API_URL + 'events/search')
+    fetch(process.env.NEXT_PUBLIC_API_URL + "events/")
       .then((response) => response.json())
       .then((request) => {
         if (request.result) {
           setAllEvents(request.data);
+          setEventShow(request.data);
         } else {
           console.error('Error registering fighter:', request.error);
         }
       });
   }, []);
 
-  const cardEvents = allEvents.map((data: Event, i) => {
+  const cardEvents = eventShow.map((data: Event, i) => {
     return (
       <EventComponent
         key={i}
@@ -44,7 +46,7 @@ export default function EventsPage() {
         sport={SportToString(data.sport)}
         experience={data.experience}
         weight={data.weight}
-        level={LevelToString(data.level)}
+        level={data.level}
         setCurrentEvent={setCurrentEvent}
         setIsPopUp={setIsPopUp}
       />
@@ -52,74 +54,109 @@ export default function EventsPage() {
   });
 
   const handleSearch = () => {
-    fetch(process.env.NEXT_PUBLIC_API_URL + 'events/search?name=' + search)
-      .then((response) => response.json())
-      .then((request) => {
-        if (request.result) {
-          setAllEvents(request.data);
-        } else {
-          console.error('Error registering fighter:', request.error);
-        }
-      });
+    const research = allEvents.filter((data) =>
+      data.name.toLowerCase().includes(search.toLowerCase())
+    );
+    setEventShow(research);
   };
 
   const applyFilter = () => {
-    let research = `level=${level}`;
+    let research = allEvents.filter((data) => data.level === level);
 
     if (sport !== Sport.Empty) {
-      research += `&sport=${sport}`;
+      research = research.filter((data) => data.sport === sport);
     }
 
     if (experience !== Experience.Empty) {
-      research += `&experience=${experience}`;
+      research = research.filter((data) => data.experience === experience);
     }
 
     if (weight !== Weight.Empty) {
-      research += `&weight=${weight}`;
+      research = research.filter((data) => data.weight === weight);
     }
 
-    console.log(research);
-    fetch(process.env.NEXT_PUBLIC_API_URL + 'events/search?' + research)
-      .then((response) => response.json())
-      .then((request) => {
-        if (request.result) {
-          setAllEvents(request.data);
-        } else {
-          console.error('Error registering fighter:', request.error);
-        }
-      });
+    setEventShow(research);
+  };
+
+  const resetFilter = () => {
+    setEventShow(allEvents);
+    setSport(Sport.Empty);
+    setExperience(Experience.Empty);
+    setWeight(Weight.Empty);
   };
 
   return (
     <>
-      <div className="flex flex-row h-[calc(100vh-80px)] text font-sans ">
-        <div className="w-1/6 mr-5 pl-5 border-gray-600 h-full flex flex-row items-center border-2 border-t-0 border-b-0 border-l-0">
-          <div className="w-4/5 h-4/5 flex flex-col items-center justify-around border-2 border-t-0 border-r-0 border-b-0">
-            <h3>Filter</h3>
-            <div className="h-15 flex flex-col justify-between">
-              <span>Level :</span>
-              <div className="flex flex-row w-50 justify-between">
-                <RadioButton
-                  name="level"
-                  label="Pro"
-                  value={Level.Pro}
-                  onChange={(value) => setLevel(value as Level)}
-                />
-                <RadioButton
-                  name="level"
-                  label="Amateur"
-                  value={Level.Amateur}
-                  isChecked={true}
-                  onChange={(value) => setLevel(value as Level)}
-                />
+      <div className="flex flex-col w-full h-[calc(100vh-80px)] items-center text font-sans overflow-auto ">
+        <div className="w-330 min-h-40 flex flex-col items-start justify-center-safe">
+          <h1>Search Events</h1>
+          <p>Find the perfect fighting event for your skills and weight class</p>
+        </div>
+        <div className="card w-330 flex-row items-center p-6 mb-6">
+          <Input
+            className="w-250 h-10"
+            label={""}
+            placeholder={"Search an event by name"}
+            value={search}
+            onChange={(value) => setSearch(String(value))}
+          />
+          <Button
+            variant={ButtonVariant.Primary}
+            className="h-10 w-40 ml-20 flex justify-center items-center"
+            onClick={() => handleSearch()}
+          >
+            Search
+          </Button>
+        </div>
+        <div className="card w-330 min-h-55 flex-col justify-around">
+          <div className="flex flex-row justify-between item-center">
+            <h3 className="w-35">Filter</h3>
+            <div className="h-12 w-105 flex flex-row justify-around items-center">
+              <span className="whitespace-nowrap">Level :</span>
+              <div className="flex flex-row justify-around w-110">
+                <div className="h-10 w-40 bg-foreground border rounded-2xl flex items-center justify-center">
+                  <RadioButton
+                    name="level"
+                    label="Pro"
+                    value={Level.Pro}
+                    onChange={(value) => setLevel(value as Level)}
+                  />
+                </div>
+                <div className="h-10 w-40 bg-foreground border rounded-2xl flex items-center justify-center">
+                  <RadioButton
+                    name="level"
+                    label="Amateur"
+                    value={Level.Amateur}
+                    isChecked={true}
+                    onChange={(value) => setLevel(value as Level)}
+                  />
+                </div>
               </div>
             </div>
+            <div className="flex flex-row w-85 justify-around ">
+              <Button
+                variant={ButtonVariant.Primary}
+                className="h-10 w-40 flex justify-center items-center"
+                onClick={() => applyFilter()}
+              >
+                Apply
+              </Button>
+              <Button
+                variant={ButtonVariant.Ternary}
+                className="h-10 w-40 flex justify-center items-center"
+                onClick={() => resetFilter()}
+              >
+                Reset
+              </Button>
+            </div>
+          </div>
+          <div className="flex flex-row justify-around">
             <div className="h-20 flex flex-col justify-between">
               <span>Sports :</span>
               <SportDropdown className="w-50" onChange={(value) => setSport(value as Sport)} />
             </div>
             <div className="h-20 flex flex-col justify-between">
-              <span>Experience :</span>
+              <span>Experience Required :</span>
               <Dropdown
                 className="w-50"
                 options={[
@@ -139,7 +176,7 @@ export default function EventsPage() {
               />
             </div>
             <div className="h-20 flex flex-col justify-between">
-              <span>Weight :</span>
+              <span>Weight Class :</span>
               <Dropdown
                 className="w-50"
                 options={[
@@ -156,38 +193,14 @@ export default function EventsPage() {
                 onChange={(value) => setWeight(value as Weight)}
               />
             </div>
-            <Button
-              variant={ButtonVariant.Primary}
-              className="h-10 w-40 flex justify-center items-center"
-              onClick={() => applyFilter()}>
-              Apply
-            </Button>
           </div>
         </div>
-        <div className="w-5/6 h-full flex flex-col">
-          <div className="w-full h-1/10 flex flex-row items-center">
-            <Input
-              className="w-200 h-10"
-              label={''}
-              placeholder={'Search an event'}
-              value={search}
-              onChange={(value) => setSearch(String(value))}
-            />
-            <Button
-              variant={ButtonVariant.Primary}
-              className="h-10 w-40 ml-80 flex justify-center items-center"
-              onClick={() => handleSearch()}>
-              Search
-            </Button>
-          </div>
-          <div className="w-full h-9/10 flex flex-col overflow-y-auto scrollb">
-            <h3 className="w-full text-center font-bold text-white border-2 border-r-0 border-l-0 border-t-0">
-              Events
-            </h3>
-            <div className="grid grid-cols-5">{cardEvents}</div>
-          </div>
+        <span className="flex justify-around items-center min-h-15 w-40 mr-290">Found <span className="text-accent">{eventShow.length}</span> Events :  </span>
+        <div className="w-330">
+          <div className="grid grid-cols-3">{cardEvents}{cardEvents}{cardEvents}</div>
         </div>
       </div>
+
       {isPopUp && <PopUpEvent setIsPopUp={setIsPopUp} token={currentEvent} />}
     </>
   );
