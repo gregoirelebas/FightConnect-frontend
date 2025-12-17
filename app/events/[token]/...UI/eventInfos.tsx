@@ -5,7 +5,7 @@ import { dateToString, sortAscend } from '@/app/...helpers/date';
 import { setFighterState } from '@/app/...helpers/states';
 import Cookies from '@/app/...types/cookies';
 import { getCookie } from '@/app/...helpers/cookies';
-import { Application, Event } from '@/app/...types/eventtype';
+import { Application, Event } from '@/app/...types/event';
 import {
   EventStatusToColor,
   EventStatusToString,
@@ -17,7 +17,7 @@ import {
 import FighterApplicant from './fighterApplicant';
 import { Fighter } from '@/app/...types/fighter';
 import { ApplicationStatus, EventStatus } from '@/app/...types/enum';
-import InfoCard from './infoCard';
+import InfoCard from '@/app/...UI/InfoCard';
 import { getEventStatus } from '@/app/...helpers/events';
 
 export default function EventInfos({ token }: { token: string | undefined }) {
@@ -155,10 +155,25 @@ export default function EventInfos({ token }: { token: string | undefined }) {
           <span className="text-grey">{event.clubName}</span>
         </div>
         <div className="grid grid-cols-4 gap-5">
-          <InfoCard text="Date" data={dateToString(event.date)} color="bg-accent" />
-          <InfoCard text="Location" data={event.city} color="bg-error" />
-          <InfoCard text="Experience" data={`${event.experience} fights`} color="bg-warning" />
-          <InfoCard text="Weight class" data={`${event.weight} kg`} color="bg-success" />
+          <InfoCard
+            text="Date"
+            data={dateToString(event.date)}
+            bgColor="bg-accent"
+            textColor="text-accent"
+          />
+          <InfoCard text="Location" data={event.city} bgColor="bg-error" textColor="text-error" />
+          <InfoCard
+            text="Experience"
+            data={`${event.experience} fights`}
+            bgColor="bg-warning"
+            textColor="text-warning"
+          />
+          <InfoCard
+            text="Weight class"
+            data={`${event.weight} kg`}
+            bgColor="bg-success"
+            textColor="text-success"
+          />
         </div>
         <div className="card">
           <h3>Description</h3>

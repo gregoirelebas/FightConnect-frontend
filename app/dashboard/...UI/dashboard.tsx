@@ -13,6 +13,7 @@ import { dateToString, getFormatedDate } from '@/app/...helpers/date';
 import DashboardEvent from './event';
 import { useRouter } from 'next/navigation';
 import { ApplicationStatus, Role } from '@/app/...types/enum';
+import InfoCard from '@/app/...UI/InfoCard';
 
 export default function Dashboard() {
   const router = useRouter();
@@ -126,46 +127,25 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="flex flex-row h-[calc(100vh-80px)] font-sans">
-      <div className="h-full w-3/10 flex justify-center ">
-        <div className="flex flex-col h-2/3 w-full justify-around items-center">
-          <div className="h-9/10 w-4/5 bg-foreground rounded-2xl flex flex-col justify-around items-center">
-            <h3>Fight Calendar</h3>
-            <Calendar
-              onChange={(value) => setSelectedDate(value as Date)}
-              className="text-black rounded-2xl"
-              tileClassName={({ date }: { date: Date }) => setCalendarTitleClass(date)}
-              locale="en"
-            />
-            <Link href="/events/create">
-              {isPromoter && (
-                <Button
-                  onClick={() => saveDate()}
-                  variant={ButtonVariant.Primary}
-                  className="w-35 h-10 text-sm">
-                  Create a Fight
-                </Button>
-              )}
-            </Link>
-          </div>
-        </div>
+    <div className="flex flex-col gap-10 my-10 mx-100">
+      <div>
+        <h1>Dashboard</h1>
+        <span>Manage your events and track your schedule</span>
       </div>
-      <div className="h-full w-7/10 flex flex-col items-center justify-around border border-t-0 border-b-0 border-r-0">
-        <div className="h-1/2 w-4/5 pt-5 flex flex-col justify-around items-center">
-          <h3 className="border border-t-0 border-l-0 border-r-0 w-full flex justify-center">
-            Upcoming Fights
-          </h3>
-          <div className="h-4/5 w-full bg-foreground rounded-2xl pl-3 pr-3 flex flex-col items-center overflow-y-auto">
-            {futureEventsComponents}
+      <div className="grid grid-cols-3 gap-5">
+        <InfoCard text="Upcoming Events" data="7" bgColor="bg-accent" textColor="text-accent" />
+        <InfoCard text="Completed Events" data="6" bgColor="bg-success" textColor="text-success" />
+        <InfoCard text="Total Events" data="13" bgColor="bg-primary" textColor="text-primary" />
+      </div>
+      <div className="flex gap-5">
+        <div className="card w-2/3">
+          <div className="flex justify-between items-center">
+            <h3 className="font-bold">Upcoming events</h3>
+            <span className="pill">7</span>
           </div>
         </div>
-        <div className="h-1/2 w-4/5 flex flex-col justify-around items-center">
-          <h3 className="border border-t-0 border-l-0 border-r-0 w-full flex justify-center">
-            Passed Fights
-          </h3>
-          <div className="h-4/5 w-full pl-3 pr-3 bg-foreground rounded-2xl  flex flex-col items-center overflow-y-auto">
-            {previousEventsComponents}
-          </div>
+        <div className="card w-1/3 h-150">
+          <Calendar className={'text-background'} locale="en" showNavigation={false} />
         </div>
       </div>
     </div>
