@@ -6,6 +6,8 @@ import { LevelToString } from "../...helpers/enum";
 import { SportToString } from "../...helpers/enum";
 import { getCookie } from "../...helpers/cookies";
 import Cookies from "../...types/cookies";
+import { ApplicationStatus } from "../...types/enum";
+
 
 
 
@@ -18,7 +20,7 @@ export default function PopUpEvent(props: {
   const [event, setEvent] = useState<Event>();
   const [fighterToken, setFighterToken] = useState('');
   const [status, setStatus] = useState('');
-   
+  const [message, setMessage] = useState('');
 
 
 
@@ -49,15 +51,21 @@ export default function PopUpEvent(props: {
         setFighterToken(cookie)
 
         fetch(`${url}events/reservation/${cookie}/${props.token}`).then(response => response.json())
-        .then(data=> setStatus(data.status))
+          .then(data => setStatus(data.status))
       }
     })
-    
+
 
   }, [])
-console.log(status)
+  console.log(status)
   const handleJoin = () => {
+
+    setMessage('Your registration has been processed!.');
+    setTimeout(() => {
+      setMessage("");
+    }, 3000);
     
+
     try {
       fetch(`${url}events/join`,
         {
@@ -71,11 +79,9 @@ console.log(status)
   };
 
   let button = <Button className="w-30" onClick={handleJoin} variant={ButtonVariant.Accept}>Join</Button>;
-  if (status=== 'denied') button = <Button className="w-30" onClick={handleJoin} variant={ButtonVariant.Accept}>denied</Button>;
-    if (status=== 'onHold') button = <Button className="w-30" onClick={handleJoin} variant={ButtonVariant.Accept}>onHold </Button>;
-    if (status=== 'accepted') button = <Button className="w-30" onClick={handleJoin} variant={ButtonVariant.Accept}>accepted </Button>;
-
+   if (status === ApplicationStatus.Pending) button = <Button className="w-30" onClick={handleJoin} variant={ButtonVariant.Ternary}>onHold </Button>;
   
+
   return (
     <div className="absolute top-0 left-0 w-screen h-screen bg-background/80 flex flex-col justify-center items-center">
       <div className={`w-150 h-100 ${imageUrl} bg-cover flex flex-col justify-between border border-accent rounded-xl relative p-5 items-center`}>
@@ -100,6 +106,11 @@ console.log(status)
           <Button className="w-30" variant={ButtonVariant.Refuse}>More info</Button>
         </div>
       </div>
+        {message && (
+        <div className="mt-4 p-2 bg-green-200 text-black rounded shadow-md">
+          {message}
+        </div>
+      )}
       {/* <p className="text-black ">The "Date" at the "Club" join for the "sport" fight.</p> */}
     </div>
   );
