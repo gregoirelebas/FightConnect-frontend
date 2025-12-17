@@ -13,7 +13,7 @@ import { dateToString, getFormatedDate } from "../...helpers/date";
 import EventsDisplay from "./EventsDisplay";
 import { useRouter } from "next/navigation";
 import { Role } from "../...types/enum";
-import { LevelToString } from "../...helpers/enum";
+
 
 export default function Dashboard() {
   const router = useRouter();
@@ -80,6 +80,8 @@ export default function Dashboard() {
   const futureEventsComponents = allEvents.map((data: Event, i) => {
     const eventDate = new Date(data.date).getTime();
 
+    const fighterAsk = data.fighters.filter(data => data.status !== "denied" )
+
     if (currentDate <= eventDate) {
       return (
         <EventsDisplay
@@ -90,7 +92,7 @@ export default function Dashboard() {
           level={data.level}
           isPromoter={isPromoter}
           displayEvent={displayEvent}
-          fighterAsk={3}
+          fighterAsk={fighterAsk.length}
         />
       );
     }
@@ -98,6 +100,8 @@ export default function Dashboard() {
 
   const previousEventsComponents = allEvents.map((data: Event, i) => {
     const eventDate = new Date(data.date).getTime();
+
+    const fighterAsk = data.fighters.filter(data => data.status !== "denied" )
 
     if (currentDate > eventDate) {
       return (
@@ -109,7 +113,7 @@ export default function Dashboard() {
           level={data.level}
           isPromoter={isPromoter}
           displayEvent={displayEvent}
-          fighterAsk={3}
+          fighterAsk={fighterAsk.length}
         />
       );
     }
