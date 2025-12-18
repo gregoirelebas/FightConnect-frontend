@@ -5,7 +5,7 @@ import FighterStats from './fighterStats';
 import UsersInfos from './userInfos';
 
 import { Fighter } from '@/app/...types/fighter';
-import { Role } from '@/app/...types/enum';
+import { ApplicationStatus, Role } from '@/app/...types/enum';
 import PromoterStats from './promoterStats';
 import { sortAscend } from '@/app/...helpers/date';
 import EventCard from './eventCard';
@@ -22,17 +22,12 @@ export default function ProfileComponent({ username }: { username: string | unde
   const router = useRouter();
 
   const [user, setUser] = useState<Fighter | Promoter>();
-  const [userToken, setUserToken] = useState<string>('');
-  const [profileToken, setProfileToken] = useState<string>('');
   const [events, setEvents] = useState<Event[]>([]);
   const [today, setToday] = useState<number>(0);
 
   useEffect(() => {
     async function fetchUser() {
       const token = await getCookie(Cookies.token);
-      if (token) {
-        setUserToken(token);
-      }
 
       let url;
       if (username) {
@@ -47,8 +42,6 @@ export default function ProfileComponent({ username }: { username: string | unde
         console.error(userRequest.error);
         return;
       }
-
-      setProfileToken(userRequest.data.userId.token);
 
       if (userRequest.data.userId.role === Role.Fighter) {
         setFighterState(userRequest.data, setUser);
@@ -90,6 +83,8 @@ export default function ProfileComponent({ username }: { username: string | unde
         sport={event.sport}
         name={event.name}
         level={event.level}
+        city={event.city}
+        fighterCount={event.fighters.filter((x) => x.status === ApplicationStatus.Accepted).length}
         status={getEventStatus(today, event.date)}
         date={event.date}
         onClick={displayEvent}
@@ -97,14 +92,21 @@ export default function ProfileComponent({ username }: { username: string | unde
     );
   });
 
+  const eventCount = events.length;
+  const fighterCount = events.reduce((acc, value) => {
+    return acc + value.fighters.filter((x) => x.status === ApplicationStatus.Accepted).length;
+  }, 0);
+
   return (
     <>
       <Header />
       {user && (
         <div className="flex flex-col gap-5 my-10 mx-100">
-          <UsersInfos user={user} isAdmin={userToken === profileToken} />
+          <UsersInfos user={user} />
           {user.role === Role.Fighter && <FighterStats user={user as Fighter} />}
-          {user.role === Role.Promoter && <PromoterStats user={user as Promoter} />}
+          {user.role === Role.Promoter && (
+            <PromoterStats eventCount={eventCount} fighterCount={fighterCount} />
+          )}
           <div className="card">
             <h3 className="font-bold">Fighting events history</h3>
             <div className="flex flex-col scroll-my-1 gap-3">{eventsCards}</div>

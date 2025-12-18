@@ -1,19 +1,12 @@
 import profile from '@/public/defaultProfile.png';
 
 import Image from 'next/image';
-import Button, { ButtonVariant } from '@/app/...components/Button';
 import { SportToString } from '@/app/...helpers/enum';
 import { Role, Sport } from '@/app/...types/enum';
 import { Fighter } from '@/app/...types/fighter';
 import { Promoter } from '@/app/...types/promoter';
 
-export default function UserInfos({
-  user,
-  isAdmin,
-}: {
-  user: Fighter | Promoter;
-  isAdmin: boolean;
-}) {
+export default function UserInfos({ user }: { user: Fighter | Promoter }) {
   const sportPills = user.sports.map((sport: Sport, index: number) => (
     <span key={index} className="pill">
       {SportToString(sport)}
@@ -30,11 +23,6 @@ export default function UserInfos({
           <div>
             <div className="flex justify-between items-center">
               <h1 className="font-bold">{user.name}</h1>
-              {isAdmin && (
-                <Button variant={ButtonVariant.Ternary} className="text-accent" onClick={() => {}}>
-                  Settings
-                </Button>
-              )}
             </div>
             {user.role === Role.Fighter && (
               <div className="flex gap-3">
@@ -50,7 +38,6 @@ export default function UserInfos({
           </div>
           <p className="text-grey">{user.bio}</p>
           <div className="flex flex-col gap-2">
-            <span className="text-lg">Martial arts</span>
             <div className="flex gap-3">{sportPills}</div>
           </div>
         </div>

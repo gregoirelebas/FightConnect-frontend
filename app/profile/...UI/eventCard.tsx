@@ -7,12 +7,16 @@ import {
   SportToString,
 } from '@/app/...helpers/enum';
 import { dateToString } from '@/app/...helpers/date';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCalendar, faMapPin, faUsers } from '@fortawesome/free-solid-svg-icons';
 
 interface EventCardProps {
   token: string;
   sport: Sport;
   name: string;
   level: Level;
+  city: string;
+  fighterCount: number;
   status: EventStatus;
   date: string;
   onClick: (token: string) => void;
@@ -28,15 +32,34 @@ export default function EventCard(props: EventCardProps) {
 
   return (
     <div
-      className="grid grid-cols-5 items-center px-5 py-3 bg-background rounded-xl cursor-pointer hover:bg-foreground-hover transition-all duration-200"
+      className="card bg-background cursor-pointer transition-all duration-200 hover:bg-foreground-hover active:scale-95"
       onClick={() => props.onClick(props.token)}>
-      <span className="pill">{SportToString(props.sport)}</span>
-      <span className="text-xl">{props.name}</span>
-      <span className={`pill ${levelColor} text-white`}>{LevelToString(props.level)}</span>
-      <span className={`pill ${eventColors[0]} ${eventColors[1]}`}>
-        {EventStatusToString(props.status)}
-      </span>
-      <span className="text-right text-grey">{dateToString(props.date)}</span>
+      <div className="flex justify-between items-center">
+        <h3>{props.name}</h3>
+        <span className={`pill ${eventColors[0]} ${eventColors[1]}`}>
+          {EventStatusToString(props.status)}
+        </span>
+      </div>
+      <div className="w-full flex justify-between items-center gap-5">
+        <div className="flex gap-5 text-grey text-sm">
+          <div className="flex items-center gap-1">
+            <FontAwesomeIcon icon={faCalendar} />
+            <span>{dateToString(props.date)}</span>
+          </div>
+          <div className="flex items-center gap-1">
+            <FontAwesomeIcon icon={faMapPin} />
+            <span>{props.city}</span>
+          </div>
+          <div className="flex items-center gap-1">
+            <FontAwesomeIcon icon={faUsers} />
+            <span>{props.fighterCount}</span>
+          </div>
+        </div>
+        <div className="flex gap-5">
+          <span className={`pill ${levelColor}`}>{LevelToString(props.level)}</span>
+          <span className={`pill`}>{SportToString(props.sport)}</span>
+        </div>
+      </div>
     </div>
   );
 }
