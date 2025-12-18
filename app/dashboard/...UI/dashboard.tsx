@@ -217,6 +217,16 @@ export default function Dashboard() {
               return setCalendarTitleClass(date);
             }}
           />
+          <div className='w-2/5 h-1/8 flex flex-col justify-around '>
+          <div className='flex flex-row items-center'>
+          <div className='w-5 h-5 mr-3 bg-accent'></div>
+          <span>Upcoming Fight</span>
+          </div>
+          <div className='flex flex-row items-center'>
+          <div className='w-5 h-5 mr-3 bg-primary'></div>
+          <span>Passed Fight</span>
+          </div> 
+          </div>         
         </div>
       </div>
     </div>
