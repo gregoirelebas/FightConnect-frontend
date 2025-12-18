@@ -37,7 +37,7 @@ export default function DashboardEvent(props: DashboardEventProps) {
         </div>
       </div>
       <div className="flex flex-col gap-2">
-        <span className="text-sm text-grey">{dateToString(props.date)}</span>
+        <span className="text-sm text-grey">{props.date}</span>
         <span className="text-sm text-grey">{props.city}</span>
         <span className="text-sm text-grey">{props.fighterCount} fighters</span>
       </div>

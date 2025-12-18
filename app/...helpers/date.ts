@@ -42,14 +42,12 @@ export function getFormatedDate(dateString: string) {
   return `${day}-${month}-${year}`;
 }
 
-export function getFormatedDateNewEvent(dateString: string) {
-  const date = new Date(dateString);
+export function getCalendarDate(date: Date) {
+  const day = numberToString(date.getDate());
+  const month = numberToString(date.getMonth() + 1);
+  const year = date.getFullYear();
 
-  const day = numberToString(date.getUTCDate() + 1);
-  const month = numberToString(date.getUTCMonth() + 1);
-  const year = date.getUTCFullYear();
-
-  return `${year}-${month}-${day}`;
+  return `${day}-${month}-${year}`;
 }
 
 export function sortAscend(a: string, b: string) {
