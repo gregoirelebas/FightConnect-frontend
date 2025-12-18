@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import Input from '../...components/Input';
 import Button, { ButtonVariant } from '../...components/Button';
-import type { Event } from '@/app/...types/event';
+import type { Event } from '@/app/...types/Event';
 import EventComponent from './event';
 import RadioButton from '../...components/RadioButton';
 import Dropdown from '../...components/Dropdown';

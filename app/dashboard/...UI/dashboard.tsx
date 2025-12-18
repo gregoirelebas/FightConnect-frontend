@@ -7,7 +7,7 @@ import Calendar from 'react-calendar';
 import moment from 'moment';
 import { getCookie, setCookie } from '@/app/...helpers/cookies';
 import Cookies from '@/app/...types/cookies';
-import { Event } from '@/app/...types/event';
+import { Event } from '@/app/...types/Event';
 import { dateToString, getFormatedDate, getWeekDay, monthToString } from '@/app/...helpers/date';
 import DashboardEvent from './event';
 import { useRouter } from 'next/navigation';

@@ -8,11 +8,11 @@ import { Experience, Level, Sport, Weight } from "../../...types/enum";
 import Dropdown from "../../...components/Dropdown";
 import Button, { ButtonVariant } from "../../...components/Button";
 import Link from "next/link";
-import { Event } from "@/app/...types/event";
 import SportDropdown from "@/app/...UI/SportDropdown";
 import { useRouter } from "next/navigation";
 import { getCookie } from "@/app/...helpers/cookies";
 import { getFormatedDateNewEvent } from "@/app/...helpers/date";
+import { Event } from '@/app/...types/Event';
 
 export default function NewEvent() {
   const router = useRouter();

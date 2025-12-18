@@ -14,7 +14,7 @@ import { Promoter } from '@/app/...types/promoter';
 import { setFighterState, setPromoterState } from '@/app/...helpers/states';
 import { getCookie } from '@/app/...helpers/cookies';
 import Cookies from '@/app/...types/cookies';
-import { Event } from '@/app/...types/event';
+import { Event } from '@/app/...types/Event';
 import { getEventStatus } from '@/app/...helpers/events';
 import { useRouter } from 'next/navigation';
 

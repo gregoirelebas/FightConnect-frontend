@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import Button, { ButtonVariant } from '../...components/Button';
-import { Event } from '../...types/event';
+import { Event } from '../...types/Event';
 import { dateToString } from '../...helpers/date';
 import { LevelToString } from '../...helpers/enum';
 import { SportToString } from '../...helpers/enum';

@@ -5,7 +5,7 @@ import { dateToString, sortAscend } from '@/app/...helpers/date';
 import { setFighterState } from '@/app/...helpers/states';
 import Cookies from '@/app/...types/cookies';
 import { getCookie } from '@/app/...helpers/cookies';
-import { Application, Event } from '@/app/...types/event';
+import { Application, Event } from '@/app/...types/Event';
 import {
   EventStatusToColor,
   EventStatusToString,
