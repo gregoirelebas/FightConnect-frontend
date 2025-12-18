@@ -11,6 +11,7 @@ import { Sport, Level, Experience, Weight } from '../...types/enum';
 import PopUpEvent from './PopUpEvent';
 import SportDropdown from '../...UI/SportDropdown';
 import { LevelToString, SportToString } from '../...helpers/enum';
+import { sortDescend } from '../...helpers/date';
 
 export default function EventsPage() {
   const [search, setSearch] = useState<string>('');
@@ -24,7 +25,7 @@ export default function EventsPage() {
   const [currentEvent, setCurrentEvent] = useState('');
 
   useEffect(() => {
-    fetch(process.env.NEXT_PUBLIC_API_URL + "events/")
+    fetch(process.env.NEXT_PUBLIC_API_URL + 'events/')
       .then((response) => response.json())
       .then((request) => {
         if (request.result) {
@@ -36,22 +37,24 @@ export default function EventsPage() {
       });
   }, []);
 
-  const cardEvents = eventShow.map((data: Event, i) => {
-    return (
-      <EventComponent
-        key={i}
-        token={data.token}
-        name={data.name}
-        date={data.date}
-        sport={SportToString(data.sport)}
-        experience={data.experience}
-        weight={data.weight}
-        level={data.level}
-        setCurrentEvent={setCurrentEvent}
-        setIsPopUp={setIsPopUp}
-      />
-    );
-  });
+  const cardEvents = eventShow
+    .sort((a: Event, b: Event) => sortDescend(a.date, b.date))
+    .map((data: Event, i) => {
+      return (
+        <EventComponent
+          key={i}
+          token={data.token}
+          name={data.name}
+          date={data.date}
+          sport={SportToString(data.sport)}
+          experience={data.experience}
+          weight={data.weight}
+          level={data.level}
+          setCurrentEvent={setCurrentEvent}
+          setIsPopUp={setIsPopUp}
+        />
+      );
+    });
 
   const handleSearch = () => {
     const research = allEvents.filter((data) =>
@@ -95,16 +98,15 @@ export default function EventsPage() {
         <div className="card w-330 flex-row items-center p-6 mb-6">
           <Input
             className="w-250 h-10"
-            label={""}
-            placeholder={"Search an event by name"}
+            label={''}
+            placeholder={'Search an event by name'}
             value={search}
             onChange={(value) => setSearch(String(value))}
           />
           <Button
             variant={ButtonVariant.Primary}
             className="h-10 w-40 ml-20 flex justify-center items-center"
-            onClick={() => handleSearch()}
-          >
+            onClick={() => handleSearch()}>
             Search
           </Button>
         </div>
@@ -137,15 +139,13 @@ export default function EventsPage() {
               <Button
                 variant={ButtonVariant.Primary}
                 className="h-10 w-40 flex justify-center items-center"
-                onClick={() => applyFilter()}
-              >
+                onClick={() => applyFilter()}>
                 Apply
               </Button>
               <Button
                 variant={ButtonVariant.Ternary}
                 className="h-10 w-40 flex justify-center items-center"
-                onClick={() => resetFilter()}
-              >
+                onClick={() => resetFilter()}>
                 Reset
               </Button>
             </div>
@@ -195,7 +195,9 @@ export default function EventsPage() {
             </div>
           </div>
         </div>
-        <span className="flex justify-around items-center min-h-15 w-40 mr-290">Found <span className="text-accent">{eventShow.length}</span> Events :  </span>
+        <span className="flex justify-around items-center min-h-15 w-40 mr-290">
+          Found <span className="text-accent">{eventShow.length}</span> Events :{' '}
+        </span>
         <div className="w-330">
           <div className="grid grid-cols-3">{cardEvents}</div>
         </div>
