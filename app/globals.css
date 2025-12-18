@@ -178,5 +178,5 @@ body {
 }
 
 .react-calendar__month-view__days__day.selected {
-  @apply border-accent;
+  @apply border-accent border-3;
 }
