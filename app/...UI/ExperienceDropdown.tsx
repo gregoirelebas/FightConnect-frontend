@@ -1,8 +1,9 @@
-import Dropdown, { DropdownOptionProps } from "../...components/Dropdown";
-import { Experience } from "../...types/enum";
+import Dropdown, { DropdownOptionProps } from '../...components/Dropdown';
+import { Experience } from '../...types/enum';
 
 interface ExperienceDropdownProps {
   className?: string;
+  currentValue?: string;
   onChange: (value: string) => void;
 }
 
@@ -21,7 +22,12 @@ export default function ExperienceDropdown(props: ExperienceDropdownProps) {
     { label: '25+', value: Experience.TwentyFivePlus },
   ];
 
-  return <Dropdown options={experienceOptions} className={props.className} onChange={props.onChange} />;
+  return (
+    <Dropdown
+      options={experienceOptions}
+      currentValue={props.currentValue}
+      className={props.className}
+      onChange={props.onChange}
+    />
+  );
 }
-
-

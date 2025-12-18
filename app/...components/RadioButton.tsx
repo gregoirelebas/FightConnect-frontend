@@ -1,6 +1,7 @@
 export interface RadioButtonProps {
   name: string;
-  value: string;
+  value: string | undefined;
+  currentValue?: string;
   label: string;
   description?: string;
   isChecked?: boolean;
@@ -36,6 +37,7 @@ export default function RadioButton(props: RadioButtonProps) {
         <input
           name={props.name}
           type="radio"
+          checked={props.currentValue ? props.value === props.currentValue : undefined}
           defaultChecked={props.isChecked ? props.isChecked : false}
           value={props.value}
           className="peer sr-only"

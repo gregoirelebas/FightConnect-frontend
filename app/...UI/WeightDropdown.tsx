@@ -1,8 +1,9 @@
-import Dropdown, { DropdownOptionProps } from "../...components/Dropdown";
-import { Weight } from "../...types/enum";
+import Dropdown, { DropdownOptionProps } from '../...components/Dropdown';
+import { Weight } from '../...types/enum';
 
 interface WeightDropdownProps {
   className?: string;
+  currentValue?: string;
   onChange: (value: string) => void;
 }
 
@@ -19,6 +20,12 @@ export default function WeightDropdown(props: WeightDropdownProps) {
     { label: '93-120', value: Weight.NinetyThreeOneHundredTwenty },
   ];
 
-  return <Dropdown options={weightOptions} className={props.className} onChange={props.onChange} />;
+  return (
+    <Dropdown
+      options={weightOptions}
+      currentValue={props.currentValue}
+      className={props.className}
+      onChange={props.onChange}
+    />
+  );
 }
-

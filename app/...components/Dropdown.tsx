@@ -12,6 +12,7 @@ function DropdownOption(props: DropdownOptionProps) {
 interface DropdownProps {
   className?: string;
   options: DropdownOptionProps[];
+  currentValue?: string;
   onChange: (value: string) => void;
 }
 
@@ -31,6 +32,7 @@ export default function Dropdown(props: DropdownProps) {
   return (
     <select
       className={`${props.className ? props.className : ''} input appearance-none cursor-pointer`}
+      value={props.currentValue}
       onChange={(e) => props.onChange(e.target.value)}>
       {options}
     </select>

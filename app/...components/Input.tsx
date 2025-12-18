@@ -49,7 +49,7 @@ export default function Input(props: InputProps) {
   };
 
   return (
-    <div className="flex flex-col">
+    <div className="w-full flex flex-col">
       <div>{props.label}</div>
       <input
         className={`input ${props.className ? props.className : ''}

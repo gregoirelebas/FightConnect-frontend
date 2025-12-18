@@ -1,45 +1,80 @@
-"use client";
+'use client';
 
-import { useEffect, useState } from "react";
-import Input from "../...components/Input";
-import Button, { ButtonVariant } from "../...components/Button";
-import type { Event } from "@/app/...types/Event";
-import EventComponent from "./event";
-import RadioButton from "../...components/RadioButton";
-import Dropdown from "../...components/Dropdown";
-import { Sport, Level, Experience, Weight } from "../...types/enum";
-import PopUpEvent from "./PopUpEvent";
-import SportDropdown from "../...UI/SportDropdown";
-import ExperienceDropdown from "../...UI/ExperienceDropdown";
-import WeightDropdown from "../...UI/ExperienceDropdown";
-import { LevelToString, SportToString } from "../...helpers/enum";
-import { sortDescend } from "../...helpers/date";
+import { useEffect, useState } from 'react';
+import Input from '../...components/Input';
+import type { Event } from '@/app/...types/Event';
+import EventComponent from './event';
+import RadioButton from '../...components/RadioButton';
+import { Sport, Level, Experience, Weight } from '../...types/enum';
+import PopUpEvent from './PopUpEvent';
+import SportDropdown from '../...UI/SportDropdown';
+import ExperienceDropdown from '../...UI/ExperienceDropdown';
+import WeightDropdown from '../...UI/ExperienceDropdown';
+import { LevelToString, SportToString } from '../...helpers/enum';
+import { sortDescend } from '../...helpers/date';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFilter } from '@fortawesome/free-solid-svg-icons';
+import Button, { ButtonVariant } from '../...components/Button';
 
 export default function EventsPage() {
-  const [search, setSearch] = useState<string>("");
-  const [level, setLevel] = useState<Level>(Level.Amateur);
+  const [search, setSearch] = useState<string>('');
+  const [level, setLevel] = useState<Level | undefined>(undefined);
   const [sport, setSport] = useState<Sport>(Sport.Empty);
   const [experience, setExperience] = useState<Experience>(Experience.Empty);
   const [weight, setWeight] = useState<Weight>(Weight.Empty);
-  const [allEvents, setAllEvents] = useState<Event[]>([]);
-  const [eventShow, setEventShow] = useState<Event[]>([]);
+  const [showFilters, setShowFilters] = useState<boolean>(true);
+
+  const [events, setEvents] = useState<Event[]>([]);
+
   const [isPopUp, setIsPopUp] = useState(false);
-  const [currentEvent, setCurrentEvent] = useState("");
+  const [currentEvent, setCurrentEvent] = useState('');
 
   useEffect(() => {
-    fetch(process.env.NEXT_PUBLIC_API_URL + "events/")
+    fetch(process.env.NEXT_PUBLIC_API_URL + 'events/')
       .then((response) => response.json())
       .then((request) => {
         if (request.result) {
-          setAllEvents(request.data);
-          setEventShow(request.data);
+          setEvents(request.data);
         } else {
-          console.error("Error registering fighter:", request.error);
+          console.error('Error registering fighter:', request.error);
         }
       });
   }, []);
 
-  const cardEvents = eventShow
+  function filterEvents(event: Event) {
+    if (level && event.level != level) {
+      return false;
+    }
+
+    if (search != '' && !event.name.toLowerCase().includes(search.toLowerCase())) {
+      return false;
+    }
+
+    if (sport != Sport.Empty && event.sport != sport) {
+      return false;
+    }
+
+    if (experience != Experience.Empty && event.experience != experience) {
+      return false;
+    }
+
+    if (weight != Weight.Empty && event.weight != weight) {
+      return false;
+    }
+
+    return true;
+  }
+
+  function resetFilters() {
+    setSearch('');
+    setLevel(undefined);
+    setExperience(Experience.Empty);
+    setSport(Sport.Empty);
+    setWeight(Weight.Empty);
+  }
+
+  const cardEvents = events
+    .filter(filterEvents)
     .sort((a: Event, b: Event) => sortDescend(a.date, b.date))
     .map((data: Event, i) => {
       return (
@@ -58,129 +93,104 @@ export default function EventsPage() {
       );
     });
 
-  const handleSearch = () => {
-    const research = allEvents.filter((data) =>
-      data.name.toLowerCase().includes(search.toLowerCase())
-    );
-    setEventShow(research);
-  };
-
-  const applyFilter = () => {
-    let research = allEvents.filter((data) => data.level === level);
-
-    if (sport !== Sport.Empty) {
-      research = research.filter((data) => data.sport === sport);
-    }
-
-    if (experience !== Experience.Empty) {
-      research = research.filter((data) => data.experience === experience);
-    }
-
-    if (weight !== Weight.Empty) {
-      research = research.filter((data) => data.weight === weight);
-    }
-
-    setEventShow(research);
-  };
-
-  const resetFilter = () => {
-    setEventShow(allEvents);
-    setSport(Sport.Empty);
-    setExperience(Experience.Empty);
-    setWeight(Weight.Empty);
-  };
-
   return (
     <>
-      <div className="flex flex-col w-full h-[calc(100vh-80px)] items-center text font-sans overflow-auto ">
-        <div className="w-330 min-h-40 flex flex-col items-start justify-center-safe">
-          <h1>Search Events</h1>
-          <p>Find the perfect fighting event for your skills and weight class</p>
+      <div className="flex flex-col gap-5 my-10 mx-80">
+        <div className="flex flex-col justify-start">
+          <h1 className="font-bold">Search Events</h1>
+          <span className="text-grey">
+            Find the perfect fighting event for your skills and weight class
+          </span>
         </div>
-        <div className="card w-330 flex-row items-center p-6 mb-6">
+        <div className="card w-full items-center p-4">
           <Input
-            className="w-250 h-10"
-            label={""}
-            placeholder={"Search an event by name"}
+            label={''}
+            placeholder={'  Search an event by name'}
             value={search}
+            className="w-full"
             onChange={(value) => setSearch(String(value))}
           />
-          <Button
-            variant={ButtonVariant.Primary}
-            className="h-10 w-40 ml-20 flex justify-center items-center"
-            onClick={() => handleSearch()}
-          >
-            Search
-          </Button>
         </div>
-        <div className="card w-330 min-h-55 flex-col justify-around">
-          <div className="flex flex-row justify-between item-center">
-            <h3 className="w-35">Filter</h3>
-            <div className="h-12 w-105 flex flex-row justify-around items-center">
-              <span className="whitespace-nowrap">Level :</span>
-              <div className="flex flex-row justify-around w-110">
-                <div className="h-10 w-40 bg-foreground border rounded-2xl flex items-center justify-center">
+        <div className="card w-full">
+          <div className="flex justify-between">
+            <div className="flex items-center gap-2">
+              <FontAwesomeIcon icon={faFilter} className="text-xl text-accent" />
+              <h3 className="font-bold">Filters</h3>
+            </div>
+            <Button
+              variant={ButtonVariant.Ternary}
+              onClick={() => {
+                setShowFilters(!showFilters);
+              }}>
+              {showFilters ? 'Hide' : 'Show'} filters
+            </Button>
+          </div>
+          {showFilters && (
+            <div className="flex justify-between items-end">
+              <div className="flex flex-col gap-1">
+                <span className="text-sm">Level</span>
+                <div className="flex justify-around gap-5 p-3 border border-white rounded-md">
                   <RadioButton
                     name="level"
-                    label="Pro"
+                    label={'All'}
+                    value={undefined}
+                    currentValue={level}
+                    isChecked={true}
+                    onChange={() => setLevel(undefined)}
+                  />
+                  <RadioButton
+                    name="level"
+                    label={LevelToString(Level.Pro)}
                     value={Level.Pro}
+                    currentValue={level}
                     onChange={(value) => setLevel(value as Level)}
                   />
-                </div>
-                <div className="h-10 w-40 bg-foreground border rounded-2xl flex items-center justify-center">
                   <RadioButton
                     name="level"
-                    label="Amateur"
+                    label={LevelToString(Level.Amateur)}
                     value={Level.Amateur}
-                    isChecked={true}
+                    currentValue={level}
                     onChange={(value) => setLevel(value as Level)}
                   />
                 </div>
               </div>
-            </div>
-            <div className="flex flex-row w-85 justify-around ">
-              <Button
-                variant={ButtonVariant.Primary}
-                className="h-10 w-40 flex justify-center items-center"
-                onClick={() => applyFilter()}
-              >
-                Apply
-              </Button>
-              <Button
-                variant={ButtonVariant.Ternary}
-                className="h-10 w-40 flex justify-center items-center"
-                onClick={() => resetFilter()}
-              >
+              <div className="flex flex-col justify-between">
+                <span className="text-sm">Sport:</span>
+                <SportDropdown
+                  currentValue={sport}
+                  className="w-50"
+                  onChange={(value) => setSport(value as Sport)}
+                />
+              </div>
+              <div className=" flex flex-col justify-between">
+                <span className="text-sm">Experience:</span>
+                <ExperienceDropdown
+                  currentValue={experience}
+                  className="w-50"
+                  onChange={(value) => setExperience(value as Experience)}
+                />
+              </div>
+              <div className="flex flex-col justify-between">
+                <span className="text-sm">Weight class:</span>
+                <WeightDropdown
+                  currentValue={weight}
+                  className="w-50"
+                  onChange={(value) => setWeight(value as Weight)}
+                />
+              </div>
+              <Button variant={ButtonVariant.Primary} className="w-30" onClick={resetFilters}>
                 Reset
               </Button>
             </div>
-          </div>
-          <div className="flex flex-row justify-around">
-            <div className="h-20 flex flex-col justify-between">
-              <span>Sports :</span>
-              <SportDropdown className="w-50" onChange={(value) => setSport(value as Sport)} />
-            </div>
-            <div className="h-20 flex flex-col justify-between">
-              <span>Experience Required :</span>
-              <ExperienceDropdown
-                className="w-50"
-                onChange={(value) => setExperience(value as Experience)}
-              />
-            </div>
-            <div className="h-20 flex flex-col justify-between">
-              <span>Weight Class :</span>
-              <WeightDropdown className="w-50" onChange={(value) => setWeight(value as Weight)} />
-            </div>
-          </div>
+          )}
         </div>
-        <span className="flex justify-around items-center min-h-15 w-40 mr-290">
-          Found <span className="text-accent">{eventShow.length}</span> Events :{" "}
+        <span className="w-fit flex justify-around items-center gap-1.5 text-grey">
+          Found <span className="text-accent">{events.length}</span> events :{' '}
         </span>
-        <div className="w-330">
+        <div className="">
           <div className="grid grid-cols-3">{cardEvents}</div>
         </div>
       </div>
-
       {isPopUp && <PopUpEvent setIsPopUp={setIsPopUp} token={currentEvent} />}
     </>
   );
