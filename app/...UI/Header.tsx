@@ -22,7 +22,7 @@ export default function Header() {
               <div className="w-13 h-13 rounded-full bg-[url(/defaultProfile.png)] bg-cover border border-white"></div>
             </h3>
           </Link>
-          <LogoutComponent />
+          <LogoutComponent className='h-10 flex justify-center items-center' />
         </div>
       </nav>
     </div>
