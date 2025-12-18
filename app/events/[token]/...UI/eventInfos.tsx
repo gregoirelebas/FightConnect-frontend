@@ -30,6 +30,7 @@ export default function EventInfos({ token }: { token: string | undefined }) {
   const [isAdmin, setIsAdmin] = useState<boolean>(false);
   const [status, setStatus] = useState<EventStatus>();
 
+  const [isDecisionRequest, setDecisionRequest] = useState<boolean>(false);
   const [isCancelRequest, setCancelRequest] = useState<boolean>(false);
 
   useEffect(() => {
@@ -91,6 +92,8 @@ export default function EventInfos({ token }: { token: string | undefined }) {
   }, [token]);
 
   async function takeDecision(fighterToken: string, decision: boolean) {
+    if (isDecisionRequest) return;
+
     const options = {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
@@ -102,9 +105,13 @@ export default function EventInfos({ token }: { token: string | undefined }) {
       }),
     };
 
+    setDecisionRequest(true);
+
     const request = await fetch(process.env.NEXT_PUBLIC_API_URL + 'events/decision', options).then(
       (response) => response.json()
     );
+
+    setDecisionRequest(false);
 
     if (!request.result) {
       console.error(request.error);
