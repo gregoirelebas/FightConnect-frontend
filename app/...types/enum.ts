@@ -9,7 +9,7 @@ export enum Step {
 }
 
 export enum Sport {
-  Empty = '-',
+  Empty = 'Select a sport',
   MMA = 'mma',
   Jiujitsu = 'jjb',
   KickBoxing = 'kickBoxing',
@@ -20,6 +20,7 @@ export enum Sport {
 export enum Level {
   Pro = 'pro',
   Amateur = 'amateur',
+  Promoter = "Promoter",
 }
 
 export enum Experience {

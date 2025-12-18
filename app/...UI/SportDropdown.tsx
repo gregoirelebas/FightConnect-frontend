@@ -9,12 +9,12 @@ interface SportDropdownProps {
 
 export default function SportDropdown(props: SportDropdownProps) {
   const sportOptions: DropdownOptionProps[] = [
-    { label: '-', value: Sport.Empty },
-    { label: 'English boxing', value: Sport.EnglishBoxing },
-    { label: 'Brasilian Jiu-jitsu', value: Sport.Jiujitsu },
-    { label: 'Kickboxing', value: Sport.KickBoxing },
-    { label: 'MMA', value: Sport.MMA },
-    { label: 'Muay Thai', value: Sport.MuayThai },
+    { label: "Select a sport", value: Sport.Empty },
+    { label: "English boxing", value: Sport.EnglishBoxing },
+    { label: "Brasilian Jiu-jitsu", value: Sport.Jiujitsu },
+    { label: "Kickboxing", value: Sport.KickBoxing },
+    { label: "MMA", value: Sport.MMA },
+    { label: "Muay Thai", value: Sport.MuayThai },
   ];
 
   return (
