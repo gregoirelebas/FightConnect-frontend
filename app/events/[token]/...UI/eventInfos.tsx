@@ -16,17 +16,19 @@ import {
 
 import FighterApplicant from './fighterApplicant';
 import { Fighter } from '@/app/...types/fighter';
-import { ApplicationStatus, EventStatus } from '@/app/...types/enum';
+import { ApplicationStatus, EventStatus, Role } from '@/app/...types/enum';
 import InfoCard from '@/app/...UI/InfoCard';
 import { getEventStatus } from '@/app/...helpers/events';
+import Button, { ButtonVariant } from '@/app/...components/Button';
 
 export default function EventInfos({ token }: { token: string | undefined }) {
   const [event, setEvent] = useState<Event>();
   const [applications, setApplications] = useState<Application[]>([]);
 
   const [userToken, setUserToken] = useState<string>('');
+  const [userRole, setUserRole] = useState<Role>(Role.Fighter);
   const [isAdmin, setIsAdmin] = useState<boolean>(false);
-  const [status, setStatus] = useState<EventStatus | undefined>();
+  const [status, setStatus] = useState<EventStatus>();
 
   useEffect(() => {
     async function fetchEvent() {
@@ -45,6 +47,11 @@ export default function EventInfos({ token }: { token: string | undefined }) {
       if (userToken) {
         setUserToken(userToken);
         setIsAdmin(userToken === eventRequest.data.promoterId.token);
+      }
+
+      const role = await getCookie(Cookies.role);
+      if (role) {
+        setUserRole(role as Role);
       }
 
       const applicationRequest = await fetch(
@@ -75,6 +82,10 @@ export default function EventInfos({ token }: { token: string | undefined }) {
     }
 
     fetchEvent();
+
+    return () => {
+      setApplications([]);
+    };
   }, [token]);
 
   async function takeDecision(fighterToken: string, decision: boolean) {
@@ -108,6 +119,31 @@ export default function EventInfos({ token }: { token: string | undefined }) {
       }
     } else {
       setApplications(applications.filter((x) => x.fighter.token !== fighterToken));
+    }
+  }
+
+  async function cancelEvent() {
+    const options = {
+      method: 'PUT',
+      headers: { 'Content-type': 'application/json' },
+      body: JSON.stringify({ promoterToken: userToken, eventToken: event?.token }),
+    };
+
+    const request = await fetch(process.env.NEXT_PUBLIC_API_URL + 'events/cancel', options).then(
+      (response) => response.json()
+    );
+
+    if (!request.result) {
+      console.error(request.error);
+    }
+
+    setStatus(EventStatus.Cancelled);
+    setIsAdmin(false);
+
+    if (event) {
+      const buffer = event;
+      buffer.status = EventStatus.Cancelled;
+      setEvent(buffer);
     }
   }
 
@@ -152,7 +188,16 @@ export default function EventInfos({ token }: { token: string | undefined }) {
             )}
           </div>
           <h1>{event.name}</h1>
-          <span className="text-grey">{event.clubName}</span>
+          <div className="flex justify-between items-center">
+            <span className="text-grey">{event.clubName}</span>
+            {isAdmin && status === EventStatus.Upcoming && (
+              <div>
+                <Button variant={ButtonVariant.Primary} onClick={cancelEvent}>
+                  Cancel event
+                </Button>
+              </div>
+            )}
+          </div>
         </div>
         <div className="grid grid-cols-4 gap-5">
           <InfoCard

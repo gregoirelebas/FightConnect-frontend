@@ -1,4 +1,4 @@
-import { Level, Weight, Sport, Experience, ApplicationStatus } from './enum';
+import { Level, Weight, Sport, Experience, ApplicationStatus, EventStatus } from './enum';
 import { Fighter } from './fighter';
 
 export interface Application {
@@ -20,4 +20,5 @@ export interface Event {
   promoterToken: string;
   fighters: Application[];
   token: string;
+  status: EventStatus;
 }
