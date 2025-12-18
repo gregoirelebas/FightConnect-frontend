@@ -30,6 +30,8 @@ export default function EventInfos({ token }: { token: string | undefined }) {
   const [isAdmin, setIsAdmin] = useState<boolean>(false);
   const [status, setStatus] = useState<EventStatus>();
 
+  const [isCancelRequest, setCancelRequest] = useState<boolean>(false);
+
   useEffect(() => {
     async function fetchEvent() {
       const eventRequest = await fetch(process.env.NEXT_PUBLIC_API_URL + `events/${token}`).then(
@@ -123,15 +125,21 @@ export default function EventInfos({ token }: { token: string | undefined }) {
   }
 
   async function cancelEvent() {
+    if (isCancelRequest) return;
+
     const options = {
       method: 'PUT',
       headers: { 'Content-type': 'application/json' },
       body: JSON.stringify({ promoterToken: userToken, eventToken: event?.token }),
     };
 
+    setCancelRequest(true);
+
     const request = await fetch(process.env.NEXT_PUBLIC_API_URL + 'events/cancel', options).then(
       (response) => response.json()
     );
+
+    setCancelRequest(false);
 
     if (!request.result) {
       console.error(request.error);
