@@ -197,7 +197,7 @@ export default function EventsPage() {
         </div>
         <span className="flex justify-around items-center min-h-15 w-40 mr-290">Found <span className="text-accent">{eventShow.length}</span> Events :  </span>
         <div className="w-330">
-          <div className="grid grid-cols-3">{cardEvents}{cardEvents}{cardEvents}</div>
+          <div className="grid grid-cols-3">{cardEvents}</div>
         </div>
       </div>
 

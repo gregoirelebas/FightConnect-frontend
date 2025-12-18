@@ -1,6 +1,6 @@
 'use client';
 
-import { Role, Sport } from '@/app/...types/enum';
+import { Role, Sport, Step } from '@/app/...types/enum';
 import type { Promoter, Organization } from '@/app/...types/promoter';
 import RoleSwitch from './roleSwitch';
 import SportDropdown from '@/app/...UI/SportDropdown';
@@ -8,10 +8,12 @@ import Input from '@/app/...components/Input';
 import { useEffect, useState } from 'react';
 import Button, { ButtonVariant } from '@/app/...components/Button';
 import OrganizationComponent from './organization';
+import HeaderSignupComponent from './HeaderSignup';
 import { setCookieState } from '@/app/...helpers/states';
 import Cookies from '@/app/...types/cookies';
 import { deleteCookies, setCookie } from '@/app/...helpers/cookies';
 import { useRouter } from 'next/navigation';
+import HeaderSignup from './HeaderSignup';
 
 export default function SignupPromoterComponent() {
   const router = useRouter();
@@ -141,14 +143,16 @@ export default function SignupPromoterComponent() {
   };
 
   return (
-    <div className="flex flex-col my-10 mx-20 gap-10">
-      <RoleSwitch role={Role.Promoter} />
+    <div className="flex h-screen w-full justify-center">
+     <div className='flex flex-col w-2/3 p-3 pb-8 pt-5 bg-foreground justify-between items-center'>
       <Button variant={ButtonVariant.Primary} className="absolute right-5" onClick={DEBUG_fillForm}>
         [DEBUG]_FillForm
       </Button>
-      <div className="card">
+      <HeaderSignupComponent step={Step.Step2} />  
+      <RoleSwitch role={Role.Promoter} />
+      <div className="card bg-black w-9/10">
         <h3>Official informations</h3>
-        <div className="flex gap-10">
+        <div className="flex justify-around gap-10">
           <div className="flex flex-col">
             <div>Sport</div>
             <SportDropdown
@@ -171,7 +175,7 @@ export default function SignupPromoterComponent() {
       </div>
       <div className="card">
         <h3 className="text-center">Organizations you have worked with :</h3>
-        <div className="min-h-20 flex flex-col justify-between items-center border border-white">
+        <div className="min-h-20 flex flex-col bg-black justify-between items-center rounded-2xl">
           <div className="scroll-auto">{organizationsElements}</div>
           <Button variant={ButtonVariant.Secondary} className="mb-5" onClick={addOrganization}>
             Add organization
@@ -185,5 +189,6 @@ export default function SignupPromoterComponent() {
         </Button>
       </div>
     </div>
+    </div> 
   );
 }
