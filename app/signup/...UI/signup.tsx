@@ -148,7 +148,7 @@ export default function SignupComponent() {
       <div className="flex flex-col gap-5 p-5 rounded-2xl">
         <span>Fields marqued with * are required</span>
         <div className="w-full flex justify-between">
-          <fieldset className="flex flex-wrap  gap-5 text-accent">
+          <fieldset className="flex flex-wrap  gap-5">
             <Input
               label="Username*"
               placeholder="Username"
@@ -196,7 +196,7 @@ export default function SignupComponent() {
               onChange={(value) => setPhoneNumber(String(value))}
             />
           </fieldset>
-          <div className="flex flex-col items-center gap-5 px-5 ">
+          <div className="flex flex-col items-center max-w-65 gap-5 px-5 ">
             <Image src={profile} alt="Profile picture" width={150} className="rounded-2xl" />
             {profilePicture && <span className="text-grey">{profilePicture}</span>}
             <Button
@@ -216,7 +216,7 @@ export default function SignupComponent() {
             />
           </div>
         </div>
-        <fieldset className="w-full text-accent">
+        <fieldset className="w-full">
           <TextArea
             label="Bio"
             placeholder="Write some words about you..."
@@ -231,7 +231,7 @@ export default function SignupComponent() {
         <Button variant={ButtonVariant.Primary} className="w-3xs" onClick={loadNextPage}>
           Continue
         </Button>
-        <span className='border mt-4 pt-2 flex justify-center border-r-0 border-l-0 border-b-0 w-200'>Already have an account ? <span className='text-accent cursor-pointer' onClick={loadSignIn}> Sign in</span></span>
+        <span className='border mt-8 pt-2 flex justify-center border-r-0 border-l-0 border-b-0 w-200'>Already have an account ? <span className='text-accent cursor-pointer' onClick={loadSignIn}> Sign in</span></span>
       </div>
       </div>
     </div>
