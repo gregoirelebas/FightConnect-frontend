@@ -22,6 +22,7 @@ import { ApplicationStatus, EventStatus, Role } from '@/app/...types/enum';
 import InfoCard from '@/app/...UI/InfoCard';
 import { getEventStatus } from '@/app/...helpers/events';
 import Button, { ButtonVariant } from '@/app/...components/Button';
+import { faCalendar, faMapPin, faTrophy, faWeightHanging } from '@fortawesome/free-solid-svg-icons';
 
 export default function EventInfos({ token }: { token: string | undefined }) {
   const [event, setEvent] = useState<Event>();
@@ -262,19 +263,28 @@ export default function EventInfos({ token }: { token: string | undefined }) {
         </div>
         <div className="grid grid-cols-4 gap-5">
           <InfoCard
+            icon={faCalendar}
             text="Date"
             data={dateToString(event.date)}
             bgColor="bg-accent"
             textColor="text-accent"
           />
-          <InfoCard text="Location" data={event.city} bgColor="bg-error" textColor="text-error" />
           <InfoCard
+            icon={faMapPin}
+            text="Location"
+            data={event.city}
+            bgColor="bg-error"
+            textColor="text-error"
+          />
+          <InfoCard
+            icon={faTrophy}
             text="Experience"
             data={`${event.experience} fights`}
             bgColor="bg-warning"
             textColor="text-warning"
           />
           <InfoCard
+            icon={faWeightHanging}
             text="Weight class"
             data={`${event.weight} kg`}
             bgColor="bg-success"

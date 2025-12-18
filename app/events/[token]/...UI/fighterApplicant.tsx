@@ -11,6 +11,8 @@ import {
   LevelToColor,
   LevelToString,
 } from '@/app/...helpers/enum';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFistRaised, faHeartBroken, faTrophy } from '@fortawesome/free-solid-svg-icons';
 
 interface FighterApplicantProps {
   fighter: Fighter;
@@ -40,10 +42,19 @@ export default function FighterApplicant(props: FighterApplicantProps) {
       </div>
       <h3>{props.fighter.name}</h3>
       <div className="card flex-row items-center bg-background text-xl">
-        <div className="flex items-center gap-2">
-          <span className="text-success">{props.fighter.victoryCount}</span>•
-          <span className="text-error">{props.fighter.defeatCount}</span>•
-          <span className="text-warning">{props.fighter.drawCount}</span>
+        <div className="flex items-center gap-2 text-sm">
+          <div className="flex items-center text-success">
+            <FontAwesomeIcon icon={faTrophy} className="pb-0.5" />
+            <span>{props.fighter.victoryCount}</span>
+          </div>
+          <div className="flex items-center text-error">
+            <FontAwesomeIcon icon={faHeartBroken} className="pb-0.5" />
+            <span>{props.fighter.defeatCount}</span>
+          </div>
+          <div className="flex items-center text-warning">
+            <FontAwesomeIcon icon={faFistRaised} className="pb-0.5" />
+            <span>{props.fighter.drawCount}</span>
+          </div>
         </div>
         <div className="flex items-center gap-2">
           <span>{props.fighter.weight}kg</span>
