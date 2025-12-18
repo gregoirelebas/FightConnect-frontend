@@ -1,20 +1,22 @@
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
-import Input from '../...components/Input';
-import Button, { ButtonVariant } from '../...components/Button';
-import type { Event } from '@/app/...types/Event';
-import EventComponent from './event';
-import RadioButton from '../...components/RadioButton';
-import Dropdown from '../...components/Dropdown';
-import { Sport, Level, Experience, Weight } from '../...types/enum';
-import PopUpEvent from './PopUpEvent';
-import SportDropdown from '../...UI/SportDropdown';
-import { LevelToString, SportToString } from '../...helpers/enum';
-import { sortDescend } from '../...helpers/date';
+import { useEffect, useState } from "react";
+import Input from "../...components/Input";
+import Button, { ButtonVariant } from "../...components/Button";
+import type { Event } from "@/app/...types/Event";
+import EventComponent from "./event";
+import RadioButton from "../...components/RadioButton";
+import Dropdown from "../...components/Dropdown";
+import { Sport, Level, Experience, Weight } from "../...types/enum";
+import PopUpEvent from "./PopUpEvent";
+import SportDropdown from "../...UI/SportDropdown";
+import ExperienceDropdown from "../...UI/ExperienceDropdown";
+import WeightDropdown from "../...UI/ExperienceDropdown";
+import { LevelToString, SportToString } from "../...helpers/enum";
+import { sortDescend } from "../...helpers/date";
 
 export default function EventsPage() {
-  const [search, setSearch] = useState<string>('');
+  const [search, setSearch] = useState<string>("");
   const [level, setLevel] = useState<Level>(Level.Amateur);
   const [sport, setSport] = useState<Sport>(Sport.Empty);
   const [experience, setExperience] = useState<Experience>(Experience.Empty);
@@ -22,17 +24,17 @@ export default function EventsPage() {
   const [allEvents, setAllEvents] = useState<Event[]>([]);
   const [eventShow, setEventShow] = useState<Event[]>([]);
   const [isPopUp, setIsPopUp] = useState(false);
-  const [currentEvent, setCurrentEvent] = useState('');
+  const [currentEvent, setCurrentEvent] = useState("");
 
   useEffect(() => {
-    fetch(process.env.NEXT_PUBLIC_API_URL + 'events/')
+    fetch(process.env.NEXT_PUBLIC_API_URL + "events/")
       .then((response) => response.json())
       .then((request) => {
         if (request.result) {
           setAllEvents(request.data);
           setEventShow(request.data);
         } else {
-          console.error('Error registering fighter:', request.error);
+          console.error("Error registering fighter:", request.error);
         }
       });
   }, []);
@@ -98,15 +100,16 @@ export default function EventsPage() {
         <div className="card w-330 flex-row items-center p-6 mb-6">
           <Input
             className="w-250 h-10"
-            label={''}
-            placeholder={'Search an event by name'}
+            label={""}
+            placeholder={"Search an event by name"}
             value={search}
             onChange={(value) => setSearch(String(value))}
           />
           <Button
             variant={ButtonVariant.Primary}
             className="h-10 w-40 ml-20 flex justify-center items-center"
-            onClick={() => handleSearch()}>
+            onClick={() => handleSearch()}
+          >
             Search
           </Button>
         </div>
@@ -139,13 +142,15 @@ export default function EventsPage() {
               <Button
                 variant={ButtonVariant.Primary}
                 className="h-10 w-40 flex justify-center items-center"
-                onClick={() => applyFilter()}>
+                onClick={() => applyFilter()}
+              >
                 Apply
               </Button>
               <Button
                 variant={ButtonVariant.Ternary}
                 className="h-10 w-40 flex justify-center items-center"
-                onClick={() => resetFilter()}>
+                onClick={() => resetFilter()}
+              >
                 Reset
               </Button>
             </div>
@@ -157,46 +162,19 @@ export default function EventsPage() {
             </div>
             <div className="h-20 flex flex-col justify-between">
               <span>Experience Required :</span>
-              <Dropdown
+              <ExperienceDropdown
                 className="w-50"
-                options={[
-                  { value: Experience.Empty, label: '-' },
-                  { value: Experience.Zero, label: '0' },
-                  { value: Experience.OneThree, label: '1-3' },
-                  { value: Experience.FourSix, label: '4-6' },
-                  { value: Experience.SevenNine, label: '7-9' },
-                  { value: Experience.TenTwelve, label: '10-12' },
-                  { value: Experience.ThirteenFifteen, label: '13-15' },
-                  { value: Experience.SixteenEighteen, label: '16-18' },
-                  { value: Experience.NineteenTwentyOne, label: '19-21' },
-                  { value: Experience.TwentyTwoTwentyFour, label: '22-24' },
-                  { value: Experience.TwentyFivePlus, label: '25+' },
-                ]}
                 onChange={(value) => setExperience(value as Experience)}
               />
             </div>
             <div className="h-20 flex flex-col justify-between">
               <span>Weight Class :</span>
-              <Dropdown
-                className="w-50"
-                options={[
-                  { value: Weight.Empty, label: '-' },
-                  { value: Weight.FiftyTwoFiftySeven, label: '52-57' },
-                  { value: Weight.FiftySevenSixtyOne, label: '57-61' },
-                  { value: Weight.SixtyOneSixtySix, label: '61-66' },
-                  { value: Weight.SixtySixSeventy, label: '66-70' },
-                  { value: Weight.SeventySeventySeven, label: '70-77' },
-                  { value: Weight.SeventySevenEightyFour, label: '77-84' },
-                  { value: Weight.EightyFourNinetyThree, label: '84-93' },
-                  { value: Weight.NinetyThreeOneHundredTwenty, label: '93-120' },
-                ]}
-                onChange={(value) => setWeight(value as Weight)}
-              />
+              <WeightDropdown className="w-50" onChange={(value) => setWeight(value as Weight)} />
             </div>
           </div>
         </div>
         <span className="flex justify-around items-center min-h-15 w-40 mr-290">
-          Found <span className="text-accent">{eventShow.length}</span> Events :{' '}
+          Found <span className="text-accent">{eventShow.length}</span> Events :{" "}
         </span>
         <div className="w-330">
           <div className="grid grid-cols-3">{cardEvents}</div>
