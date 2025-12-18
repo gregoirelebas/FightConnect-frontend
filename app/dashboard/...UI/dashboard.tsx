@@ -2,8 +2,8 @@
 
 import Button, { ButtonVariant } from '@/app/...components/Button';
 import Link from 'next/link';
-import { useEffect, useRef, useState } from 'react';
-import Calendar, { CalendarType } from 'react-calendar';
+import { useEffect, useState } from 'react';
+import Calendar from 'react-calendar';
 import { getCookie, setCookie } from '@/app/...helpers/cookies';
 import Cookies from '@/app/...types/cookies';
 import { Event } from '@/app/...types/Event';
@@ -12,7 +12,7 @@ import {
   getFormatedDate,
   getCalendarDate,
   getWeekDay,
-  monthToString,
+  isSameDate,
 } from '@/app/...helpers/date';
 import DashboardEvent from './event';
 import { useRouter } from 'next/navigation';
@@ -25,12 +25,10 @@ export default function Dashboard() {
   const [upcomingDates, setFutureDates] = useState<string[]>([]);
   const [previousDates, setPreviousDates] = useState<string[]>([]);
   const [events, setEvents] = useState<Event[]>([]);
-  const [selectedDate, setSelectedDate] = useState<Date>(new Date());
-  const [today, setToday] = useState<number>(0);
+  const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
+  const [today, setToday] = useState<number>();
 
   const [isPromoter, setIsPromoter] = useState<boolean>(false);
-
-  const calendar = useRef<CalendarType>(null);
 
   useEffect(() => {
     async function fetchData() {
@@ -106,7 +104,7 @@ export default function Dashboard() {
   const upcomingEvents = events.map((event: Event, i) => {
     const eventDate = new Date(event.date).getTime();
 
-    if (today <= eventDate) {
+    if (today && today <= eventDate) {
       return createEventDisplay(i, event);
     }
   });
@@ -114,7 +112,7 @@ export default function Dashboard() {
   const completedEvents = events.map((event: Event, i) => {
     const eventDate = new Date(event.date).getTime();
 
-    if (today > eventDate) {
+    if (today && today > eventDate) {
       return createEventDisplay(i, event);
     }
   });
@@ -122,20 +120,35 @@ export default function Dashboard() {
   const setCalendarTitleClass = (date: Date) => {
     const calendarDate = getCalendarDate(date);
 
+    if (today) console.log(new Date(today) + ' / ' + date);
+
+    let dateClass = '';
+
     if (upcomingDates.includes(calendarDate)) {
-      return 'upcoming';
+      dateClass = 'upcoming';
     } else if (previousDates.includes(calendarDate)) {
-      return 'previous';
+      dateClass = 'previous';
+    }
+    if (date.getTime() === selectedDate?.getTime()) {
+      dateClass += ' selected';
     }
 
-    return undefined;
+    if (today && isSameDate(new Date(today), date)) {
+      dateClass += ' active';
+    }
+
+    return dateClass;
   };
 
-  const selectAndSaveDate = (date: Date) => {
+  const selectAndSaveDate = (date: Date | undefined) => {
     setSelectedDate(date);
 
-    if (date.getDate() < today) {
-      setCookie(Cookies.date, date.toString());
+    if (date) {
+      if (today && date.getTime() < today) {
+        setCookie(Cookies.date, date.toString());
+      }
+    } else {
+      setCookie(Cookies.date, '');
     }
   };
 
@@ -191,16 +204,15 @@ export default function Dashboard() {
         </div>
         <div className="w-1/3 card">
           <Calendar
-            ref={calendar}
             formatShortWeekday={getWeekDay}
             showNeighboringMonth={false}
-            onClickMonth={(value) => {
-              return null;
-            }}
             locale="en"
             value={selectedDate}
             onClickDay={(value) => {
-              setSelectedDate(value);
+              selectAndSaveDate(value);
+            }}
+            onActiveStartDateChange={() => {
+              selectAndSaveDate(undefined);
             }}
             tileClassName={({ date }: { date: Date }) => {
               return setCalendarTitleClass(date);

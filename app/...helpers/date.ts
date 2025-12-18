@@ -32,6 +32,14 @@ export function monthToString(month: number) {
   return months[month];
 }
 
+export function isSameDate(a: Date, b: Date) {
+  return (
+    a.getUTCDate() == b.getUTCDate() &&
+    a.getUTCMonth() == b.getUTCMonth() &&
+    a.getUTCFullYear() == b.getUTCFullYear()
+  );
+}
+
 export function getFormatedDate(dateString: string) {
   const date = new Date(dateString);
 
