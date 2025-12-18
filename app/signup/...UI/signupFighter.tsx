@@ -99,6 +99,7 @@ export default function SignupFighterComponent() {
       defeatCount: hasExperience ? defeats : 0,
       drawCount: hasExperience ? draws : 0,
       lastFightDate: hasExperience ? lastFightDate : '',
+      token: '',
     };
 
     const options = {
