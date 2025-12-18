@@ -35,11 +35,11 @@ export default function Event(props: {
 
         <div className="bg-black rounded-2xl w-full min-h-15 flex flex-row justify-around items-center">
           <div className="flex flex-col w-1/2 items-start pl-3">
-            <span className="text-gray-300">Experience : </span>
+            <span className="text-gray-400">Experience </span>
             <span className="text-accent">{props.experience}</span>
           </div>
           <div className="flex flex-col w-1/2 items-start pl-3">
-            <span className="text-gray-300">Weight : </span>
+            <span className="text-gray-400">Weight </span>
             <span className="text-accent">{props.weight}</span>
           </div>
         </div>
