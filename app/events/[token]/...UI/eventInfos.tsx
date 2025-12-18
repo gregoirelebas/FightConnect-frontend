@@ -87,7 +87,7 @@ export default function EventInfos({ token }: { token: string | undefined }) {
             setApplications((prev) => [...prev, application]);
           }
 
-          if (userRole === Role.Fighter && application.fighter.token === userToken) {
+          if (role === Role.Fighter && application.fighter.token === userToken) {
             setUserApplication(application);
             setHasApplied(true);
           }
