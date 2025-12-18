@@ -13,7 +13,8 @@ import Logo from '@/app/...UI/Logo';
 import Cookies from '@/app/...types/cookies';
 import { setCookie, setCookies } from '@/app/...helpers/cookies';
 import { setCookieState } from '@/app/...helpers/states';
-import { Role } from '@/app/...types/enum';
+import { Role, Step } from '@/app/...types/enum';
+import HeaderSignupComponent from "./HeaderSignup"
 
 import profile from '@/public/defaultProfile.png';
 import Link from 'next/link';
@@ -133,23 +134,16 @@ export default function SignupComponent() {
   const phonePattern =
     /^(?:(?:\+|00)33[\s.-]{0,3}(?:\(0\)[\s.-]{0,3})?|0)[1-9](?:(?:[\s.-]?\d{2}){4}|\d{2}(?:[\s.-]?\d{3}){2})$/;
 
+
   return (
     <div className="flex h-screen justify-center">
       <div className="h-full w-1/2 pl-5 pr-5 bg-foreground font-bold flex flex-col justify-around items-center">
+      <div className='w-full flex flex-col justify-center items-center'>
       <Logo className="logo"/>
       <Button variant={ButtonVariant.Primary} className="absolute right-5" onClick={DEBUG_fillForm}>
         [DEBUG]_FillForm
       </Button>
-      <h1>Create your account</h1>
-      <div className='w-2/3 flex flex-col'>
-        <div className='flex justify-between'>
-          <span>Step 1</span>
-          <span>Step 2</span>
-        </div>
-        <div className='flex flex-row w-full border border-gray-600'>
-        <div className='h-2 w-1/2 bg-accent'></div>
-        <div className='h-2 w-1/2'></div>
-        </div>
+      <HeaderSignupComponent step={Step.Step1} />
       </div>
       <div className="flex flex-col gap-5 p-5 rounded-2xl">
         <span>Fields marqued with * are required</span>

@@ -3,6 +3,11 @@ export enum Role {
   Promoter = 'promoter',
 }
 
+export enum Step {
+  Step1 = 'Step1',
+  Step2 = 'Step2',
+}
+
 export enum Sport {
   Empty = '-',
   MMA = 'mma',
