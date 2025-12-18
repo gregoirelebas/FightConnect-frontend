@@ -7,6 +7,8 @@ import Cookies from '@/app/...types/cookies';
 import { getCookie } from '@/app/...helpers/cookies';
 import { Application, Event } from '@/app/...types/Event';
 import {
+  ApplicationStatusToColor,
+  ApplicationStatusToString,
   EventStatusToColor,
   EventStatusToString,
   LevelToColor,
@@ -30,8 +32,12 @@ export default function EventInfos({ token }: { token: string | undefined }) {
   const [isAdmin, setIsAdmin] = useState<boolean>(false);
   const [status, setStatus] = useState<EventStatus>();
 
+  const [userApplication, setUserApplication] = useState<Application | null>(null);
+  const [hasApplied, setHasApplied] = useState<boolean>(false);
+
   const [isDecisionRequest, setDecisionRequest] = useState<boolean>(false);
   const [isCancelRequest, setCancelRequest] = useState<boolean>(false);
+  const [isJoinRequest, setJoinRequest] = useState<boolean>(false);
 
   useEffect(() => {
     async function fetchEvent() {
@@ -80,15 +86,16 @@ export default function EventInfos({ token }: { token: string | undefined }) {
           if (application.status != ApplicationStatus.Denied) {
             setApplications((prev) => [...prev, application]);
           }
+
+          if (userRole === Role.Fighter && application.fighter.token === userToken) {
+            setUserApplication(application);
+            setHasApplied(true);
+          }
         });
       });
     }
 
     fetchEvent();
-
-    return () => {
-      setApplications([]);
-    };
   }, [token]);
 
   async function takeDecision(fighterToken: string, decision: boolean) {
@@ -162,6 +169,30 @@ export default function EventInfos({ token }: { token: string | undefined }) {
     }
   }
 
+  async function joinEvent() {
+    if (isJoinRequest) return;
+
+    const options = {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ fighterToken: userToken, eventToken: event?.token }),
+    };
+
+    setJoinRequest(true);
+
+    const request = await fetch(process.env.NEXT_PUBLIC_API_URL + 'events/join', options).then(
+      (response) => response.json()
+    );
+
+    setJoinRequest(false);
+
+    if (!request.result) {
+      console.error(request.error);
+    }
+
+    setHasApplied(true);
+  }
+
   const applicationElements = applications
     .sort((a, b) => sortAscend(a.date, b.date))
     .map((application: Application, i: number) => {
@@ -181,13 +212,17 @@ export default function EventInfos({ token }: { token: string | undefined }) {
       );
     });
 
+  const userStatus: ApplicationStatus = userApplication
+    ? userApplication.status
+    : ApplicationStatus.Pending;
+
   return (
     event && (
       <div className="flex flex-col mx-100 my-10 gap-10">
         <div className="h-80 card justify-end bg-[url('@/public/LandingFond.jpg')] bg-cover bg-center">
           <div className="w-full flex justify-between">
             <div className="flex gap-5">
-              <span className={`pill bg-${LevelToColor(event.level)} text-white`}>
+              <span className={`pill bg-${LevelToColor(event.level)}`}>
                 {' '}
                 {LevelToString(event.level)}
               </span>
@@ -212,6 +247,17 @@ export default function EventInfos({ token }: { token: string | undefined }) {
                 </Button>
               </div>
             )}
+            {status &&
+              userRole === Role.Fighter &&
+              (hasApplied ? (
+                <span className={`pill bg-${ApplicationStatusToColor(userStatus)}`}>
+                  {ApplicationStatusToString(userStatus)}
+                </span>
+              ) : (
+                <Button variant={ButtonVariant.Primary} onClick={joinEvent}>
+                  Join event
+                </Button>
+              ))}
           </div>
         </div>
         <div className="grid grid-cols-4 gap-5">
