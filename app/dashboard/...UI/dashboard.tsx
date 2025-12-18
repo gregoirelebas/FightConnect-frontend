@@ -13,6 +13,7 @@ import {
   getCalendarDate,
   getWeekDay,
   isSameDate,
+  getEventDate,
 } from '@/app/...helpers/date';
 import DashboardEvent from './event';
 import { useRouter } from 'next/navigation';
@@ -120,8 +121,6 @@ export default function Dashboard() {
   const setCalendarTitleClass = (date: Date) => {
     const calendarDate = getCalendarDate(date);
 
-    if (today) console.log(new Date(today) + ' / ' + date);
-
     let dateClass = '';
 
     if (upcomingDates.includes(calendarDate)) {
@@ -144,8 +143,8 @@ export default function Dashboard() {
     setSelectedDate(date);
 
     if (date) {
-      if (today && date.getTime() < today) {
-        setCookie(Cookies.date, date.toString());
+      if (today && date.getTime() > today) {
+        setCookie(Cookies.date, getEventDate(date));
       }
     } else {
       setCookie(Cookies.date, '');

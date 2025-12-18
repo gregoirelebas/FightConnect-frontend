@@ -21,9 +21,9 @@ const months = [
 export function dateToString(dateString: string): string {
   const date = new Date(dateString);
 
-  const day = numberToString(date.getUTCDate());
-  const month = months[date.getUTCMonth()];
-  const year = numberToString(date.getUTCFullYear());
+  const day = numberToString(date.getDate());
+  const month = months[date.getMonth()];
+  const year = numberToString(date.getFullYear());
 
   return `${day} ${month} ${year}`;
 }
@@ -34,18 +34,16 @@ export function monthToString(month: number) {
 
 export function isSameDate(a: Date, b: Date) {
   return (
-    a.getUTCDate() == b.getUTCDate() &&
-    a.getUTCMonth() == b.getUTCMonth() &&
-    a.getUTCFullYear() == b.getUTCFullYear()
+    a.getDate() == b.getDate() && a.getMonth() == b.getMonth() && a.getFullYear() == b.getFullYear()
   );
 }
 
 export function getFormatedDate(dateString: string) {
   const date = new Date(dateString);
 
-  const day = numberToString(date.getUTCDate());
-  const month = numberToString(date.getUTCMonth() + 1);
-  const year = date.getUTCFullYear();
+  const day = numberToString(date.getDate());
+  const month = numberToString(date.getMonth() + 1);
+  const year = date.getFullYear();
 
   return `${day}-${month}-${year}`;
 }
@@ -56,6 +54,14 @@ export function getCalendarDate(date: Date) {
   const year = date.getFullYear();
 
   return `${day}-${month}-${year}`;
+}
+
+export function getEventDate(date: Date) {
+  const day = numberToString(date.getDate());
+  const month = numberToString(date.getMonth() + 1);
+  const year = date.getFullYear();
+
+  return `${year}-${month}-${day}`;
 }
 
 export function sortAscend(a: string, b: string) {
