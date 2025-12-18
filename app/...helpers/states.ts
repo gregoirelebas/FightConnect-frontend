@@ -35,7 +35,7 @@ export function setFighterState(fighter: any, callback: (value: Fighter) => void
     sports: fighter.userId.sports,
     level: fighter.level,
     weight: fighter.weight,
-    height: fighter.weight,
+    height: fighter.height,
     licenceNumber: fighter.licenceNumber,
     victoryCount: fighter.victoryCount,
     defeatCount: fighter.defeatCount,
