@@ -9,4 +9,5 @@ export default abstract class Cookies {
   static date: string= 'date';
   static token: string = 'token';
   static userRole: string = 'userRole';
+  static log:string = "true"
 }

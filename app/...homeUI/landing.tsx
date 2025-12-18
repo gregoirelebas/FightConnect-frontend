@@ -1,37 +1,48 @@
-'use client';
+"use client";
 
-import Button, { ButtonVariant } from '../...components/Button';
-import { useRouter } from 'next/navigation';
+import Button, { ButtonVariant } from "../...components/Button";
+import { useRouter } from "next/navigation";
 
-import { useEffect, useState } from 'react';
-import { setCookie } from '../...helpers/cookies';
-import Cookies from '../...types/cookies';
-import { Role } from '../...types/enum';
+import { useEffect, useState } from "react";
+import { deleteCookie, getCookie, setCookie } from "../...helpers/cookies";
+import Cookies from "../...types/cookies";
+import { Role } from "../...types/enum";
 
-import LoginComponent from './login';
-import { setCookieState } from '../...helpers/states';
-import LogoutComponent from '../...UI/Logout';
+import LoginComponent from "./login";
+import { setCookieState } from "../...helpers/states";
+import LogoutComponent from "../...UI/Logout";
 
 export default function LandingComponent() {
   const router = useRouter();
 
-  const [userToken, setUserToken] = useState<string>('');
+  const [userToken, setUserToken] = useState<string>("");
   const [displayLogin, setDisplayLogin] = useState<boolean>(false);
 
   useEffect(() => {
     setCookieState(Cookies.token, setUserToken);
   }, []);
 
+  useEffect(() => {
+    const fetchCookie = async () => {
+      const cookieLog = await getCookie(Cookies.log);
+      if (cookieLog === "true") {
+        setDisplayLogin(true);
+      }
+    };
+    fetchCookie();
+    deleteCookie(Cookies.log)
+  }, []);
+
   const signUpFighter = () => {
     setCookie(Cookies.role, Role.Fighter);
 
-    router.push('/signup');
+    router.push("/signup"); 
   };
 
   const signUpPromoter = () => {
     setCookie(Cookies.role, Role.Promoter);
 
-    router.push('/signup');
+    router.push("/signup");
   };
 
   const login = () => {
@@ -56,7 +67,7 @@ export default function LandingComponent() {
           <div className="flex gap-10 absolute right-30">
             {userToken && (
               <>
-                <Button variant={ButtonVariant.Ternary} onClick={() => router.push('/dashboard')}>
+                <Button variant={ButtonVariant.Ternary} onClick={() => router.push("/dashboard")}>
                   Dashboard
                 </Button>
                 <LogoutComponent />
@@ -78,20 +89,22 @@ export default function LandingComponent() {
             <Button
               variant={ButtonVariant.Primary}
               onClick={signUpFighter}
-              className="w-xs text-5xl ring-white ring-4">
+              className="w-xs text-5xl ring-white ring-4"
+            >
               Fighter
             </Button>
             <Button
               variant={ButtonVariant.Secondary}
               onClick={signUpPromoter}
-              className="w-xs text-5xl ring-white ring-4">
+              className="w-xs text-5xl ring-white ring-4"
+            >
               Promoter
             </Button>
           </div>
           <div className="h-40 flex gap-20">
-            {createInfoCard('More than 1,215 fighters and 350 promoters')}
-            {createInfoCard('100+ events per month')}
-            {createInfoCard('Join the biggest fighting community!')}
+            {createInfoCard("More than 1,215 fighters and 350 promoters")}
+            {createInfoCard("100+ events per month")}
+            {createInfoCard("Join the biggest fighting community!")}
           </div>
         </>
       )}

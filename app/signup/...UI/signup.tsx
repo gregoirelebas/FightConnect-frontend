@@ -11,11 +11,12 @@ import Button, { ButtonVariant } from '@/app/...components/Button';
 import Logo from '@/app/...UI/Logo';
 
 import Cookies from '@/app/...types/cookies';
-import { setCookies } from '@/app/...helpers/cookies';
+import { setCookie, setCookies } from '@/app/...helpers/cookies';
 import { setCookieState } from '@/app/...helpers/states';
 import { Role } from '@/app/...types/enum';
 
 import profile from '@/public/defaultProfile.png';
+import Link from 'next/link';
 
 export default function SignupComponent() {
   const router = useRouter();
@@ -109,6 +110,11 @@ export default function SignupComponent() {
     }
   };
 
+  const loadSignIn = () => {
+    setCookie(Cookies.log, "true")
+    router.push('/')
+  }
+
   const DEBUG_fillForm = () => {
     setUsername('username');
     setEmail('email@debug.com');
@@ -128,16 +134,27 @@ export default function SignupComponent() {
     /^(?:(?:\+|00)33[\s.-]{0,3}(?:\(0\)[\s.-]{0,3})?|0)[1-9](?:(?:[\s.-]?\d{2}){4}|\d{2}(?:[\s.-]?\d{3}){2})$/;
 
   return (
-    <div className=" flex flex-col justify-between items-center p-5">
-      <Logo className="logo" />
+    <div className="flex h-screen justify-center">
+      <div className="h-full w-1/2 pl-5 pr-5 bg-foreground font-bold flex flex-col justify-around items-center">
+      <Logo className="logo"/>
       <Button variant={ButtonVariant.Primary} className="absolute right-5" onClick={DEBUG_fillForm}>
         [DEBUG]_FillForm
       </Button>
-      <h1 className="underline underline-offset-8">Sign up</h1>
-      <div className="w-5xl flex flex-col gap-5 p-5 rounded-2xl">
+      <h1>Create your account</h1>
+      <div className='w-2/3 flex flex-col'>
+        <div className='flex justify-between'>
+          <span>Step 1</span>
+          <span>Step 2</span>
+        </div>
+        <div className='flex flex-row w-full border border-gray-600'>
+        <div className='h-2 w-1/2 bg-accent'></div>
+        <div className='h-2 w-1/2'></div>
+        </div>
+      </div>
+      <div className="flex flex-col gap-5 p-5 rounded-2xl">
         <span>Fields marqued with * are required</span>
         <div className="w-full flex justify-between">
-          <fieldset className="flex flex-col gap-5">
+          <fieldset className="flex flex-wrap  gap-5 text-accent">
             <Input
               label="Username*"
               placeholder="Username"
@@ -205,7 +222,7 @@ export default function SignupComponent() {
             />
           </div>
         </div>
-        <fieldset className="w-full">
+        <fieldset className="w-full text-accent">
           <TextArea
             label="Bio"
             placeholder="Write some words about you..."
@@ -220,6 +237,8 @@ export default function SignupComponent() {
         <Button variant={ButtonVariant.Primary} className="w-3xs" onClick={loadNextPage}>
           Continue
         </Button>
+        <span className='border mt-4 pt-2 flex justify-center border-r-0 border-l-0 border-b-0 w-200'>Already have an account ? <span className='text-accent cursor-pointer' onClick={loadSignIn}> Sign in</span></span>
+      </div>
       </div>
     </div>
   );
