@@ -18,8 +18,8 @@ export default function EventsPage() {
   const [sport, setSport] = useState<Sport>(Sport.Empty);
   const [experience, setExperience] = useState<Experience>(Experience.Empty);
   const [weight, setWeight] = useState<Weight>(Weight.Empty);
-  const [allEvents, setAllEvents] = useState([]);
-  const [eventShow, setEventShow] = useState([]);
+  const [allEvents, setAllEvents] = useState<Event[]>([]);
+  const [eventShow, setEventShow] = useState<Event[]>([]);
   const [isPopUp, setIsPopUp] = useState(false);
   const [currentEvent, setCurrentEvent] = useState('');
 
