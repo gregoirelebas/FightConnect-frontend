@@ -27,11 +27,14 @@ export default function DashboardEvent(props: DashboardEventProps) {
         <span className="font-semibold">{props.name}</span>
         <div className="flex gap-2">
           {props.isCancelled && (
-            <span className={`pill bg-${EventStatusToColor(EventStatus.Cancelled)[0]} text-white`}>
+            <span
+              className={`pill text-xs bg-${
+                EventStatusToColor(EventStatus.Cancelled)[0]
+              } text-white`}>
               {EventStatusToString(EventStatus.Cancelled)}
             </span>
           )}
-          <span className={`pill bg-${LevelToColor(props.level)} text-white`}>
+          <span className={`pill text-xs bg-${LevelToColor(props.level)} text-white`}>
             {LevelToString(props.level)}
           </span>
         </div>
