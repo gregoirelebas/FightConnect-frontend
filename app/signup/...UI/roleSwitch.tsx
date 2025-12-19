@@ -9,22 +9,26 @@ interface RoleSwitchProps {
 
 export default function RoleSwitch(props: RoleSwitchProps) {
   return (
-    <div className="flex justify-center gap-20">
+    <div className="w-full flex">
       <Logo className="logo" />
-      <Link href={'/signup/fighter'}>
-        <Button
-          variant={props.role === Role.Fighter ? ButtonVariant.Primary : ButtonVariant.Ternary}
-          className="w-3xs">
-          Fighter
-        </Button>
-      </Link>
-      <Link href={'/signup/promoter'}>
-        <Button
-          variant={props.role === Role.Promoter ? ButtonVariant.Primary : ButtonVariant.Ternary}
-          className="w-3xs">
-          Promoter
-        </Button>
-      </Link>
+      <div className="w-full px-5">
+        <Link href={'/signup/fighter'} className="w-full">
+          <Button
+            variant={props.role === Role.Fighter ? ButtonVariant.Primary : ButtonVariant.Ternary}
+            className="w-full">
+            Fighter
+          </Button>
+        </Link>
+      </div>
+      <div className="w-full px-5">
+        <Link href={'/signup/promoter'} className="w-full">
+          <Button
+            variant={props.role === Role.Promoter ? ButtonVariant.Primary : ButtonVariant.Ternary}
+            className="w-full">
+            Promoter
+          </Button>
+        </Link>
+      </div>
     </div>
   );
 }

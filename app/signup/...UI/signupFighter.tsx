@@ -7,23 +7,15 @@ import RadioButton from '@/app/...components/RadioButton';
 import Cookies from '@/app/...types/cookies';
 import { setCookieState, setNumericState } from '@/app/...helpers/states';
 
-import { Level, Role, Sport } from '@/app/...types/enum';
+import { Level, Role, Sport, Step } from '@/app/...types/enum';
 import { Fighter } from '@/app/...types/fighter';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { deleteCookies, setCookie } from '@/app/...helpers/cookies';
 import RoleSwitch from './roleSwitch';
-import SportDropdown from '@/app/...UI/SportDropdown';
-import PageLoader from 'next/dist/client/page-loader';
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faShield } from "@fortawesome/free-solid-svg-icons";
-import { faTrophy } from '@fortawesome/free-solid-svg-icons';
-import {faWeightHanging} from '@fortawesome/free-solid-svg-icons';
-
-
-
-
-
+import HeaderSignupComponent from './HeaderSignup';
+import { faFistRaised, faTrophy } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export default function SignupFighterComponent() {
   const router = useRouter();
@@ -36,7 +28,6 @@ export default function SignupFighterComponent() {
   const [profilePicture, setProfilePicture] = useState<string>('');
 
   const [sportList, setSportList] = useState<Sport[]>([]);
-  const [role, setRole] = useState<Role>(Role.Promoter);
   const [level, setLevel] = useState<Level>(Level.Amateur);
 
   const [weight, setWeight] = useState<number>(0);
@@ -77,6 +68,7 @@ export default function SignupFighterComponent() {
     if (isRequestSent) return; //Prevent multiple requests if user spam the button.
 
     if (sportList.length == 0) {
+      setErrorMessage('At least one sport is required');
       return;
     }
 
@@ -86,6 +78,7 @@ export default function SignupFighterComponent() {
     }
 
     if (!licence) {
+      setErrorMessage('You need a valid licence number');
       return;
     }
 
@@ -149,183 +142,154 @@ export default function SignupFighterComponent() {
     router.push('/dashboard');
   };
 
-  const DEBUG_fillForm = () => {
-    setSportList([Sport.MMA, Sport.Jiujitsu]);
-    setWeight(80);
-    setHeight(180);
-    setLicence('XXXX-XXXX-XXXX');
-    setHasExperience(true);
-    setVictories(5);
-    setDefeats(2);
-    setDraws(3);
-    setLastFightDate('2025-06-15');
-  };
-
-
   return (
-    <div className='flex flex-col items-center w-full gap-10'>
-      <div className='w-full flex flex-col items-center'>
-        <div className='flex flex-col items-center '>
-          <h1>Complete Your Profile</h1>
-          <p>Step 2 of 2 - Professional Profile</p>
-        </div>
-        <div className='flex flex-col justify-center w-[70%]'>
-          <div className='flex justify-between'>
-            <p>Step 1</p> <p>Step 2</p>
-          </div>
-          <div className='h-10 w-full bg-linear-to-r from-[#D7263D] to-[#00E0B8] rounded-full '> </div>
-        </div>
+    <div className="flex flex-col justify-center mx-150 my-10 gap-5">
+      <HeaderSignupComponent step={Step.Step2} />
+      <div className="card flex items-center justify-center">
+        <RoleSwitch role={Role.Fighter} />
       </div>
-      <div className='blockSignUp'>
-
-        <h4 className=''>I am a:</h4>
-        <div className='flex gap-5 justify-center'>
-
-          <div className='flex-1 bg-[#1C1C1C] border-2 border-[#A0A0A0] rounded-lg p-10 transition-all duration-200 peer-checked:border-[#00E0B8] peer-checked:bg-[#00E0B8]/5 hover:border-[#00E0B8]/60'>
+      <div className="card gap-10">
+        <div className="flex flex-col">
+          <h4 className="mb-5">Level</h4>
+          <div className="flex gap-10 p-5 border border-accent">
             <RadioButton
-              name="role"
-              label="Fighter"
-              value={Role.Fighter}
-              onChange={(value) => setRole(value as Role)}
-            />
-          </div>
-
-          <div className='flex-1 bg-[#1C1C1C] border-2 border-[#A0A0A0] rounded-lg p-10 transition-all duration-200 peer-checked:border-[#00E0B8] peer-checked:bg-[#00E0B8]/5 hover:border-[#00E0B8]/60'>
-            <RadioButton
-              name="role"
-              label="Promoter"
-              value={Role.Promoter}
+              name="level"
+              label="Amateur"
+              value={Level.Amateur}
               isChecked={true}
-              onChange={(value) => setRole(value as Role)} />
+              onChange={(value) => setLevel(value as Level)}
+            />
+            <RadioButton
+              name="level"
+              label="Professionel"
+              value={Level.Pro}
+              onChange={(value) => setLevel(value as Level)}
+            />
           </div>
         </div>
-
-      </div>
-
-      <div className='blockSignUp'>
-        <h4 className="flex items-center gap-2 text-white">
-          <FontAwesomeIcon icon={faShield} />
-          Level
-        </h4>
-
-
-        <div className='flex justify-center gap-5'>
-          <RadioButton
-            name="level"
-            label="Amateur"
-            value={Level.Amateur}
-            isChecked={true}
-            onChange={(value) => setLevel(value as Level)}
-          />
-          <RadioButton
-            name="level"
-            label="Professionel"
-            value={Level.Pro}
-            onChange={(value) => setLevel(value as Level)}
-          />
-        </div>
-        <h4 className="flex items-center gap-2 text-white">
-          <FontAwesomeIcon icon={faTrophy} />
-          Sport</h4>
         <div>
-          <div className='flex justify-center gap-8'>
-            <Checkbox name='sport' label='MMA' value={Sport.MMA} onChange={onSportChange}></Checkbox>
-            <Checkbox
-              name="sport"
-              label="English boxing"
-              value={Sport.EnglishBoxing}
-              onChange={onSportChange}
-            />
-            <Checkbox
-              name="sport"
-              label="Brasilian Jiu-jitsu"
-              value={Sport.Jiujitsu}
-              onChange={onSportChange}
-            />
-            <Checkbox
-              name="sport"
-              label="Kick boxing"
-              value={Sport.KickBoxing}
-              onChange={onSportChange}
-            />
-            <Checkbox
-              name="sport"
-              label="Muay Thai"
-              value={Sport.MuayThai}
-              onChange={onSportChange}
-            />
+          <div className="flex gap-2">
+            <FontAwesomeIcon icon={faFistRaised} className="text-accent pt-1" />
+            <h4 className="mb-5">Sport(s)</h4>
           </div>
-
-        </div>
-        <div className='flex justify-center gap-3'>
-          <div className='flex-1'>
-
-            <Input className='w-full' placeholder='70 kg' value={weight} onChange={(value) => setWeight(Number(value))} label='Weight' />
-            
+          <div className="flex flex-col gap-5 border p-5 border-accent">
+            <div className="flex justify-between">
+              <Checkbox
+                name="sport"
+                label="MMA"
+                value={Sport.MMA}
+                onChange={onSportChange}></Checkbox>
+              <Checkbox
+                name="sport"
+                label="English boxing"
+                value={Sport.EnglishBoxing}
+                onChange={onSportChange}
+              />
+              <Checkbox
+                name="sport"
+                label="Brasilian Jiu-jitsu"
+                value={Sport.Jiujitsu}
+                onChange={onSportChange}
+              />
+            </div>
+            <div className="flex justify-around">
+              <Checkbox
+                name="sport"
+                label="Kick boxing"
+                value={Sport.KickBoxing}
+                onChange={onSportChange}
+              />
+              <Checkbox
+                name="sport"
+                label="Muay Thai"
+                value={Sport.MuayThai}
+                onChange={onSportChange}
+              />
+            </div>
           </div>
-          <div className='flex-1'>
-
-            <Input className='w-full' placeholder='170 cm' value={height} onChange={(value) => setHeight(Number(value))} label='Height' />
-          </div>
-
         </div>
-        <Input placeholder='Enter your license number' value={licence} onChange={(value) => setLicence(String(value))} label='License Number' />
-        <div className="flex gap-5">
-
-
-        </div>
-        <div className="card w-fit">
-          <Checkbox
-            name="experience"
-            label="I have fighting experience"
-            value=""
-            onChange={setHasExperience}
+        <div className="flex justify-center gap-3">
+          <Input
+            label="Weight (kg)"
+            placeholder=""
+            value={weight}
+            className="w-full"
+            onChange={(value) => {
+              setNumericState(value as string, setWeight);
+            }}
           />
-          {hasExperience && (
-            <div className="card px-0 max-w-[500px]">
-              <h3>Fight Records</h3>
-              <div className="cardElement gap-5 justify-start">
+          <Input
+            label="Height (cm)"
+            placeholder=""
+            value={height}
+            className="w-full"
+            onChange={(value) => setNumericState(value as string, setHeight)}
+          />
+        </div>
+        <Input
+          label="Licence Number"
+          placeholder="XXXX-XXXX-XXXX"
+          value={licence}
+          className="w-full"
+          onChange={(value) => setLicence(String(value))}
+        />
+        <Checkbox
+          name="experience"
+          label="I have fighting experience"
+          value=""
+          onChange={setHasExperience}
+        />
+        {hasExperience && (
+          <div className="flex gap-5">
+            <div className="bg-accent w-2"></div>
+            <div>
+              <div className="flex items-center gap-2 mb-5">
+                <FontAwesomeIcon icon={faTrophy} className="text-accent" />
+                <span>Fight Records</span>
+              </div>
+              <div className="flex gap-10">
                 <Input
                   label="Victories"
                   placeholder="0"
                   value={victories}
+                  className="w-full "
                   onChange={(value) => setNumericState(String(value), setVictories)}
                 />
                 <Input
                   label="Defeats"
                   placeholder="0"
                   value={defeats}
-                  className="w-fit"
+                  className="w-full"
                   onChange={(value) => setNumericState(String(value), setDefeats)}
                 />
                 <Input
                   label="Draws"
                   placeholder="0"
                   value={draws}
+                  className="w-full"
                   onChange={(value) => setNumericState(String(value), setDraws)}
                 />
+              </div>
+              <div className="flex mt-5">
                 <Input
                   label="Last fight date"
                   placeholder="YYYY-MM-DD"
                   value={lastFightDate}
                   type="date"
+                  className="w-full"
                   onChange={(value) => setLastFightDate(String(value))}
                 />
               </div>
             </div>
-          )}
-        </div>
+          </div>
+        )}
         <div className="flex flex-col items-center gap-2">
           {errorMessage && <span className="text-error">{errorMessage}</span>}
           <Button variant={ButtonVariant.Primary} className="w-3xs" onClick={registerFighter}>
             Complete Signup
           </Button>
-
-
         </div>
-
       </div>
     </div>
-  )
-
+  );
 }
