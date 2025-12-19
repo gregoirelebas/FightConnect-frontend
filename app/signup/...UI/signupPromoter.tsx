@@ -117,7 +117,7 @@ export default function SignupPromoterComponent() {
     }
 
     setCookie(Cookies.token, request.token);
-    setCookie(Cookies.role, Role.Fighter);
+    setCookie(Cookies.role, Role.Promoter);
 
     deleteCookies([
       Cookies.username,
