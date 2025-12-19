@@ -1,21 +1,21 @@
-"use client";
+'use client';
 
-import Button, { ButtonVariant } from "../...components/Button";
-import { useRouter } from "next/navigation";
+import Button, { ButtonVariant } from '../...components/Button';
+import { useRouter } from 'next/navigation';
 
-import { useEffect, useState } from "react";
-import { deleteCookie, getCookie, setCookie } from "../...helpers/cookies";
-import Cookies from "../...types/cookies";
-import { Role } from "../...types/enum";
+import { useEffect, useState } from 'react';
+import { deleteCookie, getCookie, setCookie } from '../...helpers/cookies';
+import Cookies from '../...types/cookies';
+import { Role } from '../...types/enum';
 
-import LoginComponent from "./login";
-import { setCookieState } from "../...helpers/states";
-import LogoutComponent from "../...UI/Logout";
+import LoginComponent from './login';
+import { setCookieState } from '../...helpers/states';
+import LogoutComponent from '../...UI/Logout';
 
 export default function LandingComponent() {
   const router = useRouter();
 
-  const [userToken, setUserToken] = useState<string>("");
+  const [userToken, setUserToken] = useState<string>('');
   const [displayLogin, setDisplayLogin] = useState<boolean>(false);
 
   useEffect(() => {
@@ -25,24 +25,24 @@ export default function LandingComponent() {
   useEffect(() => {
     const fetchCookie = async () => {
       const cookieLog = await getCookie(Cookies.log);
-      if (cookieLog === "true") {
+      if (cookieLog === 'true') {
         setDisplayLogin(true);
       }
     };
     fetchCookie();
-    deleteCookie(Cookies.log)
+    deleteCookie(Cookies.log);
   }, []);
 
   const signUpFighter = () => {
     setCookie(Cookies.role, Role.Fighter);
 
-    router.push("/signup"); 
+    router.push('/signup');
   };
 
   const signUpPromoter = () => {
     setCookie(Cookies.role, Role.Promoter);
 
-    router.push("/signup");
+    router.push('/signup');
   };
 
   const login = () => {
@@ -60,56 +60,55 @@ export default function LandingComponent() {
   };
 
   return (
-    <div className="h-screen flex flex-col justify-between py-20 items-center bg-[url(/LandingFond.jpg)] bg-cover">
-      <div className="flex flex-col items-center gap-10">
-        <div className="flex items-center">
-          <h1 className="text-7xl font-bold">Fight Connect</h1>
-          <div className="flex gap-10 absolute right-30">
-            {userToken && (
-              <>
-                <Button variant={ButtonVariant.Ternary} onClick={() => router.push("/dashboard")}>
-                  Dashboard
+    <>
+      <div className="h-screen flex flex-col justify-between py-20 items-center bg-[url(/LandingFond.jpg)] bg-cover">
+        <div className="flex flex-col items-center gap-10">
+          <div className="flex items-center">
+            <h1 className="text-7xl font-bold">Fight Connect</h1>
+            <div className="flex gap-10 absolute right-30">
+              {userToken && (
+                <>
+                  <Button variant={ButtonVariant.Ternary} onClick={() => router.push('/dashboard')}>
+                    Dashboard
+                  </Button>
+                  <LogoutComponent />
+                </>
+              )}
+              {!userToken && (
+                <Button variant={ButtonVariant.Primary} onClick={login}>
+                  Login
                 </Button>
-                <LogoutComponent />
-              </>
-            )}
-            {!userToken && (
-              <Button variant={ButtonVariant.Primary} onClick={login}>
-                Login
-              </Button>
-            )}
+              )}
+            </div>
           </div>
+          <h3>Less headaches, more fights! Find fighters or fighting events fast and safely...</h3>
         </div>
-        <h3>Less headaches, more fights! Find fighters or fighting events fast and safely...</h3>
+
+        {!displayLogin && (
+          <>
+            <div className="h-30 flex gap-40">
+              <Button
+                variant={ButtonVariant.Primary}
+                onClick={signUpFighter}
+                className="w-xs text-5xl ring-white ring-4">
+                Fighter
+              </Button>
+              <Button
+                variant={ButtonVariant.Secondary}
+                onClick={signUpPromoter}
+                className="w-xs text-5xl ring-white ring-4">
+                Promoter
+              </Button>
+            </div>
+            <div className="h-40 flex gap-20">
+              {createInfoCard('More than 1,215 fighters and 350 promoters')}
+              {createInfoCard('100+ events per month')}
+              {createInfoCard('Join the biggest fighting community!')}
+            </div>
+          </>
+        )}
       </div>
-
-      {!displayLogin && (
-        <>
-          <div className="h-30 flex gap-40">
-            <Button
-              variant={ButtonVariant.Primary}
-              onClick={signUpFighter}
-              className="w-xs text-5xl ring-white ring-4"
-            >
-              Fighter
-            </Button>
-            <Button
-              variant={ButtonVariant.Secondary}
-              onClick={signUpPromoter}
-              className="w-xs text-5xl ring-white ring-4"
-            >
-              Promoter
-            </Button>
-          </div>
-          <div className="h-40 flex gap-20">
-            {createInfoCard("More than 1,215 fighters and 350 promoters")}
-            {createInfoCard("100+ events per month")}
-            {createInfoCard("Join the biggest fighting community!")}
-          </div>
-        </>
-      )}
-
       {displayLogin && <LoginComponent setDisplay={setDisplayLogin} />}
-    </div>
+    </>
   );
 }

@@ -74,26 +74,30 @@ export default function LoginComponent(props: LoginProps) {
   };
 
   return (
-    <div className="mb-45 h-80 w-100 flex flex-col justify-around items-center rounded-lg bg-background">
-      <p className="font-bold text-xl ml-85 cursor-pointer" onClick={() => props.setDisplay(false)}>
-        X
-      </p>
-      <Input
-        className="w-xs"
-        label={'Username'}
-        placeholder={'Username...'}
-        value={name}
-        onChange={(value) => setName(String(value))}></Input>
-      <Input
-        className="w-xs"
-        label={'Password'}
-        placeholder={'Password...'}
-        value={password}
-        onChange={(value) => setPassword(String(value))}
-        type="password"></Input>
-      <Button variant={ButtonVariant.Primary} onClick={() => handleLogin()} className="w-xs">
-        Login
-      </Button>
+    <div className="w-full h-full absolute top-0 flex justify-center items-center">
+      <div className="flex flex-col items-end rounded-lg bg-background mt-30 px-10 py-5">
+        <p className="font-bold text-xl cursor-pointer" onClick={() => props.setDisplay(false)}>
+          X
+        </p>
+        <div className="flex flex-col gap-10">
+          <Input
+            className="w-xs"
+            label={'Username'}
+            placeholder={'Username...'}
+            value={name}
+            onChange={(value) => setName(String(value))}></Input>
+          <Input
+            className="w-xs"
+            label={'Password'}
+            placeholder={'Password...'}
+            value={password}
+            onChange={(value) => setPassword(String(value))}
+            type="password"></Input>
+          <Button variant={ButtonVariant.Primary} onClick={() => handleLogin()} className="w-xs">
+            Login
+          </Button>
+        </div>
+      </div>
     </div>
   );
 }
