@@ -13,8 +13,8 @@ export default function LogoutComponent(props: LogoutProps) {
   const router = useRouter();
   const pathname = usePathname();
 
-  function logout() {
-    deleteCookies([Cookies.token, Cookies.userRole]);
+  async function logout() {
+    await deleteCookies([Cookies.token, Cookies.userRole]);
 
     if (pathname === '/') {
       window.location.reload();
