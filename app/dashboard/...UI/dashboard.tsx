@@ -96,7 +96,7 @@ export default function Dashboard() {
         date={dateToString(event.date)}
         city={event.city}
         level={event.level}
-        isCancelled={true}
+        isCancelled={event.isCancelled}
         displayEvent={displayEvent}
         fighterCount={fighterCount}
       />
@@ -151,7 +151,8 @@ export default function Dashboard() {
       setCookie(Cookies.date, '');
     }
   };
-
+  
+  console.log(events)
   return (
     <div className="flex flex-col gap-10 my-10 mx-60">
       <div>

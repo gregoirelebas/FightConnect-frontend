@@ -21,4 +21,5 @@ export interface Event {
   fighters: Application[];
   token: string;
   status: EventStatus;
+  isCancelled : boolean;
 }
