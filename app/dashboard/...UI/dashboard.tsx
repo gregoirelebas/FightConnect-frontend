@@ -19,6 +19,7 @@ import DashboardEvent from './event';
 import { useRouter } from 'next/navigation';
 import { ApplicationStatus, EventStatus, Role } from '@/app/...types/enum';
 import InfoCard from '@/app/...UI/InfoCard';
+import { faArrowTrendUp, faCalendarCheck, faFistRaised } from '@fortawesome/free-solid-svg-icons';
 
 export default function Dashboard() {
   const router = useRouter();
@@ -166,18 +167,21 @@ export default function Dashboard() {
       </div>
       <div className="grid grid-cols-3 gap-5">
         <InfoCard
+          icon={faArrowTrendUp}
           text="Upcoming Events"
           data={upcomingDates.length.toString()}
           bgColor="bg-accent"
           textColor="text-accent"
         />
         <InfoCard
+          icon={faCalendarCheck}
           text="Completed Events"
           data={previousDates.length.toString()}
           bgColor="bg-success"
           textColor="text-success"
         />
         <InfoCard
+          icon={faFistRaised}
           text="Total Events"
           data={(upcomingDates.length + previousDates.length).toString()}
           bgColor="bg-primary"
@@ -217,16 +221,16 @@ export default function Dashboard() {
               return setCalendarTitleClass(date);
             }}
           />
-          <div className='w-2/5 h-1/8 flex flex-col justify-around '>
-          <div className='flex flex-row items-center'>
-          <div className='w-5 h-5 mr-3 bg-accent'></div>
-          <span>Upcoming Fight</span>
+          <div className="w-2/5 h-1/8 flex flex-col justify-around ">
+            <div className="flex flex-row items-center">
+              <div className="w-5 h-5 mr-3 bg-accent"></div>
+              <span>Upcoming Fight</span>
+            </div>
+            <div className="flex flex-row items-center">
+              <div className="w-5 h-5 mr-3 bg-primary"></div>
+              <span>Passed Fight</span>
+            </div>
           </div>
-          <div className='flex flex-row items-center'>
-          <div className='w-5 h-5 mr-3 bg-primary'></div>
-          <span>Passed Fight</span>
-          </div> 
-          </div>         
         </div>
       </div>
     </div>
