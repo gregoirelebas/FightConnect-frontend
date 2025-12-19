@@ -13,8 +13,9 @@ import { setCookieState } from '@/app/...helpers/states';
 import Cookies from '@/app/...types/cookies';
 import { deleteCookies, setCookie } from '@/app/...helpers/cookies';
 import { useRouter } from 'next/navigation';
-import HeaderSignup from './HeaderSignup';
 import Link from 'next/link';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFistRaised } from '@fortawesome/free-solid-svg-icons';
 
 export default function SignupPromoterComponent() {
   const router = useRouter();
@@ -139,28 +140,21 @@ export default function SignupPromoterComponent() {
     />
   ));
 
-  const DEBUG_fillForm = () => {
-    setSiret('32411889200037');
-  };
-
   return (
-    <div className="flex h-screen w-full justify-center">
-     <div className='flex flex-col w-2/3 p-3 pb-8 pt-5 justify-between items-center'>
-      <Button variant={ButtonVariant.Primary} className="absolute right-5" onClick={DEBUG_fillForm}>
-        [DEBUG]_FillForm
-      </Button>
-      <HeaderSignupComponent step={Step.Step2} />  
-      <div className='card w-9/10 flex flex-row items-center justify-center mt-2 pr-40'>
-      <span>I'm a :</span>
-      <RoleSwitch role={Role.Promoter} />
+    <div className="flex flex-col justify-center mx-150 my-10 gap-5">
+      <HeaderSignupComponent step={Step.Step2} />
+      <div className="card flex items-center justify-center">
+        <RoleSwitch role={Role.Promoter} />
       </div>
-      <div className="card w-9/10 m-2">
-        <p>Official informations</p>
-        <div className="flex flex-col justify-around gap-3 ">
-          <div className="flex flex-col w-9/10">
-            <div>Select a sport :</div>
+      <div className="card m-2">
+        <div className="flex flex-col justify-around gap-10">
+          <div className="flex flex-col gap-2">
+            <div className="flex items-center gap-2">
+              <FontAwesomeIcon icon={faFistRaised} className="text-accent" />
+              <span>Primary sport:</span>
+            </div>
             <SportDropdown
-              className="w-238"
+              className="w-full"
               onChange={(value) => {
                 setSport(value as Sport);
               }}
@@ -172,32 +166,24 @@ export default function SignupPromoterComponent() {
             value={siret}
             pattern={/\d{14}/}
             error="SIRET format invalid"
-            className="w-238"
+            className="w-full"
             onChange={(value) => setSiret(String(value))}
           />
         </div>
-      </div>
-      <div className="card w-9/10">
         <p className="text-center">Organizations you have worked with :</p>
-        <div className="min-h-20 flex flex-col justify-between items-center rounded-2xl">
-          <div className="scroll-auto">{organizationsElements}</div>
-          <Button variant={ButtonVariant.Secondary} className="mb-5" onClick={addOrganization}>
+        <div className="min-h-20 flex flex-col justify-between items-center border pt-5 mb-5 border-accent rounded-2xl">
+          <div className="w-full flex flex-col gap-2 scroll-auto">{organizationsElements}</div>
+          <Button variant={ButtonVariant.Secondary} className="m-5" onClick={addOrganization}>
             Add organization
           </Button>
         </div>
-      </div>
-      <div className="flex flex-row items-center gap-2">
-        {errorMessage && <span className="text-error">{errorMessage}</span>}
-        <Link href="/signup" >
-        <Button variant={ButtonVariant.Ternary} className="w-3xs">
-          Back
-        </Button>
-        </Link>
-        <Button variant={ButtonVariant.Primary} className="w-3xs" onClick={registerPromoter}>
-          Sign up!
-        </Button>
+        <div className="flex gap-2">
+          {errorMessage && <span className="text-error">{errorMessage}</span>}
+          <Button variant={ButtonVariant.Primary} className="w-full" onClick={registerPromoter}>
+            Complete signup
+          </Button>
+        </div>
       </div>
     </div>
-    </div> 
   );
 }

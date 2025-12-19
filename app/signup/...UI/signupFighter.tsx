@@ -285,7 +285,7 @@ export default function SignupFighterComponent() {
         )}
         <div className="flex flex-col items-center gap-2">
           {errorMessage && <span className="text-error">{errorMessage}</span>}
-          <Button variant={ButtonVariant.Primary} className="w-3xs" onClick={registerFighter}>
+          <Button variant={ButtonVariant.Primary} className="w-full" onClick={registerFighter}>
             Complete Signup
           </Button>
         </div>
