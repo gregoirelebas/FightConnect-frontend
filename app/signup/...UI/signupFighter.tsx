@@ -15,6 +15,12 @@ import { deleteCookies, setCookie } from '@/app/...helpers/cookies';
 import RoleSwitch from './roleSwitch';
 import SportDropdown from '@/app/...UI/SportDropdown';
 import PageLoader from 'next/dist/client/page-loader';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faShield } from "@fortawesome/free-solid-svg-icons";
+import { faTrophy } from '@fortawesome/free-solid-svg-icons';
+import {faWeightHanging} from '@fortawesome/free-solid-svg-icons';
+
+
 
 
 
@@ -197,7 +203,11 @@ export default function SignupFighterComponent() {
       </div>
 
       <div className='blockSignUp'>
-        <h4> Level</h4>
+        <h4 className="flex items-center gap-2 text-white">
+          <FontAwesomeIcon icon={faShield} />
+          Level
+        </h4>
+
 
         <div className='flex justify-center gap-5'>
           <RadioButton
@@ -214,7 +224,9 @@ export default function SignupFighterComponent() {
             onChange={(value) => setLevel(value as Level)}
           />
         </div>
-        <h4>Sport</h4>
+        <h4 className="flex items-center gap-2 text-white">
+          <FontAwesomeIcon icon={faTrophy} />
+          Sport</h4>
         <div>
           <div className='flex justify-center gap-8'>
             <Checkbox name='sport' label='MMA' value={Sport.MMA} onChange={onSportChange}></Checkbox>
@@ -249,6 +261,7 @@ export default function SignupFighterComponent() {
           <div className='flex-1'>
 
             <Input className='w-full' placeholder='70 kg' value={weight} onChange={(value) => setWeight(Number(value))} label='Weight' />
+            
           </div>
           <div className='flex-1'>
 
@@ -269,9 +282,9 @@ export default function SignupFighterComponent() {
             onChange={setHasExperience}
           />
           {hasExperience && (
-            <div className="card px-0">
+            <div className="card px-0 max-w-[500px]">
               <h3>Fight Records</h3>
-              <div className="cardElement justify-start">
+              <div className="cardElement gap-5 justify-start">
                 <Input
                   label="Victories"
                   placeholder="0"
