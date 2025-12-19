@@ -5,7 +5,7 @@ import Input from '../...components/Input';
 import type { Event } from '@/app/...types/Event';
 import EventComponent from './event';
 import RadioButton from '../...components/RadioButton';
-import { Sport, Level, Experience, Weight } from '../...types/enum';
+import { Sport, Level, Experience, Weight, ApplicationStatus } from '../...types/enum';
 import PopUpEvent from './PopUpEvent';
 import SportDropdown from '../...UI/SportDropdown';
 import ExperienceDropdown from '../...UI/ExperienceDropdown';
@@ -83,10 +83,12 @@ export default function EventsPage() {
           token={data.token}
           name={data.name}
           date={data.date}
+          city={data.city}
           sport={SportToString(data.sport)}
           experience={data.experience}
           weight={data.weight}
           level={data.level}
+          fighterCount={data.fighters.filter((x) => x.status === ApplicationStatus.Accepted).length}
           setCurrentEvent={setCurrentEvent}
           setIsPopUp={setIsPopUp}
         />
