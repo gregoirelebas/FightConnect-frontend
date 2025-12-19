@@ -44,6 +44,7 @@ export default function NewEvent() {
       fighters: [],
       token: '',
       status: EventStatus.Upcoming,
+      isCancelled: false,
     };
 
     const options = {
