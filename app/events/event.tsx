@@ -4,6 +4,7 @@ import { dateToString } from '../...helpers/date';
 import { LevelToColor, LevelToString } from '../...helpers/enum';
 import { Level } from '../...types/enum';
 import { faCalendar, faMapPin } from '@fortawesome/free-solid-svg-icons';
+import Link from 'next/link';
 
 export default function Event(props: {
   token: string;
@@ -15,17 +16,11 @@ export default function Event(props: {
   weight: string;
   fighterCount: number;
   level: Level;
-  setIsPopUp: React.Dispatch<React.SetStateAction<boolean>>;
-  setCurrentEvent: React.Dispatch<React.SetStateAction<string>>;
 }) {
-  const handlePopUp = () => {
-    props.setIsPopUp(true);
-    props.setCurrentEvent(props.token);
-  };
   const levelColor = 'bg-' + LevelToColor(props.level);
 
   return (
-    <div className="h-130 text-center flex flex-col justify-around items-center m-2 pb-2 bg-foreground rounded-3xl">
+    <div className="h-130 text-center flex flex-col justify-center items-center m-2 pb-2 bg-foreground rounded-3xl">
       <div className="h-1/3 w-14/15 m-3 flex justify-between pt-5 px-5 bg-[url(/boxing.png)] bg-cover bg-center rounded-3xl">
         <span className={`pill ${levelColor} text-white`}>{LevelToString(props.level)}</span>
         <span className="pill">{props.sport}</span>
@@ -56,12 +51,15 @@ export default function Event(props: {
             <span className="text-lg text-accent">{props.fighterCount}</span>
           </div>
         </div>
-        <Button
-          onClick={handlePopUp}
-          variant={ButtonVariant.Primary}
-          className="h-10 w-full flex justify-center items-center">
-          View Details
-        </Button>
+        <div className="w-full flex justify-center">
+          <Link href={'/events/' + props.token} className="w-full">
+            <Button
+              variant={ButtonVariant.Primary}
+              className="h-10 w-full flex justify-center items-center">
+              View Details
+            </Button>
+          </Link>
+        </div>
       </div>
     </div>
   );

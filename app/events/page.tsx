@@ -27,7 +27,6 @@ export default function EventsPage() {
   const [events, setEvents] = useState<Event[]>([]);
 
   const [isPopUp, setIsPopUp] = useState(false);
-  const [currentEvent, setCurrentEvent] = useState('');
 
   useEffect(() => {
     fetch(process.env.NEXT_PUBLIC_API_URL + 'events/')
@@ -89,8 +88,6 @@ export default function EventsPage() {
           weight={data.weight}
           level={data.level}
           fighterCount={data.fighters.filter((x) => x.status === ApplicationStatus.Accepted).length}
-          setCurrentEvent={setCurrentEvent}
-          setIsPopUp={setIsPopUp}
         />
       );
     });
@@ -185,7 +182,6 @@ export default function EventsPage() {
           <div className="grid grid-cols-3">{cardEvents}</div>
         </div>
       </div>
-      {isPopUp && <PopUpEvent setIsPopUp={setIsPopUp} token={currentEvent} />}
     </>
   );
 }
