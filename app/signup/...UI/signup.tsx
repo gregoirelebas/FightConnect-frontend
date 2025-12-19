@@ -14,7 +14,7 @@ import Cookies from '@/app/...types/cookies';
 import { setCookie, setCookies } from '@/app/...helpers/cookies';
 import { setCookieState } from '@/app/...helpers/states';
 import { Role, Step } from '@/app/...types/enum';
-import HeaderSignupComponent from "./HeaderSignup"
+import HeaderSignupComponent from './HeaderSignup';
 
 import profile from '@/public/defaultProfile.png';
 import Link from 'next/link';
@@ -112,18 +112,8 @@ export default function SignupComponent() {
   };
 
   const loadSignIn = () => {
-    setCookie(Cookies.log, "true")
-    router.push('/')
-  }
-
-  const DEBUG_fillForm = () => {
-    setUsername('username');
-    setEmail('email@debug.com');
-    setPassword('password');
-    setConfirmPassword('password');
-    setPhoneNumber('0123456789');
-    setBio('A superb biography...');
-    setProfilePicture('awesomePicture.png');
+    setCookie(Cookies.log, 'true');
+    router.push('/');
   };
 
   const usernamePattern = /^(?=.{4,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$/;
@@ -134,21 +124,13 @@ export default function SignupComponent() {
   const phonePattern =
     /^(?:(?:\+|00)33[\s.-]{0,3}(?:\(0\)[\s.-]{0,3})?|0)[1-9](?:(?:[\s.-]?\d{2}){4}|\d{2}(?:[\s.-]?\d{3}){2})$/;
 
-
   return (
-    <div className="flex h-screen justify-center">
-      <div className="h-full w-1/2 pl-5 pr-5 bg-foreground font-bold flex flex-col justify-around items-center">
-      <div className='w-full flex flex-col justify-center items-center'>
-      <Logo className="logo"/>
-      <Button variant={ButtonVariant.Primary} className="absolute right-5" onClick={DEBUG_fillForm}>
-        [DEBUG]_FillForm
-      </Button>
-      <HeaderSignupComponent step={Step.Step1} />
-      </div>
-      <div className="flex flex-col gap-5 p-5 rounded-2xl">
+    <div className="flex flex-col justify-center mx-150 my-10 gap-5">
+      <HeaderSignupComponent step={Step.Step2} />
+      <div className="card gap-5 ">
         <span>Fields marqued with * are required</span>
         <div className="w-full flex justify-between">
-          <fieldset className="flex flex-wrap  gap-5">
+          <fieldset className="flex flex-col gap-5">
             <Input
               label="Username*"
               placeholder="Username"
@@ -225,14 +207,21 @@ export default function SignupComponent() {
             onChange={setBio}
           />
         </fieldset>
-      </div>
-      <div className="flex flex-col items-center gap-2 mb-10">
-        {errorMessage && <span className="text-error">{errorMessage}</span>}
-        <Button variant={ButtonVariant.Primary} className="w-3xs" onClick={loadNextPage}>
-          Continue
-        </Button>
-        <span className='border mt-8 pt-2 flex justify-center border-r-0 border-l-0 border-b-0 w-200'>Already have an account ? <span className='text-accent cursor-pointer' onClick={loadSignIn}> Sign in</span></span>
-      </div>
+        <div className="flex flex-col items-center gap-2">
+          {errorMessage && <span className="text-error">{errorMessage}</span>}
+          <Button variant={ButtonVariant.Primary} className="w-3xs" onClick={loadNextPage}>
+            Continue
+          </Button>
+          <div className="flex flex-col gap-5 mt-5 mb-5">
+            <div className="border"></div>
+            <div className="flex gap-2">
+              <span>Already have an account?</span>
+              <span className=" text-accent cursor-pointer" onClick={loadSignIn}>
+                Sign in
+              </span>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
