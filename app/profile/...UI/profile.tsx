@@ -5,7 +5,7 @@ import FighterStats from './fighterStats';
 import UsersInfos from './userInfos';
 
 import { Fighter } from '@/app/...types/fighter';
-import { ApplicationStatus, Role } from '@/app/...types/enum';
+import { ApplicationStatus, EventStatus, Role } from '@/app/...types/enum';
 import PromoterStats from './promoterStats';
 import { sortAscend } from '@/app/...helpers/date';
 import EventCard from './eventCard';
@@ -85,7 +85,7 @@ export default function ProfileComponent({ username }: { username: string | unde
         level={event.level}
         city={event.city}
         fighterCount={event.fighters.filter((x) => x.status === ApplicationStatus.Accepted).length}
-        status={getEventStatus(today, event.date)}
+        status={event.isCancelled ? EventStatus.Cancelled : getEventStatus(today, event.date)}
         date={event.date}
         onClick={displayEvent}
       />

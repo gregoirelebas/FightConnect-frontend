@@ -74,7 +74,11 @@ export default function EventInfos({ token }: { token: string | undefined }) {
         return;
       }
 
-      setStatus(getEventStatus(Date.now(), eventRequest.data.date));
+      setStatus(
+        event?.isCancelled
+          ? EventStatus.Cancelled
+          : getEventStatus(Date.now(), eventRequest.data.date)
+      );
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       applicationRequest.data.forEach((x: any) => {
@@ -140,19 +144,20 @@ export default function EventInfos({ token }: { token: string | undefined }) {
     }
   }
 
-
   const popUpDeleteEvent = () => {
-      return (
-        <>
+    return (
+      <>
         <div className="absolute top-0 left-0 w-screen h-screen bg-background/70 flex flex-col justify-center items-center">
-          <div className='flex flex-col border border-gray-500 justify-around items-center w-1/6 max-h-1/3 min-h-1/5 bg-foreground rounded-2xl'>
-           <span>Event succesfully deleted !</span> 
-           <Button variant={ButtonVariant.Primary} onClick={() => setisDelete(false)}>Go back</Button>
+          <div className="flex flex-col border border-gray-500 justify-around items-center w-1/6 max-h-1/3 min-h-1/5 bg-foreground rounded-2xl">
+            <span>Event succesfully deleted !</span>
+            <Button variant={ButtonVariant.Primary} onClick={() => setisDelete(false)}>
+              Go back
+            </Button>
           </div>
-          </div>
-        </>
-      )
-    }
+        </div>
+      </>
+    );
+  };
 
   async function cancelEvent() {
     if (isCancelRequest) return;
@@ -171,10 +176,8 @@ export default function EventInfos({ token }: { token: string | undefined }) {
 
     setCancelRequest(false);
 
-    
-    
     if (request.result) {
-     setisDelete(true)
+      setisDelete(true);
     }
 
     if (!request.result) {
