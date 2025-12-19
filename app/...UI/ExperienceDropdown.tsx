@@ -3,13 +3,12 @@ import { Experience } from '../...types/enum';
 
 interface ExperienceDropdownProps {
   className?: string;
-  currentValue?: string;
   onChange: (value: string) => void;
 }
 
 export default function ExperienceDropdown(props: ExperienceDropdownProps) {
   const experienceOptions: DropdownOptionProps[] = [
-    { label: '-', value: Experience.Empty },
+    { label: 'Select an experience', value: Experience.Empty },
     { label: '0', value: Experience.Zero },
     { label: '1-3', value: Experience.OneThree },
     { label: '4-6', value: Experience.FourSix },
@@ -23,11 +22,6 @@ export default function ExperienceDropdown(props: ExperienceDropdownProps) {
   ];
 
   return (
-    <Dropdown
-      options={experienceOptions}
-      currentValue={props.currentValue}
-      className={props.className}
-      onChange={props.onChange}
-    />
+    <Dropdown options={experienceOptions} className={props.className} onChange={props.onChange} />
   );
 }

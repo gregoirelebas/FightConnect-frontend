@@ -9,7 +9,7 @@ import { Sport, Level, Experience, Weight } from '../...types/enum';
 import PopUpEvent from './PopUpEvent';
 import SportDropdown from '../...UI/SportDropdown';
 import ExperienceDropdown from '../...UI/ExperienceDropdown';
-import WeightDropdown from '../...UI/ExperienceDropdown';
+import WeightDropdown from '../...UI/WeightDropdown';
 import { LevelToString, SportToString } from '../...helpers/enum';
 import { sortDescend } from '../...helpers/date';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -126,7 +126,7 @@ export default function EventsPage() {
             </Button>
           </div>
           {showFilters && (
-            <div className="flex justify-between items-end">
+            <form className="flex justify-between items-end">
               <div className="flex flex-col gap-1">
                 <span className="text-sm">Level</span>
                 <div className="flex justify-around gap-5 p-3 border border-white rounded-md">
@@ -134,7 +134,6 @@ export default function EventsPage() {
                     name="level"
                     label={'All'}
                     value={undefined}
-                    currentValue={level}
                     isChecked={true}
                     onChange={() => setLevel(undefined)}
                   />
@@ -142,46 +141,39 @@ export default function EventsPage() {
                     name="level"
                     label={LevelToString(Level.Pro)}
                     value={Level.Pro}
-                    currentValue={level}
                     onChange={(value) => setLevel(value as Level)}
                   />
                   <RadioButton
                     name="level"
                     label={LevelToString(Level.Amateur)}
                     value={Level.Amateur}
-                    currentValue={level}
                     onChange={(value) => setLevel(value as Level)}
                   />
                 </div>
               </div>
               <div className="flex flex-col justify-between">
                 <span className="text-sm">Sport:</span>
-                <SportDropdown
-                  currentValue={sport}
-                  className="w-50"
-                  onChange={(value) => setSport(value as Sport)}
-                />
+                <SportDropdown className="w-50" onChange={(value) => setSport(value as Sport)} />
               </div>
               <div className=" flex flex-col justify-between">
                 <span className="text-sm">Experience:</span>
                 <ExperienceDropdown
-                  currentValue={experience}
                   className="w-50"
                   onChange={(value) => setExperience(value as Experience)}
                 />
               </div>
               <div className="flex flex-col justify-between">
                 <span className="text-sm">Weight class:</span>
-                <WeightDropdown
-                  currentValue={weight}
-                  className="w-50"
-                  onChange={(value) => setWeight(value as Weight)}
-                />
+                <WeightDropdown className="w-50" onChange={(value) => setWeight(value as Weight)} />
               </div>
-              <Button variant={ButtonVariant.Primary} className="w-30" onClick={resetFilters}>
+              <Button
+                type="reset"
+                variant={ButtonVariant.Primary}
+                className="w-30"
+                onClick={resetFilters}>
                 Reset
               </Button>
-            </div>
+            </form>
           )}
         </div>
         <span className="w-fit flex justify-around items-center gap-1.5 text-grey">
