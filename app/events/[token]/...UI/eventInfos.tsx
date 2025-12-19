@@ -39,6 +39,7 @@ export default function EventInfos({ token }: { token: string | undefined }) {
   const [isDecisionRequest, setDecisionRequest] = useState<boolean>(false);
   const [isCancelRequest, setCancelRequest] = useState<boolean>(false);
   const [isJoinRequest, setJoinRequest] = useState<boolean>(false);
+  const [isDelete, setisDelete] = useState<boolean>(false);
 
   useEffect(() => {
     async function fetchEvent() {
@@ -139,6 +140,20 @@ export default function EventInfos({ token }: { token: string | undefined }) {
     }
   }
 
+
+  const popUpDeleteEvent = () => {
+      return (
+        <>
+        <div className="absolute top-0 left-0 w-screen h-screen bg-background/70 flex flex-col justify-center items-center">
+          <div className='flex flex-col border border-gray-500 justify-around items-center w-1/6 max-h-1/3 min-h-1/5 bg-foreground rounded-2xl'>
+           <span>Event succesfully deleted !</span> 
+           <Button variant={ButtonVariant.Primary} onClick={() => setisDelete(false)}>Go back</Button>
+          </div>
+          </div>
+        </>
+      )
+    }
+
   async function cancelEvent() {
     if (isCancelRequest) return;
 
@@ -155,6 +170,12 @@ export default function EventInfos({ token }: { token: string | undefined }) {
     );
 
     setCancelRequest(false);
+
+    
+    
+    if (request.result) {
+     setisDelete(true)
+    }
 
     if (!request.result) {
       console.error(request.error);
@@ -305,6 +326,7 @@ export default function EventInfos({ token }: { token: string | undefined }) {
             <div className="grid grid-cols-3 gap-5">{applicationElements}</div>
           )}
         </div>
+        {isDelete && popUpDeleteEvent()}
       </div>
     )
   );
