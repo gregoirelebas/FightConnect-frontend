@@ -38,7 +38,7 @@ export default function Organization(props: OrganizationProps) {
         }}
       />
       <button
-        className="w-8 h-8 flex rounded-full justify-center font-bold items-center cursor-pointer bg-error"
+        className="min-w-8 min-h-8 flex rounded-full justify-center font-bold items-center cursor-pointer bg-error"
         onClick={() => props.onRemove(props.index)}>
         X
       </button>

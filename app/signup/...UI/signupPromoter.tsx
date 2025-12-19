@@ -156,11 +156,11 @@ export default function SignupPromoterComponent() {
       </div>
       <div className="card w-9/10 m-2">
         <p>Official informations</p>
-        <div className="flex flex-col justify-around items-center gap-3 ">
+        <div className="flex flex-col justify-around gap-3 ">
           <div className="flex flex-col w-9/10">
             <div>Select a sport :</div>
             <SportDropdown
-              className="w-full"
+              className="w-238"
               onChange={(value) => {
                 setSport(value as Sport);
               }}
