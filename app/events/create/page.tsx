@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import Input from '../../...components/Input';
 import RadioButton from '../../...components/RadioButton';
 import TextArea from '../../...components/TextArea';
-import { Experience, Level, Sport, Weight } from '../../...types/enum';
+import { EventStatus, Experience, Level, Sport, Weight } from '../../...types/enum';
 import Dropdown from '../../...components/Dropdown';
 import Button, { ButtonVariant } from '../../...components/Button';
 import Link from 'next/link';
@@ -43,6 +43,7 @@ export default function NewEvent() {
       promoterToken: token,
       fighters: [],
       token: '',
+      status: EventStatus.Upcoming,
     };
 
     const options = {
