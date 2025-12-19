@@ -126,6 +126,7 @@ export default function SignupComponent() {
 
   return (
     <div className="flex flex-col justify-center mx-150 my-10 gap-5">
+      <Logo className="logo" />
       <HeaderSignupComponent step={Step.Step2} />
       <div className="card gap-5 ">
         <span>Fields marqued with * are required</span>
