@@ -75,7 +75,7 @@ export default function EventInfos({ token }: { token: string | undefined }) {
       }
 
       setStatus(
-        event?.isCancelled
+        eventRequest.data.isCancelled
           ? EventStatus.Cancelled
           : getEventStatus(Date.now(), eventRequest.data.date)
       );
