@@ -16,6 +16,9 @@ import RoleSwitch from './roleSwitch';
 import SportDropdown from '@/app/...UI/SportDropdown';
 import PageLoader from 'next/dist/client/page-loader';
 
+
+
+
 export default function SignupFighterComponent() {
   const router = useRouter();
 
@@ -169,7 +172,7 @@ export default function SignupFighterComponent() {
       </div>
       <div className='blockSignUp'>
 
-        <h4 className=''>i am a:</h4>
+        <h4 className=''>I am a:</h4>
         <div className='flex gap-5 justify-center'>
 
           <div className='flex-1 bg-[#1C1C1C] border-2 border-[#A0A0A0] rounded-lg p-10 transition-all duration-200 peer-checked:border-[#00E0B8] peer-checked:bg-[#00E0B8]/5 hover:border-[#00E0B8]/60'>
@@ -179,7 +182,6 @@ export default function SignupFighterComponent() {
               value={Role.Fighter}
               onChange={(value) => setRole(value as Role)}
             />
-            <p>salut</p>
           </div>
 
           <div className='flex-1 bg-[#1C1C1C] border-2 border-[#A0A0A0] rounded-lg p-10 transition-all duration-200 peer-checked:border-[#00E0B8] peer-checked:bg-[#00E0B8]/5 hover:border-[#00E0B8]/60'>
@@ -195,7 +197,8 @@ export default function SignupFighterComponent() {
       </div>
 
       <div className='blockSignUp'>
-        <h4>level</h4>
+        <h4> Level</h4>
+
         <div className='flex justify-center gap-5'>
           <RadioButton
             name="level"
@@ -213,7 +216,7 @@ export default function SignupFighterComponent() {
         </div>
         <h4>Sport</h4>
         <div>
-          <div className='flex justify-center gap-5'>
+          <div className='flex justify-center gap-8'>
             <Checkbox name='sport' label='MMA' value={Sport.MMA} onChange={onSportChange}></Checkbox>
             <Checkbox
               name="sport"
