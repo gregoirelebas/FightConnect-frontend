@@ -279,9 +279,11 @@ export default function EventInfos({ token }: { token: string | undefined }) {
                   {ApplicationStatusToString(userStatus)}
                 </span>
               ) : (
-                <Button variant={ButtonVariant.Primary} onClick={joinEvent}>
-                  Join event
-                </Button>
+                status === EventStatus.Upcoming && (
+                  <Button variant={ButtonVariant.Primary} onClick={joinEvent}>
+                    Join event
+                  </Button>
+                )
               ))}
           </div>
         </div>
