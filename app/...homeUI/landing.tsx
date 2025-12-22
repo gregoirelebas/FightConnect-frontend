@@ -19,28 +19,28 @@ export default function LandingComponent() {
   const [displayLogin, setDisplayLogin] = useState<boolean>(false);
 
   useEffect(() => {
-    setCookieState(Cookies.token, setUserToken);
-  }, []);
-
-  useEffect(() => {
     const fetchCookie = async () => {
+      await setCookieState(Cookies.token, setUserToken);
+
       const cookieLog = await getCookie(Cookies.log);
       if (cookieLog === 'true') {
         setDisplayLogin(true);
       }
+
+      await deleteCookie(Cookies.log);
     };
+
     fetchCookie();
-    deleteCookie(Cookies.log);
   }, []);
 
-  const signUpFighter = () => {
-    setCookie(Cookies.role, Role.Fighter);
+  const signUpFighter = async () => {
+    await setCookie(Cookies.role, Role.Fighter);
 
     router.push('/signup');
   };
 
-  const signUpPromoter = () => {
-    setCookie(Cookies.role, Role.Promoter);
+  const signUpPromoter = async () => {
+    await setCookie(Cookies.role, Role.Promoter);
 
     router.push('/signup');
   };

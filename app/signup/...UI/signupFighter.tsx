@@ -48,12 +48,16 @@ export default function SignupFighterComponent() {
   const [isRequestSent, setRequestSent] = useState<boolean>(false);
 
   useEffect(() => {
-    setCookieState(Cookies.username, setUsername);
-    setCookieState(Cookies.email, setEmail);
-    setCookieState(Cookies.password, setPassword);
-    setCookieState(Cookies.phoneNumber, setPhoneNumber);
-    setCookieState(Cookies.bio, setBio);
-    setCookieState(Cookies.profilePicture, setProfilePicture);
+    async function fetchCookies() {
+      await setCookieState(Cookies.username, setUsername);
+      await setCookieState(Cookies.email, setEmail);
+      await setCookieState(Cookies.password, setPassword);
+      await setCookieState(Cookies.phoneNumber, setPhoneNumber);
+      await setCookieState(Cookies.bio, setBio);
+      await setCookieState(Cookies.profilePicture, setProfilePicture);
+    }
+
+    fetchCookies();
   }, []);
 
   const onSportChange = (isChecked: boolean, value: string) => {
@@ -127,10 +131,10 @@ export default function SignupFighterComponent() {
       return;
     }
 
-    setCookie(Cookies.token, request.token);
-    setCookie(Cookies.role, Role.Fighter);
+    await setCookie(Cookies.token, request.token);
+    await setCookie(Cookies.role, Role.Fighter);
 
-    deleteCookies([
+    await deleteCookies([
       Cookies.username,
       Cookies.email,
       Cookies.password,

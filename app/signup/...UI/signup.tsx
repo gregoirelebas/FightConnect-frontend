@@ -17,7 +17,6 @@ import { Role, Step } from '@/app/...types/enum';
 import HeaderSignupComponent from './HeaderSignup';
 
 import profile from '@/public/defaultProfile.png';
-import Link from 'next/link';
 
 export default function SignupComponent() {
   const router = useRouter();
@@ -39,7 +38,11 @@ export default function SignupComponent() {
   const [isRequestSent, setRequestSent] = useState<boolean>(false);
 
   useEffect(() => {
-    setCookieState(Cookies.role, (value: string) => setRole(value as Role));
+    async function fetchCookie() {
+      await setCookieState(Cookies.role, (value: string) => setRole(value as Role));
+    }
+
+    fetchCookie();
   }, []);
 
   const uploadProfilePicture = async (files: FileList | null) => {
@@ -93,7 +96,7 @@ export default function SignupComponent() {
 
     setErrorMessage('');
 
-    setCookies([
+    await setCookies([
       [Cookies.username, username],
       [Cookies.email, email],
       [Cookies.password, password],
@@ -111,8 +114,8 @@ export default function SignupComponent() {
     }
   };
 
-  const loadSignIn = () => {
-    setCookie(Cookies.log, 'true');
+  const loadSignIn = async () => {
+    await setCookie(Cookies.log, 'true');
     router.push('/');
   };
 

@@ -13,7 +13,6 @@ import { setCookieState } from '@/app/...helpers/states';
 import Cookies from '@/app/...types/cookies';
 import { deleteCookies, setCookie } from '@/app/...helpers/cookies';
 import { useRouter } from 'next/navigation';
-import Link from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFistRaised } from '@fortawesome/free-solid-svg-icons';
 
@@ -36,12 +35,16 @@ export default function SignupPromoterComponent() {
   const [isRequestSent, setRequestSent] = useState<boolean>(false);
 
   useEffect(() => {
-    setCookieState(Cookies.username, setUsername);
-    setCookieState(Cookies.email, setEmail);
-    setCookieState(Cookies.password, setPassword);
-    setCookieState(Cookies.phoneNumber, setPhoneNumber);
-    setCookieState(Cookies.bio, setBio);
-    setCookieState(Cookies.profilePicture, setProfilePicture);
+    async function fetchCookies() {
+      await setCookieState(Cookies.username, setUsername);
+      await setCookieState(Cookies.email, setEmail);
+      await setCookieState(Cookies.password, setPassword);
+      await setCookieState(Cookies.phoneNumber, setPhoneNumber);
+      await setCookieState(Cookies.bio, setBio);
+      await setCookieState(Cookies.profilePicture, setProfilePicture);
+    }
+
+    fetchCookies();
   }, []);
 
   const addOrganization = () => {
@@ -116,10 +119,10 @@ export default function SignupPromoterComponent() {
       return;
     }
 
-    setCookie(Cookies.token, request.token);
-    setCookie(Cookies.role, Role.Promoter);
+    await setCookie(Cookies.token, request.token);
+    await setCookie(Cookies.role, Role.Promoter);
 
-    deleteCookies([
+    await deleteCookies([
       Cookies.username,
       Cookies.email,
       Cookies.password,

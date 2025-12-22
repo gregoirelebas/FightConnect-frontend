@@ -140,19 +140,19 @@ export default function Dashboard() {
     return dateClass;
   };
 
-  const selectAndSaveDate = (date: Date | undefined) => {
+  const selectAndSaveDate = async (date: Date | undefined) => {
     setSelectedDate(date);
 
     if (date) {
       if (today && date.getTime() > today) {
-        setCookie(Cookies.date, getEventDate(date));
+        await setCookie(Cookies.date, getEventDate(date));
       }
     } else {
-      setCookie(Cookies.date, '');
+      await setCookie(Cookies.date, '');
     }
   };
-  
-  console.log(events)
+
+  console.log(events);
   return (
     <div className="flex flex-col gap-10 my-10 mx-60">
       <div>
